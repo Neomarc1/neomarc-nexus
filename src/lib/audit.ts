@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 export async function logAudit(params: {
   action: string;
   table: string;
-  recordId?: string | null;
+  recordId?: string | null | undefined;
   previous?: unknown;
   next?: unknown;
 }) {
