@@ -7,4 +7,4 @@ import { supabase } from "@/integrations/supabase/client";
  */
 export const db = supabase as any;
 
-export type Row = { id?: string } & Record<string, any>;
+export type Row = any;
