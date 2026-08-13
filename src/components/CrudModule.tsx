@@ -84,7 +84,7 @@ function FieldInput({
   onChange: (v: any) => void;
 }) {
   const lookup = useLookup(field.lookup?.table, field.lookup?.labelKey, field.lookup?.filter);
-  const options = field.options ?? lookup.data ?? [];
+  const options: { value: string; label: string }[] = field.options ?? lookup.data ?? [];
 
   if (field.type === "textarea") {
     return (
@@ -213,10 +213,10 @@ export function DataTable({
 }: {
   columns: ColumnDef[];
   rows: Row[];
-  loading?: boolean;
-  onRowClick?: (row: Row) => void;
-  actions?: (row: Row) => ReactNode;
-  empty?: string;
+  loading?: boolean | undefined;
+  onRowClick?: ((row: Row) => void) | undefined;
+  actions?: ((row: Row) => ReactNode) | undefined;
+  empty?: string | undefined;
 }) {
   return (
     <div className="surface-card overflow-x-auto">
