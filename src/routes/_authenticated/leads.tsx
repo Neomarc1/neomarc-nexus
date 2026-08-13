@@ -141,14 +141,14 @@ function LeadsPage() {
     {
       key: "estate_id",
       label: "Estate",
-      render: (r) => estates.data?.find((e) => e.value === r.estate_id)?.label ?? "—",
+      render: (r) => estates.data?.find((e: any) => e.value === r.estate_id)?.label ?? "—",
     },
     { key: "temperature", label: "Temp", render: (r) => <StatusBadge value={r.temperature} /> },
     { key: "status", label: "Stage", render: (r) => <StatusBadge value={r.status} /> },
     {
       key: "realtor_id",
       label: "Realtor",
-      render: (r) => realtors.data?.find((e) => e.value === r.realtor_id)?.label ?? "—",
+      render: (r) => realtors.data?.find((e: any) => e.value === r.realtor_id)?.label ?? "—",
     },
     { key: "next_followup_at", label: "Follow-up", render: (r) => formatDate(r.next_followup_at) },
   ];

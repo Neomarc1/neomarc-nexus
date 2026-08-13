@@ -185,7 +185,7 @@ export function RecordDialog({
               <FieldInput
                 field={f}
                 value={values[f.name]}
-                onChange={(v) => setValues((prev) => ({ ...prev, [f.name]: v }))}
+                onChange={(v) => setValues((prev: Row) => ({ ...prev, [f.name]: v }))}
               />
             </div>
           ))}
