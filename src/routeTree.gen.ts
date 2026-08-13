@@ -19,6 +19,7 @@ import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedEstatesRouteImport } from './routes/_authenticated/estates'
 import { Route as AuthenticatedExpensesRouteImport } from './routes/_authenticated/expenses'
 import { Route as AuthenticatedInspectionsRouteImport } from './routes/_authenticated/inspections'
+import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
@@ -78,6 +79,11 @@ const AuthenticatedInspectionsRoute =
     path: '/inspections',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedInventoryRoute = AuthenticatedInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/estates': typeof AuthenticatedEstatesRoute
   '/expenses': typeof AuthenticatedExpensesRoute
   '/inspections': typeof AuthenticatedInspectionsRoute
+  '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/projects': typeof AuthenticatedProjectsRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/estates': typeof AuthenticatedEstatesRoute
   '/expenses': typeof AuthenticatedExpensesRoute
   '/inspections': typeof AuthenticatedInspectionsRoute
+  '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/projects': typeof AuthenticatedProjectsRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/_authenticated/estates': typeof AuthenticatedEstatesRoute
   '/_authenticated/expenses': typeof AuthenticatedExpensesRoute
   '/_authenticated/inspections': typeof AuthenticatedInspectionsRoute
+  '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/estates'
     | '/expenses'
     | '/inspections'
+    | '/inventory'
     | '/leads'
     | '/payments'
     | '/projects'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/estates'
     | '/expenses'
     | '/inspections'
+    | '/inventory'
     | '/leads'
     | '/payments'
     | '/projects'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/_authenticated/estates'
     | '/_authenticated/expenses'
     | '/_authenticated/inspections'
+    | '/_authenticated/inventory'
     | '/_authenticated/leads'
     | '/_authenticated/payments'
     | '/_authenticated/projects'
@@ -307,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedInspectionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/inventory': {
+      id: '/_authenticated/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof AuthenticatedInventoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/leads': {
       id: '/_authenticated/leads'
       path: '/leads'
@@ -367,6 +386,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEstatesRoute: typeof AuthenticatedEstatesRoute
   AuthenticatedExpensesRoute: typeof AuthenticatedExpensesRoute
   AuthenticatedInspectionsRoute: typeof AuthenticatedInspectionsRoute
+  AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
@@ -384,6 +404,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEstatesRoute: AuthenticatedEstatesRoute,
   AuthenticatedExpensesRoute: AuthenticatedExpensesRoute,
   AuthenticatedInspectionsRoute: AuthenticatedInspectionsRoute,
+  AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
