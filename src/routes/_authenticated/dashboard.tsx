@@ -158,6 +158,12 @@ function Dashboard() {
   const stats = [
     { label: "Total Leads", value: leads.length, icon: Users },
     {
+      label: "Active Leads",
+      value: leads.filter((l) => !["closed_won", "closed_lost"].includes(l.status)).length,
+      icon: Users,
+      tone: "info" as const,
+    },
+    {
       label: "New Leads Today",
       value: leads.filter((l) => String(l.created_at).slice(0, 10) === today).length,
       icon: Users,
