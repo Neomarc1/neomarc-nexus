@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Sparkles, LayoutGrid, Table2 } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { CrudModule, useLookup, type ColumnDef, type FieldDef } from "@/components/CrudModule";
+import { ContactActions } from "@/components/ContactActions";
 import { PageHeader } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -135,7 +136,11 @@ function LeadsPage() {
   const columns: ColumnDef[] = [
     { key: "ref", label: "Ref" },
     { key: "full_name", label: "Name" },
-    { key: "phone", label: "Phone" },
+    {
+      key: "phone",
+      label: "Contact",
+      render: (r) => <ContactActions phone={r.phone} whatsapp={r.whatsapp} name={r.full_name} />,
+    },
     { key: "source", label: "Source" },
     { key: "budget", label: "Budget", render: (r) => formatNaira(r.budget) },
     {

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CrudModule } from "@/components/CrudModule";
+import { ContactActions } from "@/components/ContactActions";
 import { PageHeader } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatDate } from "@/lib/format";
@@ -28,7 +29,11 @@ function CustomersPage() {
         columns={[
           { key: "ref", label: "Ref" },
           { key: "full_name", label: "Name" },
-          { key: "phone", label: "Phone" },
+          {
+            key: "phone",
+            label: "Contact",
+            render: (r) => <ContactActions phone={r.phone} whatsapp={r.whatsapp} name={r.full_name} />,
+          },
           { key: "email", label: "Email" },
           { key: "location", label: "Location" },
           { key: "status", label: "Status", render: (r) => <StatusBadge value={r.status} /> },

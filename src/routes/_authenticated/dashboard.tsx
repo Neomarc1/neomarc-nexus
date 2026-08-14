@@ -139,15 +139,16 @@ function Dashboard() {
   const today = data.today;
   const monthStart = data.monthStart;
 
+  const activeSales = sales.filter((s) => s.status !== "cancelled");
   const verified = payments.filter((p) => p.status === "verified");
   const collected = verified.reduce((s, p) => s + Number(p.amount), 0);
-  const contractValue = sales.reduce((s, r) => s + Number(r.total_payable ?? 0), 0);
+  const contractValue = activeSales.reduce((s, r) => s + Number(r.total_payable ?? 0), 0);
   const outstanding = Math.max(contractValue - collected, 0);
   const overdue = schedule
     .filter((s) => s.status !== "paid" && s.due_date < today)
-    .reduce((s, r) => s + (Number(r.amount_due) - Number(r.amount_paid)), 0);
+    .reduce((s, r) => s + Math.max(Number(r.amount_due) - Number(r.amount_paid), 0), 0);
 
-  const monthSales = sales.filter((s) => s.sale_date >= monthStart);
+  const monthSales = activeSales.filter((s) => s.sale_date >= monthStart);
   const monthCollected = verified
     .filter((p) => p.payment_date >= monthStart)
     .reduce((s, p) => s + Number(p.amount), 0);
@@ -156,6 +157,12 @@ function Dashboard() {
 
   const stats = [
     { label: "Total Leads", value: leads.length, icon: Users },
+    {
+      label: "Active Leads",
+      value: leads.filter((l) => !["closed_won", "closed_lost"].includes(l.status)).length,
+      icon: Users,
+      tone: "info" as const,
+    },
     {
       label: "New Leads Today",
       value: leads.filter((l) => String(l.created_at).slice(0, 10) === today).length,
