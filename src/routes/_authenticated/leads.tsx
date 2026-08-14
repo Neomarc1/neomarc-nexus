@@ -135,7 +135,11 @@ function LeadsPage() {
   const columns: ColumnDef[] = [
     { key: "ref", label: "Ref" },
     { key: "full_name", label: "Name" },
-    { key: "phone", label: "Phone" },
+    {
+      key: "phone",
+      label: "Contact",
+      render: (r) => <ContactActions phone={r.phone} whatsapp={r.whatsapp} name={r.full_name} />,
+    },
     { key: "source", label: "Source" },
     { key: "budget", label: "Budget", render: (r) => formatNaira(r.budget) },
     {
