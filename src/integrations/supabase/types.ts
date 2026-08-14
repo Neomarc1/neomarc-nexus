@@ -1802,6 +1802,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_docs: { Args: { _user_id: string }; Returns: boolean }
+      can_finance: { Args: { _user_id: string }; Returns: boolean }
+      can_projects: { Args: { _user_id: string }; Returns: boolean }
       gen_ref: { Args: { prefix: string }; Returns: string }
       has_role: {
         Args: {
