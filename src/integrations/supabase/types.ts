@@ -14,6 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
+      allocations: {
+        Row: {
+          allocation_date: string
+          allocation_officer: string | null
+          allocation_reference: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string | null
+          document_id: string | null
+          estate_id: string | null
+          id: string
+          notes: string | null
+          property_id: string | null
+          ref: string
+          sale_id: string
+          status: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          allocation_date?: string
+          allocation_officer?: string | null
+          allocation_reference?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          document_id?: string | null
+          estate_id?: string | null
+          id?: string
+          notes?: string | null
+          property_id?: string | null
+          ref?: string
+          sale_id: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          allocation_date?: string
+          allocation_officer?: string | null
+          allocation_reference?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          document_id?: string | null
+          estate_id?: string | null
+          id?: string
+          notes?: string | null
+          property_id?: string | null
+          ref?: string
+          sale_id?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "allocations_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_estate_id_fkey"
+            columns: ["estate_id"]
+            isOneToOne: false
+            referencedRelation: "estates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -82,6 +178,36 @@ export type Database = {
           name?: string
           template_code?: string | null
           trigger_event?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      closing_checklist_templates: {
+        Row: {
+          code: string
+          created_at: string
+          is_active: boolean
+          is_required: boolean
+          label: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          is_active?: boolean
+          is_required?: boolean
+          label: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          is_active?: boolean
+          is_required?: boolean
+          label?: string
+          sort_order?: number
           updated_at?: string
         }
         Relationships: []
@@ -373,60 +499,87 @@ export type Database = {
       }
       documents: {
         Row: {
+          category: string | null
           created_at: string
           created_by: string | null
           customer_id: string | null
           date_issued: string | null
+          document_group_id: string
           document_type: string
           estate_id: string | null
           expiry_date: string | null
+          file_name: string | null
+          file_size: number | null
           id: string
+          is_current: boolean
+          mime_type: string | null
           property_id: string | null
           ref: string
           sale_id: string | null
           status: string
           storage_path: string | null
+          superseded_at: string | null
           title: string | null
           updated_at: string
           updated_by: string | null
+          uploaded_at: string
+          uploaded_by: string | null
           version: number
         }
         Insert: {
+          category?: string | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
           date_issued?: string | null
+          document_group_id?: string
           document_type: string
           estate_id?: string | null
           expiry_date?: string | null
+          file_name?: string | null
+          file_size?: number | null
           id?: string
+          is_current?: boolean
+          mime_type?: string | null
           property_id?: string | null
           ref?: string
           sale_id?: string | null
           status?: string
           storage_path?: string | null
+          superseded_at?: string | null
           title?: string | null
           updated_at?: string
           updated_by?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
           version?: number
         }
         Update: {
+          category?: string | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
           date_issued?: string | null
+          document_group_id?: string
           document_type?: string
           estate_id?: string | null
           expiry_date?: string | null
+          file_name?: string | null
+          file_size?: number | null
           id?: string
+          is_current?: boolean
+          mime_type?: string | null
           property_id?: string | null
           ref?: string
           sale_id?: string | null
           status?: string
           storage_path?: string | null
+          superseded_at?: string | null
           title?: string | null
           updated_at?: string
           updated_by?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
           version?: number
         }
         Relationships: [
@@ -1863,6 +2016,57 @@ export type Database = {
           },
         ]
       }
+      sale_closing_checklist: {
+        Row: {
+          created_at: string
+          done_at: string | null
+          done_by: string | null
+          id: string
+          is_done: boolean
+          item_code: string
+          notes: string | null
+          sale_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          done_at?: string | null
+          done_by?: string | null
+          id?: string
+          is_done?: boolean
+          item_code: string
+          notes?: string | null
+          sale_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          done_at?: string | null
+          done_by?: string | null
+          id?: string
+          is_done?: boolean
+          item_code?: string
+          notes?: string | null
+          sale_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_closing_checklist_item_code_fkey"
+            columns: ["item_code"]
+            isOneToOne: false
+            referencedRelation: "closing_checklist_templates"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "sale_closing_checklist_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales: {
         Row: {
           allocation_status: string
@@ -2182,6 +2386,52 @@ export type Database = {
       can_finance: { Args: { _user_id: string }; Returns: boolean }
       can_payout: { Args: { _user_id: string }; Returns: boolean }
       can_projects: { Args: { _user_id: string }; Returns: boolean }
+      can_read_document: {
+        Args: {
+          _category: string
+          _customer_id: string
+          _document_type: string
+        }
+        Returns: boolean
+      }
+      can_read_document_path: { Args: { _path: string }; Returns: boolean }
+      close_sale: {
+        Args: { _sale_id: string }
+        Returns: {
+          allocation_status: string
+          closed_at: string | null
+          closed_by: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string
+          deposit: number
+          discount: number
+          documentation_status: string
+          estate_id: string | null
+          expected_completion: string | null
+          id: string
+          notes: string | null
+          payment_plan_id: string | null
+          price: number
+          property_id: string
+          realtor_id: string | null
+          ref: string
+          sale_date: string
+          sales_channel: string
+          sales_officer: string | null
+          stage: string
+          status: string
+          total_payable: number
+          updated_at: string
+          updated_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "sales"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       expire_due_reservations: { Args: never; Returns: number }
       gen_ref: { Args: { prefix: string }; Returns: string }
       generate_payment_reminders: { Args: never; Returns: number }
@@ -2232,6 +2482,16 @@ export type Database = {
         }
       }
       run_nightly_operations: { Args: never; Returns: Json }
+      sale_timeline: {
+        Args: { _sale_id: string }
+        Returns: {
+          actor: string
+          category: string
+          detail: string
+          event: string
+          occurred_at: string
+        }[]
+      }
       schedule_status: {
         Args: { _due: string; _due_amt: number; _paid: number }
         Returns: string
