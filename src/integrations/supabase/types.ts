@@ -1828,7 +1828,13 @@ export type Database = {
         | "documentation"
         | "project_manager"
         | "customer"
-      commission_status: "pending" | "approved" | "paid" | "cancelled"
+      commission_status:
+        | "pending"
+        | "approved"
+        | "paid"
+        | "cancelled"
+        | "payable"
+        | "reversed"
       inspection_status:
         | "scheduled"
         | "confirmed"
@@ -1998,7 +2004,14 @@ export const Constants = {
         "project_manager",
         "customer",
       ],
-      commission_status: ["pending", "approved", "paid", "cancelled"],
+      commission_status: [
+        "pending",
+        "approved",
+        "paid",
+        "cancelled",
+        "payable",
+        "reversed",
+      ],
       inspection_status: [
         "scheduled",
         "confirmed",
