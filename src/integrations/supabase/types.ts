@@ -14,6 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
+      allocations: {
+        Row: {
+          allocation_date: string
+          allocation_officer: string | null
+          allocation_reference: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string | null
+          document_id: string | null
+          estate_id: string | null
+          id: string
+          notes: string | null
+          property_id: string | null
+          ref: string
+          sale_id: string
+          status: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          allocation_date?: string
+          allocation_officer?: string | null
+          allocation_reference?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          document_id?: string | null
+          estate_id?: string | null
+          id?: string
+          notes?: string | null
+          property_id?: string | null
+          ref?: string
+          sale_id: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          allocation_date?: string
+          allocation_officer?: string | null
+          allocation_reference?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          document_id?: string | null
+          estate_id?: string | null
+          id?: string
+          notes?: string | null
+          property_id?: string | null
+          ref?: string
+          sale_id?: string
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "allocations_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_estate_id_fkey"
+            columns: ["estate_id"]
+            isOneToOne: false
+            referencedRelation: "estates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "allocations_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -86,6 +182,111 @@ export type Database = {
         }
         Relationships: []
       }
+      closing_checklist_templates: {
+        Row: {
+          code: string
+          created_at: string
+          is_active: boolean
+          is_required: boolean
+          label: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          is_active?: boolean
+          is_required?: boolean
+          label: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          is_active?: boolean
+          is_required?: boolean
+          label?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      commission_rules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          effective_from: string | null
+          effective_to: string | null
+          estate_id: string | null
+          fixed_amount: number
+          id: string
+          is_active: boolean
+          name: string
+          notes: string | null
+          priority: number
+          property_type: string | null
+          rate: number
+          realtor_id: string | null
+          sales_channel: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          estate_id?: string | null
+          fixed_amount?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          notes?: string | null
+          priority?: number
+          property_type?: string | null
+          rate?: number
+          realtor_id?: string | null
+          sales_channel?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          estate_id?: string | null
+          fixed_amount?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          notes?: string | null
+          priority?: number
+          property_type?: string | null
+          rate?: number
+          realtor_id?: string | null
+          sales_channel?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commission_rules_estate_id_fkey"
+            columns: ["estate_id"]
+            isOneToOne: false
+            referencedRelation: "estates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_rules_realtor_id_fkey"
+            columns: ["realtor_id"]
+            isOneToOne: false
+            referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       commissions: {
         Row: {
           amount: number
@@ -94,15 +295,23 @@ export type Database = {
           approved_by: string | null
           created_at: string
           created_by: string | null
+          customer_id: string | null
           estate_id: string | null
+          fixed_component: number
           id: string
+          is_auto: boolean
+          notes: string | null
           paid_at: string | null
+          payable_at: string | null
           property_id: string | null
           rate: number
           realtor_id: string
           ref: string
+          reversed_at: string | null
+          rule_id: string | null
           sale_id: string
           sale_value: number
+          split_percent: number
           status: Database["public"]["Enums"]["commission_status"]
           updated_at: string
           updated_by: string | null
@@ -114,15 +323,23 @@ export type Database = {
           approved_by?: string | null
           created_at?: string
           created_by?: string | null
+          customer_id?: string | null
           estate_id?: string | null
+          fixed_component?: number
           id?: string
+          is_auto?: boolean
+          notes?: string | null
           paid_at?: string | null
+          payable_at?: string | null
           property_id?: string | null
           rate?: number
           realtor_id: string
           ref?: string
+          reversed_at?: string | null
+          rule_id?: string | null
           sale_id: string
           sale_value?: number
+          split_percent?: number
           status?: Database["public"]["Enums"]["commission_status"]
           updated_at?: string
           updated_by?: string | null
@@ -134,20 +351,35 @@ export type Database = {
           approved_by?: string | null
           created_at?: string
           created_by?: string | null
+          customer_id?: string | null
           estate_id?: string | null
+          fixed_component?: number
           id?: string
+          is_auto?: boolean
+          notes?: string | null
           paid_at?: string | null
+          payable_at?: string | null
           property_id?: string | null
           rate?: number
           realtor_id?: string
           ref?: string
+          reversed_at?: string | null
+          rule_id?: string | null
           sale_id?: string
           sale_value?: number
+          split_percent?: number
           status?: Database["public"]["Enums"]["commission_status"]
           updated_at?: string
           updated_by?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "commissions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "commissions_estate_id_fkey"
             columns: ["estate_id"]
@@ -167,6 +399,13 @@ export type Database = {
             columns: ["realtor_id"]
             isOneToOne: false
             referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "commission_rules"
             referencedColumns: ["id"]
           },
           {
@@ -260,60 +499,87 @@ export type Database = {
       }
       documents: {
         Row: {
+          category: string | null
           created_at: string
           created_by: string | null
           customer_id: string | null
           date_issued: string | null
+          document_group_id: string
           document_type: string
           estate_id: string | null
           expiry_date: string | null
+          file_name: string | null
+          file_size: number | null
           id: string
+          is_current: boolean
+          mime_type: string | null
           property_id: string | null
           ref: string
           sale_id: string | null
           status: string
           storage_path: string | null
+          superseded_at: string | null
           title: string | null
           updated_at: string
           updated_by: string | null
+          uploaded_at: string
+          uploaded_by: string | null
           version: number
         }
         Insert: {
+          category?: string | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
           date_issued?: string | null
+          document_group_id?: string
           document_type: string
           estate_id?: string | null
           expiry_date?: string | null
+          file_name?: string | null
+          file_size?: number | null
           id?: string
+          is_current?: boolean
+          mime_type?: string | null
           property_id?: string | null
           ref?: string
           sale_id?: string | null
           status?: string
           storage_path?: string | null
+          superseded_at?: string | null
           title?: string | null
           updated_at?: string
           updated_by?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
           version?: number
         }
         Update: {
+          category?: string | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
           date_issued?: string | null
+          document_group_id?: string
           document_type?: string
           estate_id?: string | null
           expiry_date?: string | null
+          file_name?: string | null
+          file_size?: number | null
           id?: string
+          is_current?: boolean
+          mime_type?: string | null
           property_id?: string | null
           ref?: string
           sale_id?: string | null
           status?: string
           storage_path?: string | null
+          superseded_at?: string | null
           title?: string | null
           updated_at?: string
           updated_by?: string | null
+          uploaded_at?: string
+          uploaded_by?: string | null
           version?: number
         }
         Relationships: [
@@ -952,8 +1218,10 @@ export type Database = {
           label: string | null
           sale_id: string
           status: string
+          status_refreshed_at: string | null
           updated_at: string
           updated_by: string | null
+          waived_at: string | null
         }
         Insert: {
           amount_due?: number
@@ -967,8 +1235,10 @@ export type Database = {
           label?: string | null
           sale_id: string
           status?: string
+          status_refreshed_at?: string | null
           updated_at?: string
           updated_by?: string | null
+          waived_at?: string | null
         }
         Update: {
           amount_due?: number
@@ -982,8 +1252,10 @@ export type Database = {
           label?: string | null
           sale_id?: string
           status?: string
+          status_refreshed_at?: string | null
           updated_at?: string
           updated_by?: string | null
+          waived_at?: string | null
         }
         Relationships: [
           {
@@ -1096,6 +1368,13 @@ export type Database = {
             columns: ["schedule_id"]
             isOneToOne: false
             referencedRelation: "payment_schedule"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "v_receivables"
             referencedColumns: ["id"]
           },
         ]
@@ -1462,12 +1741,186 @@ export type Database = {
           },
         ]
       }
+      reminders: {
+        Row: {
+          channel: string
+          created_at: string
+          customer_id: string | null
+          delivery_status: string
+          error: string | null
+          id: string
+          message: string | null
+          provider: string | null
+          provider_message_id: string | null
+          realtor_id: string | null
+          recipient_address: string | null
+          recipient_name: string | null
+          reminder_type: string
+          sale_id: string | null
+          schedule_id: string | null
+          scheduled_at: string
+          sent_at: string | null
+          template_code: string | null
+          updated_at: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          customer_id?: string | null
+          delivery_status?: string
+          error?: string | null
+          id?: string
+          message?: string | null
+          provider?: string | null
+          provider_message_id?: string | null
+          realtor_id?: string | null
+          recipient_address?: string | null
+          recipient_name?: string | null
+          reminder_type: string
+          sale_id?: string | null
+          schedule_id?: string | null
+          scheduled_at?: string
+          sent_at?: string | null
+          template_code?: string | null
+          updated_at?: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          customer_id?: string | null
+          delivery_status?: string
+          error?: string | null
+          id?: string
+          message?: string | null
+          provider?: string | null
+          provider_message_id?: string | null
+          realtor_id?: string | null
+          recipient_address?: string | null
+          recipient_name?: string | null
+          reminder_type?: string
+          sale_id?: string | null
+          schedule_id?: string | null
+          scheduled_at?: string
+          sent_at?: string | null
+          template_code?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reminders_realtor_id_fkey"
+            columns: ["realtor_id"]
+            isOneToOne: false
+            referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reminders_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reminders_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "payment_schedule"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reminders_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "v_receivables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reservation_expiry_log: {
+        Row: {
+          action: string
+          created_at: string
+          customer_id: string | null
+          detail: string | null
+          expiry_date: string | null
+          id: string
+          property_id: string | null
+          property_released: boolean
+          realtor_id: string | null
+          reservation_id: string | null
+          reservation_ref: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          customer_id?: string | null
+          detail?: string | null
+          expiry_date?: string | null
+          id?: string
+          property_id?: string | null
+          property_released?: boolean
+          realtor_id?: string | null
+          reservation_id?: string | null
+          reservation_ref?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          customer_id?: string | null
+          detail?: string | null
+          expiry_date?: string | null
+          id?: string
+          property_id?: string | null
+          property_released?: boolean
+          realtor_id?: string | null
+          reservation_id?: string | null
+          reservation_ref?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservation_expiry_log_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservation_expiry_log_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservation_expiry_log_realtor_id_fkey"
+            columns: ["realtor_id"]
+            isOneToOne: false
+            referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservation_expiry_log_reservation_id_fkey"
+            columns: ["reservation_id"]
+            isOneToOne: false
+            referencedRelation: "reservations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reservations: {
         Row: {
           created_at: string
           created_by: string | null
           customer_id: string
           estate_id: string | null
+          expired_at: string | null
           expiry_date: string | null
           id: string
           notes: string | null
@@ -1475,6 +1928,7 @@ export type Database = {
           property_id: string
           realtor_id: string | null
           ref: string
+          released_at: string | null
           reservation_date: string
           reservation_fee: number
           sale_id: string | null
@@ -1487,6 +1941,7 @@ export type Database = {
           created_by?: string | null
           customer_id: string
           estate_id?: string | null
+          expired_at?: string | null
           expiry_date?: string | null
           id?: string
           notes?: string | null
@@ -1494,6 +1949,7 @@ export type Database = {
           property_id: string
           realtor_id?: string | null
           ref?: string
+          released_at?: string | null
           reservation_date?: string
           reservation_fee?: number
           sale_id?: string | null
@@ -1506,6 +1962,7 @@ export type Database = {
           created_by?: string | null
           customer_id?: string
           estate_id?: string | null
+          expired_at?: string | null
           expiry_date?: string | null
           id?: string
           notes?: string | null
@@ -1513,6 +1970,7 @@ export type Database = {
           property_id?: string
           realtor_id?: string | null
           ref?: string
+          released_at?: string | null
           reservation_date?: string
           reservation_fee?: number
           sale_id?: string | null
@@ -1558,9 +2016,62 @@ export type Database = {
           },
         ]
       }
+      sale_closing_checklist: {
+        Row: {
+          created_at: string
+          done_at: string | null
+          done_by: string | null
+          id: string
+          is_done: boolean
+          item_code: string
+          notes: string | null
+          sale_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          done_at?: string | null
+          done_by?: string | null
+          id?: string
+          is_done?: boolean
+          item_code: string
+          notes?: string | null
+          sale_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          done_at?: string | null
+          done_by?: string | null
+          id?: string
+          is_done?: boolean
+          item_code?: string
+          notes?: string | null
+          sale_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_closing_checklist_item_code_fkey"
+            columns: ["item_code"]
+            isOneToOne: false
+            referencedRelation: "closing_checklist_templates"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "sale_closing_checklist_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales: {
         Row: {
           allocation_status: string
+          closed_at: string | null
+          closed_by: string | null
           created_at: string
           created_by: string | null
           customer_id: string
@@ -1577,7 +2088,9 @@ export type Database = {
           realtor_id: string | null
           ref: string
           sale_date: string
+          sales_channel: string
           sales_officer: string | null
+          stage: string
           status: string
           total_payable: number
           updated_at: string
@@ -1585,6 +2098,8 @@ export type Database = {
         }
         Insert: {
           allocation_status?: string
+          closed_at?: string | null
+          closed_by?: string | null
           created_at?: string
           created_by?: string | null
           customer_id: string
@@ -1601,7 +2116,9 @@ export type Database = {
           realtor_id?: string | null
           ref?: string
           sale_date?: string
+          sales_channel?: string
           sales_officer?: string | null
+          stage?: string
           status?: string
           total_payable?: number
           updated_at?: string
@@ -1609,6 +2126,8 @@ export type Database = {
         }
         Update: {
           allocation_status?: string
+          closed_at?: string | null
+          closed_by?: string | null
           created_at?: string
           created_by?: string | null
           customer_id?: string
@@ -1625,7 +2144,9 @@ export type Database = {
           realtor_id?: string | null
           ref?: string
           sale_date?: string
+          sales_channel?: string
           sales_officer?: string | null
+          stage?: string
           status?: string
           total_payable?: number
           updated_at?: string
@@ -1799,13 +2320,121 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_receivables: {
+        Row: {
+          ageing_bucket: string | null
+          amount_due: number | null
+          amount_paid: number | null
+          balance: number | null
+          customer_id: string | null
+          days_overdue: number | null
+          due_date: string | null
+          id: string | null
+          installment_no: number | null
+          label: string | null
+          sale_id: string | null
+          status: string | null
+        }
+        Insert: {
+          ageing_bucket?: never
+          amount_due?: number | null
+          amount_paid?: number | null
+          balance?: never
+          customer_id?: string | null
+          days_overdue?: never
+          due_date?: string | null
+          id?: string | null
+          installment_no?: number | null
+          label?: string | null
+          sale_id?: string | null
+          status?: string | null
+        }
+        Update: {
+          ageing_bucket?: never
+          amount_due?: number | null
+          amount_paid?: number | null
+          balance?: never
+          customer_id?: string | null
+          days_overdue?: never
+          due_date?: string | null
+          id?: string | null
+          installment_no?: number | null
+          label?: string | null
+          sale_id?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_schedule_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_schedule_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       can_docs: { Args: { _user_id: string }; Returns: boolean }
       can_finance: { Args: { _user_id: string }; Returns: boolean }
+      can_payout: { Args: { _user_id: string }; Returns: boolean }
       can_projects: { Args: { _user_id: string }; Returns: boolean }
+      can_read_document: {
+        Args: {
+          _category: string
+          _customer_id: string
+          _document_type: string
+        }
+        Returns: boolean
+      }
+      can_read_document_path: { Args: { _path: string }; Returns: boolean }
+      close_sale: {
+        Args: { _sale_id: string }
+        Returns: {
+          allocation_status: string
+          closed_at: string | null
+          closed_by: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string
+          deposit: number
+          discount: number
+          documentation_status: string
+          estate_id: string | null
+          expected_completion: string | null
+          id: string
+          notes: string | null
+          payment_plan_id: string | null
+          price: number
+          property_id: string
+          realtor_id: string | null
+          ref: string
+          sale_date: string
+          sales_channel: string
+          sales_officer: string | null
+          stage: string
+          status: string
+          total_payable: number
+          updated_at: string
+          updated_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "sales"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      expire_due_reservations: { Args: never; Returns: number }
       gen_ref: { Args: { prefix: string }; Returns: string }
+      generate_payment_reminders: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1817,6 +2446,56 @@ export type Database = {
       is_my_customer: { Args: { _customer_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       my_realtor_id: { Args: never; Returns: string }
+      refresh_schedule_statuses: { Args: never; Returns: number }
+      resolve_commission_rule: {
+        Args: {
+          _channel: string
+          _estate_id: string
+          _on_date: string
+          _property_type: string
+          _realtor_id: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          effective_from: string | null
+          effective_to: string | null
+          estate_id: string | null
+          fixed_amount: number
+          id: string
+          is_active: boolean
+          name: string
+          notes: string | null
+          priority: number
+          property_type: string | null
+          rate: number
+          realtor_id: string | null
+          sales_channel: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "commission_rules"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      run_nightly_operations: { Args: never; Returns: Json }
+      sale_timeline: {
+        Args: { _sale_id: string }
+        Returns: {
+          actor: string
+          category: string
+          detail: string
+          event: string
+          occurred_at: string
+        }[]
+      }
+      schedule_status: {
+        Args: { _due: string; _due_amt: number; _paid: number }
+        Returns: string
+      }
     }
     Enums: {
       app_role:
@@ -1828,7 +2507,13 @@ export type Database = {
         | "documentation"
         | "project_manager"
         | "customer"
-      commission_status: "pending" | "approved" | "paid" | "cancelled"
+      commission_status:
+        | "pending"
+        | "approved"
+        | "paid"
+        | "cancelled"
+        | "payable"
+        | "reversed"
       inspection_status:
         | "scheduled"
         | "confirmed"
@@ -1998,7 +2683,14 @@ export const Constants = {
         "project_manager",
         "customer",
       ],
-      commission_status: ["pending", "approved", "paid", "cancelled"],
+      commission_status: [
+        "pending",
+        "approved",
+        "paid",
+        "cancelled",
+        "payable",
+        "reversed",
+      ],
       inspection_status: [
         "scheduled",
         "confirmed",
