@@ -69,7 +69,15 @@ export function ClosingChecklist({ saleId }: { saleId: string }) {
 
   if (isLoading) return <p className="py-6 text-center text-sm text-muted-foreground">Loading checklist…</p>;
 
-  const items = data ?? [];
+  type ChecklistItem = {
+    code: string;
+    label: string;
+    required: boolean;
+    done: boolean;
+    doneAt: string | null;
+    doneByName: string | null;
+  };
+  const items: ChecklistItem[] = (data ?? []) as ChecklistItem[];
   const requiredOutstanding = items.filter((i) => i.required && !i.done).length;
 
   return (
