@@ -34,6 +34,7 @@ import { Route as AuthenticatedReservationsRouteImport } from './routes/_authent
 import { Route as AuthenticatedSalesRouteImport } from './routes/_authenticated/sales'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
+import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -164,6 +165,12 @@ const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSalesSaleIdRoute =
+  AuthenticatedSalesSaleIdRouteImport.update({
+    id: '/$saleId',
+    path: '/$saleId',
+    getParentRoute: () => AuthenticatedSalesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -187,9 +194,10 @@ export interface FileRoutesByFullPath {
   '/receivables': typeof AuthenticatedReceivablesRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/reservations': typeof AuthenticatedReservationsRoute
-  '/sales': typeof AuthenticatedSalesRoute
+  '/sales': typeof AuthenticatedSalesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -213,9 +221,10 @@ export interface FileRoutesByTo {
   '/receivables': typeof AuthenticatedReceivablesRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/reservations': typeof AuthenticatedReservationsRoute
-  '/sales': typeof AuthenticatedSalesRoute
+  '/sales': typeof AuthenticatedSalesRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -241,9 +250,10 @@ export interface FileRoutesById {
   '/_authenticated/receivables': typeof AuthenticatedReceivablesRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/reservations': typeof AuthenticatedReservationsRoute
-  '/_authenticated/sales': typeof AuthenticatedSalesRoute
+  '/_authenticated/sales': typeof AuthenticatedSalesRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -272,6 +282,7 @@ export interface FileRouteTypes {
     | '/sales'
     | '/settings'
     | '/tasks'
+    | '/sales/$saleId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,6 +309,7 @@ export interface FileRouteTypes {
     | '/sales'
     | '/settings'
     | '/tasks'
+    | '/sales/$saleId'
   id:
     | '__root__'
     | '/'
@@ -325,6 +337,7 @@ export interface FileRouteTypes {
     | '/_authenticated/sales'
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
+    | '/_authenticated/sales/$saleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -510,8 +523,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/sales/$saleId': {
+      id: '/_authenticated/sales/$saleId'
+      path: '/$saleId'
+      fullPath: '/sales/$saleId'
+      preLoaderRoute: typeof AuthenticatedSalesSaleIdRouteImport
+      parentRoute: typeof AuthenticatedSalesRoute
+    }
   }
 }
+
+interface AuthenticatedSalesRouteChildren {
+  AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
+}
+
+const AuthenticatedSalesRouteChildren: AuthenticatedSalesRouteChildren = {
+  AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
+}
+
+const AuthenticatedSalesRouteWithChildren =
+  AuthenticatedSalesRoute._addFileChildren(AuthenticatedSalesRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAiRoute: typeof AuthenticatedAiRoute
@@ -533,7 +564,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReceivablesRoute: typeof AuthenticatedReceivablesRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedReservationsRoute: typeof AuthenticatedReservationsRoute
-  AuthenticatedSalesRoute: typeof AuthenticatedSalesRoute
+  AuthenticatedSalesRoute: typeof AuthenticatedSalesRouteWithChildren
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
 }
@@ -558,7 +589,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedReceivablesRoute: AuthenticatedReceivablesRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedReservationsRoute: AuthenticatedReservationsRoute,
-  AuthenticatedSalesRoute: AuthenticatedSalesRoute,
+  AuthenticatedSalesRoute: AuthenticatedSalesRouteWithChildren,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
 }

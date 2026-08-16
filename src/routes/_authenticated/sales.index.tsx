@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { CrudModule } from "@/components/CrudModule";
 import { PageHeader } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatNaira, formatDate, titleCase } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/sales")({
+export const Route = createFileRoute("/_authenticated/sales/")({
   head: () => ({
     meta: [
       { title: "Sales — NEOMARC NDOS" },
@@ -17,11 +17,13 @@ export const Route = createFileRoute("/_authenticated/sales")({
 });
 
 function SalesPage() {
+  const navigate = useNavigate();
   return (
     <div className="space-y-6">
       <PageHeader title="Sales" description="Subscriptions, contracts, documentation and allocation." />
       <CrudModule
         table="sales"
+        onRowClick={(row) => navigate({ to: "/sales/$saleId", params: { saleId: row.id } })}
         entityName="Sale"
         searchKeys={["ref", "sales_officer"]}
         defaults={{ status: "active", documentation_status: "pending", allocation_status: "pending", discount: 0 }}
