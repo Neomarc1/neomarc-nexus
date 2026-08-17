@@ -46,7 +46,7 @@ import {
 export type FieldDef = {
   name: string;
   label: string;
-  type?: "text" | "number" | "date" | "time" | "textarea" | "select" | "email";
+  type?: "text" | "number" | "date" | "time" | "textarea" | "select" | "email" | "boolean";
   options?: { value: string; label: string }[];
   lookup?: { table: string; labelKey?: string; filter?: [string, any] };
   required?: boolean;
