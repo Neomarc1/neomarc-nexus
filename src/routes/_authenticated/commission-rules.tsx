@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, ShieldAlert } from "lucide-react";
@@ -15,7 +14,8 @@ export const Route = createFileRoute("/_authenticated/commission-rules")({
       { title: "Commission Rules — NEOMARC NDOS" },
       {
         name: "description",
-        content: "Administer NEOMARC commission rules by estate, property type, realtor and sales channel.",
+        content:
+          "Administer NEOMARC commission rules by estate, property type, realtor and sales channel.",
       },
       { property: "og:title", content: "Commission Rules — NEOMARC NDOS" },
       {
@@ -29,15 +29,18 @@ export const Route = createFileRoute("/_authenticated/commission-rules")({
 
 function specificity(r: Row) {
   return (
-    (r.realtor_id ? 8 : 0) + (r.estate_id ? 4 : 0) + (r.property_type ? 2 : 0) + (r.sales_channel ? 1 : 0)
+    (r.realtor_id ? 8 : 0) +
+    (r.estate_id ? 4 : 0) +
+    (r.property_type ? 2 : 0) +
+    (r.sales_channel ? 1 : 0)
   );
 }
 
 function scopeLabel(r: Row, estates: Record<string, string>, realtors: Record<string, string>) {
   const parts = [
-    r.estate_id ? estates[r.estate_id] ?? "Estate" : "All estates",
+    r.estate_id ? (estates[r.estate_id] ?? "Estate") : "All estates",
     r.property_type ? titleCase(r.property_type) : "All property types",
-    r.realtor_id ? realtors[r.realtor_id] ?? "Realtor" : "All realtors",
+    r.realtor_id ? (realtors[r.realtor_id] ?? "Realtor") : "All realtors",
     r.sales_channel ? titleCase(r.sales_channel) : "All channels",
   ];
   return parts.join(" · ");
@@ -95,8 +98,8 @@ function CommissionRulesPage() {
         <div className="surface-card flex items-start gap-3 p-4 text-sm">
           <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning-foreground" />
           <p className="text-muted-foreground">
-            You have read-only visibility. Only Super Admin / Management may create or change commission rules —
-            this is enforced by the database, not the interface.
+            You have read-only visibility. Only Super Admin / Management may create or change
+            commission rules — this is enforced by the database, not the interface.
           </p>
         </div>
       ) : null}
@@ -105,8 +108,9 @@ function CommissionRulesPage() {
         <div className="surface-card flex items-start gap-3 border-warning/40 p-4 text-sm">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning-foreground" />
           <p>
-            {ambiguous.size} active rule(s) share an identical scope and priority. The engine will pick one by
-            effective/created date — raise the priority on the intended rule to remove the ambiguity.
+            {ambiguous.size} active rule(s) share an identical scope and priority. The engine will
+            pick one by effective/created date — raise the priority on the intended rule to remove
+            the ambiguity.
           </p>
         </div>
       ) : null}
@@ -126,9 +130,13 @@ function CommissionRulesPage() {
             render: (r) => (
               <div className="min-w-[160px]">
                 <p className="font-medium">{r.name}</p>
-                <p className="text-xs text-muted-foreground">{scopeLabel(r, estateMap, realtorMap)}</p>
+                <p className="text-xs text-muted-foreground">
+                  {scopeLabel(r, estateMap, realtorMap)}
+                </p>
                 {ambiguous.has(r.id) ? (
-                  <p className="mt-0.5 text-xs text-warning-foreground">Overlaps another active rule</p>
+                  <p className="mt-0.5 text-xs text-warning-foreground">
+                    Overlaps another active rule
+                  </p>
                 ) : null}
               </div>
             ),
@@ -137,14 +145,16 @@ function CommissionRulesPage() {
           {
             key: "fixed_amount",
             label: "Fixed",
-            render: (r) => (Number(r.fixed_amount ?? 0) ? `₦${Number(r.fixed_amount).toLocaleString()}` : "—"),
+            render: (r) =>
+              Number(r.fixed_amount ?? 0) ? `₦${Number(r.fixed_amount).toLocaleString()}` : "—",
           },
           { key: "priority", label: "Priority" },
           { key: "specificity", label: "Specificity", render: (r) => specificity(r) },
           {
             key: "effective_from",
             label: "Effective",
-            render: (r) => `${formatDate(r.effective_from)} → ${r.effective_to ? formatDate(r.effective_to) : "open"}`,
+            render: (r) =>
+              `${formatDate(r.effective_from)} → ${r.effective_to ? formatDate(r.effective_to) : "open"}`,
           },
           {
             key: "is_active",
@@ -157,19 +167,35 @@ function CommissionRulesPage() {
           { name: "name", label: "Rule name", required: true },
           { name: "rate", label: "Rate (%)", type: "number", required: true },
           { name: "fixed_amount", label: "Fixed component (₦)", type: "number" },
-          { name: "estate_id", label: "Estate (blank = all)", type: "select", lookup: { table: "estates", labelKey: "name" } },
-          { name: "realtor_id", label: "Realtor (blank = all)", type: "select", lookup: { table: "realtors", labelKey: "full_name" } },
+          {
+            name: "estate_id",
+            label: "Estate (blank = all)",
+            type: "select",
+            lookup: { table: "estates", labelKey: "name" },
+          },
+          {
+            name: "realtor_id",
+            label: "Realtor (blank = all)",
+            type: "select",
+            lookup: { table: "realtors", labelKey: "full_name" },
+          },
           {
             name: "property_type",
             label: "Property type (blank = all)",
             type: "select",
-            options: ["land", "residential", "commercial"].map((v) => ({ value: v, label: titleCase(v) })),
+            options: ["land", "residential", "commercial"].map((v) => ({
+              value: v,
+              label: titleCase(v),
+            })),
           },
           {
             name: "sales_channel",
             label: "Sales channel (blank = all)",
             type: "select",
-            options: ["direct", "referral", "online", "walk_in"].map((v) => ({ value: v, label: titleCase(v) })),
+            options: ["direct", "referral", "online", "walk_in"].map((v) => ({
+              value: v,
+              label: titleCase(v),
+            })),
           },
           { name: "priority", label: "Priority (higher wins ties)", type: "number" },
           { name: "is_active", label: "Rule status", type: "boolean" },

@@ -141,7 +141,13 @@ function FieldInput({
       value={value ?? ""}
       placeholder={field.placeholder}
       onChange={(e) =>
-        onChange(field.type === "number" ? (e.target.value === "" ? null : Number(e.target.value)) : e.target.value)
+        onChange(
+          field.type === "number"
+            ? e.target.value === ""
+              ? null
+              : Number(e.target.value)
+            : e.target.value,
+        )
       }
     />
   );
@@ -251,13 +257,19 @@ export function DataTable({
         <TableBody>
           {loading ? (
             <TableRow>
-              <TableCell colSpan={columns.length + 1} className="py-10 text-center text-muted-foreground">
+              <TableCell
+                colSpan={columns.length + 1}
+                className="py-10 text-center text-muted-foreground"
+              >
                 Loading…
               </TableCell>
             </TableRow>
           ) : rows.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={columns.length + 1} className="py-10 text-center text-muted-foreground">
+              <TableCell
+                colSpan={columns.length + 1}
+                className="py-10 text-center text-muted-foreground"
+              >
                 {empty}
               </TableCell>
             </TableRow>
@@ -338,7 +350,9 @@ export function CrudModule({
     const t = term.toLowerCase();
     return rows.filter((r) =>
       (searchKeys.length ? searchKeys : Object.keys(r)).some((k) =>
-        String(r[k] ?? "").toLowerCase().includes(t),
+        String(r[k] ?? "")
+          .toLowerCase()
+          .includes(t),
       ),
     );
   }, [rows, term, searchKeys]);
@@ -354,7 +368,13 @@ export function CrudModule({
           .update({ ...payload, updated_by: auth.user?.id })
           .eq("id", editing.id);
         if (error) throw error;
-        await logAudit({ action: "update", table, recordId: editing.id, previous: editing, next: payload });
+        await logAudit({
+          action: "update",
+          table,
+          recordId: editing.id,
+          previous: editing,
+          next: payload,
+        });
       } else {
         const { data, error } = await db
           .from(table)
@@ -434,7 +454,12 @@ export function CrudModule({
                     </Button>
                   ) : null}
                   {canDelete ? (
-                    <Button size="icon" variant="ghost" aria-label="Delete" onClick={() => setDeleting(row)}>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      aria-label="Delete"
+                      onClick={() => setDeleting(row)}
+                    >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   ) : null}
@@ -461,7 +486,8 @@ export function CrudModule({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete this {entityName.toLowerCase()}?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. Financial records should be reversed rather than deleted.
+              This action cannot be undone. Financial records should be reversed rather than
+              deleted.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
