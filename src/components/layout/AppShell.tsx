@@ -66,6 +66,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
       { to: "/payments", label: "Payments", icon: Banknote, staffOnly: true },
       { to: "/receivables", label: "Receivables", icon: Receipt, staffOnly: true },
       { to: "/commissions", label: "Commissions", icon: Percent },
+      { to: "/commission-rules", label: "Commission Rules", icon: Percent, staffOnly: true },
       { to: "/expenses", label: "Expenses", icon: Banknote, staffOnly: true },
     ],
   },
