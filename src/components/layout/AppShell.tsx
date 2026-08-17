@@ -66,6 +66,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
       { to: "/payments", label: "Payments", icon: Banknote, staffOnly: true },
       { to: "/receivables", label: "Receivables", icon: Receipt, staffOnly: true },
       { to: "/commissions", label: "Commissions", icon: Percent },
+      { to: "/commission-rules", label: "Commission Rules", icon: Percent, staffOnly: true },
       { to: "/expenses", label: "Expenses", icon: Banknote, staffOnly: true },
     ],
   },
@@ -238,9 +239,7 @@ export function PageHeader({
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight">{title}</h1>
-        {description ? (
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-        ) : null}
+        {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {action}
     </div>
