@@ -97,6 +97,23 @@ function FieldInput({
     );
   }
 
+  if (field.type === "boolean") {
+    return (
+      <Select
+        value={value === undefined || value === null ? "" : value ? "yes" : "no"}
+        onValueChange={(v) => onChange(v === "yes")}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder={field.placeholder ?? "Select…"} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="yes">Active</SelectItem>
+          <SelectItem value="no">Inactive</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+  }
+
   if (field.type === "select" || field.lookup) {
     return (
       <Select
