@@ -172,6 +172,7 @@ function CommissionRulesPage() {
             options: ["direct", "referral", "online", "walk_in"].map((v) => ({ value: v, label: titleCase(v) })),
           },
           { name: "priority", label: "Priority (higher wins ties)", type: "number" },
+          { name: "is_active", label: "Rule status", type: "boolean" },
           { name: "effective_from", label: "Effective from", type: "date" },
           { name: "effective_to", label: "Effective to", type: "date" },
           { name: "notes", label: "Notes", type: "textarea", full: true },
