@@ -29,10 +29,11 @@ export const Route = createFileRoute("/_authenticated/commission-rules")({
 
 function specificity(r: Row) {
   return (
-    (r.realtor_id ? 8 : 0) +
-    (r.estate_id ? 4 : 0) +
-    (r.property_type ? 2 : 0) +
-    (r.sales_channel ? 1 : 0)
+    (r.realtor_id ? 16 : 0) +
+    (r.estate_id ? 8 : 0) +
+    (r.property_type ? 4 : 0) +
+    (r.sales_channel ? 2 : 0) +
+    (r.referral_type ? 1 : 0)
   );
 }
 
@@ -42,9 +43,11 @@ function scopeLabel(r: Row, estates: Record<string, string>, realtors: Record<st
     r.property_type ? titleCase(r.property_type) : "All property types",
     r.realtor_id ? (realtors[r.realtor_id] ?? "Realtor") : "All realtors",
     r.sales_channel ? titleCase(r.sales_channel) : "All channels",
+    r.referral_type ? `${titleCase(r.referral_type)} referral` : "Any referral type",
   ];
   return parts.join(" · ");
 }
+
 
 function CommissionRulesPage() {
   const { data: me } = useCurrentUser();
