@@ -66,7 +66,7 @@ const NEXT: Record<string, { to: string; label: string }[]> = {
 
 const SELECT = `
   id, ref, status, rate, amount, amount_paid, sale_value, fixed_component, notes,
-  created_at, approved_at, payable_at, paid_at, reversed_at, is_auto, rule_id,
+  created_at, approved_at, payable_at, paid_at, reversed_at, is_auto, rule_id, referral_type,
   realtors:realtor_id ( full_name ),
   customers:customer_id ( full_name ),
   estates:estate_id ( name ),
