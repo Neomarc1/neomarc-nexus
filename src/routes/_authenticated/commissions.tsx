@@ -95,22 +95,22 @@ function CommissionsPage() {
     },
   });
 
-  // Zero-commission safeguard: sales with a realtor that produced no live commission row.
-  const { data: uncovered = [] } = useQuery({
-    queryKey: ["commissions", "zero-safeguard"],
+  // "COMMISSION RULE MISSING" — raised by the database when no active rule applied,
+  // which is a different state from a valid rule that computed ₦0.
+  const { data: issues = [] } = useQuery({
+    queryKey: ["commission_accrual_issues", "open"],
     queryFn: async () => {
-      const { data: sales } = await db
-        .from("sales")
-        .select("id, ref, total_payable, realtor_id, status, realtors:realtor_id ( full_name )")
-        .not("realtor_id", "is", null)
-        .neq("status", "cancelled");
-      const { data: comms } = await db.from("commissions").select("sale_id, status");
-      const covered = new Set(
-        (comms ?? []).filter((c: Row) => c.status !== "reversed").map((c: Row) => c.sale_id),
-      );
-      return (sales ?? []).filter((s: Row) => !covered.has(s.id)) as Row[];
+      const { data } = await db
+        .from("commission_accrual_issues")
+        .select(
+          "id, reason, detail, referral_type, created_at, sales:sale_id ( ref ), realtors:realtor_id ( full_name ), estates:estate_id ( name )",
+        )
+        .is("resolved_at", null)
+        .order("created_at", { ascending: false });
+      return (data ?? []) as Row[];
     },
   });
+
 
   const transition = useMutation({
     mutationFn: async ({ row, to }: { row: Row; to: string }) => {
