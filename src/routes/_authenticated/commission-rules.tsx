@@ -83,7 +83,15 @@ function CommissionRulesPage() {
   const ambiguous = new Set<string>();
   const buckets = new Map<string, Row[]>();
   for (const r of rules.filter((x: Row) => x.is_active)) {
-    const key = [r.estate_id, r.property_type, r.realtor_id, r.sales_channel, r.priority].join("|");
+    const key = [
+      r.estate_id,
+      r.property_type,
+      r.realtor_id,
+      r.sales_channel,
+      r.referral_type,
+      r.priority,
+    ].join("|");
+
     buckets.set(key, [...(buckets.get(key) ?? []), r]);
   }
   for (const group of buckets.values()) {
