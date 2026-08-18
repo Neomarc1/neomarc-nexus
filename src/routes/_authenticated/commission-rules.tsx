@@ -141,7 +141,13 @@ function CommissionRulesPage() {
               </div>
             ),
           },
+          {
+            key: "referral_type",
+            label: "Referral type",
+            render: (r) => (r.referral_type ? titleCase(r.referral_type) : "Any"),
+          },
           { key: "rate", label: "Rate", render: (r) => `${Number(r.rate ?? 0)}%` },
+
           {
             key: "fixed_amount",
             label: "Fixed",
