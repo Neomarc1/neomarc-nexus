@@ -311,8 +311,16 @@ function CommissionsPage() {
           {
             key: "channel",
             label: "Referral type",
-            render: (r) => titleCase(r.sales?.sales_channel ?? "direct"),
+            render: (r) => (
+              <div className="min-w-[110px]">
+                <p>{titleCase(r.referral_type ?? "direct")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {titleCase(r.sales?.sales_channel ?? "direct")} channel
+                </p>
+              </div>
+            ),
           },
+
           { key: "rate", label: "Rate", render: (r) => `${Number(r.rate ?? 0)}%` },
           {
             key: "amount",
