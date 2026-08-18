@@ -212,6 +212,67 @@ export type Database = {
         }
         Relationships: []
       }
+      commission_accrual_issues: {
+        Row: {
+          created_at: string
+          detail: string | null
+          estate_id: string | null
+          id: string
+          realtor_id: string | null
+          reason: string
+          referral_type: Database["public"]["Enums"]["referral_type"]
+          resolved_at: string | null
+          resolved_by: string | null
+          sale_id: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: string | null
+          estate_id?: string | null
+          id?: string
+          realtor_id?: string | null
+          reason: string
+          referral_type: Database["public"]["Enums"]["referral_type"]
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sale_id: string
+        }
+        Update: {
+          created_at?: string
+          detail?: string | null
+          estate_id?: string | null
+          id?: string
+          realtor_id?: string | null
+          reason?: string
+          referral_type?: Database["public"]["Enums"]["referral_type"]
+          resolved_at?: string | null
+          resolved_by?: string | null
+          sale_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commission_accrual_issues_estate_id_fkey"
+            columns: ["estate_id"]
+            isOneToOne: false
+            referencedRelation: "estates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_accrual_issues_realtor_id_fkey"
+            columns: ["realtor_id"]
+            isOneToOne: false
+            referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_accrual_issues_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       commission_rules: {
         Row: {
           created_at: string
@@ -228,6 +289,7 @@ export type Database = {
           property_type: string | null
           rate: number
           realtor_id: string | null
+          referral_type: Database["public"]["Enums"]["referral_type"] | null
           sales_channel: string | null
           updated_at: string
           updated_by: string | null
@@ -247,6 +309,7 @@ export type Database = {
           property_type?: string | null
           rate?: number
           realtor_id?: string | null
+          referral_type?: Database["public"]["Enums"]["referral_type"] | null
           sales_channel?: string | null
           updated_at?: string
           updated_by?: string | null
@@ -266,6 +329,7 @@ export type Database = {
           property_type?: string | null
           rate?: number
           realtor_id?: string | null
+          referral_type?: Database["public"]["Enums"]["referral_type"] | null
           sales_channel?: string | null
           updated_at?: string
           updated_by?: string | null
@@ -293,6 +357,7 @@ export type Database = {
           amount_paid: number
           approved_at: string | null
           approved_by: string | null
+          beneficiary_snapshot: Json | null
           created_at: string
           created_by: string | null
           customer_id: string | null
@@ -307,6 +372,7 @@ export type Database = {
           rate: number
           realtor_id: string
           ref: string
+          referral_type: Database["public"]["Enums"]["referral_type"]
           reversed_at: string | null
           rule_id: string | null
           sale_id: string
@@ -321,6 +387,7 @@ export type Database = {
           amount_paid?: number
           approved_at?: string | null
           approved_by?: string | null
+          beneficiary_snapshot?: Json | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
@@ -335,6 +402,7 @@ export type Database = {
           rate?: number
           realtor_id: string
           ref?: string
+          referral_type?: Database["public"]["Enums"]["referral_type"]
           reversed_at?: string | null
           rule_id?: string | null
           sale_id: string
@@ -349,6 +417,7 @@ export type Database = {
           amount_paid?: number
           approved_at?: string | null
           approved_by?: string | null
+          beneficiary_snapshot?: Json | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
@@ -363,6 +432,7 @@ export type Database = {
           rate?: number
           realtor_id?: string
           ref?: string
+          referral_type?: Database["public"]["Enums"]["referral_type"]
           reversed_at?: string | null
           rule_id?: string | null
           sale_id?: string
@@ -2067,6 +2137,64 @@ export type Database = {
           },
         ]
       }
+      sale_referrals: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          direct_realtor_id: string
+          indirect_realtor_id: string | null
+          locked_at: string | null
+          notes: string | null
+          sale_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          direct_realtor_id: string
+          indirect_realtor_id?: string | null
+          locked_at?: string | null
+          notes?: string | null
+          sale_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          direct_realtor_id?: string
+          indirect_realtor_id?: string | null
+          locked_at?: string | null
+          notes?: string | null
+          sale_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_referrals_direct_realtor_id_fkey"
+            columns: ["direct_realtor_id"]
+            isOneToOne: false
+            referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sale_referrals_indirect_realtor_id_fkey"
+            columns: ["indirect_realtor_id"]
+            isOneToOne: false
+            referencedRelation: "realtors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sale_referrals_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: true
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales: {
         Row: {
           allocation_status: string
@@ -2382,6 +2510,14 @@ export type Database = {
       }
     }
     Functions: {
+      accrue_commission_for: {
+        Args: {
+          _realtor_id: string
+          _sale_id: string
+          _type: Database["public"]["Enums"]["referral_type"]
+        }
+        Returns: undefined
+      }
       can_docs: { Args: { _user_id: string }; Returns: boolean }
       can_finance: { Args: { _user_id: string }; Returns: boolean }
       can_payout: { Args: { _user_id: string }; Returns: boolean }
@@ -2447,40 +2583,78 @@ export type Database = {
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       my_realtor_id: { Args: never; Returns: string }
       refresh_schedule_statuses: { Args: never; Returns: number }
-      resolve_commission_rule: {
-        Args: {
-          _channel: string
-          _estate_id: string
-          _on_date: string
-          _property_type: string
-          _realtor_id: string
-        }
-        Returns: {
-          created_at: string
-          created_by: string | null
-          effective_from: string | null
-          effective_to: string | null
-          estate_id: string | null
-          fixed_amount: number
-          id: string
-          is_active: boolean
-          name: string
-          notes: string | null
-          priority: number
-          property_type: string | null
-          rate: number
-          realtor_id: string | null
-          sales_channel: string | null
-          updated_at: string
-          updated_by: string | null
-        }
-        SetofOptions: {
-          from: "*"
-          to: "commission_rules"
-          isOneToOne: true
-          isSetofReturn: false
-        }
-      }
+      resolve_commission_rule:
+        | {
+            Args: {
+              _channel: string
+              _estate_id: string
+              _on_date: string
+              _property_type: string
+              _realtor_id: string
+            }
+            Returns: {
+              created_at: string
+              created_by: string | null
+              effective_from: string | null
+              effective_to: string | null
+              estate_id: string | null
+              fixed_amount: number
+              id: string
+              is_active: boolean
+              name: string
+              notes: string | null
+              priority: number
+              property_type: string | null
+              rate: number
+              realtor_id: string | null
+              referral_type: Database["public"]["Enums"]["referral_type"] | null
+              sales_channel: string | null
+              updated_at: string
+              updated_by: string | null
+            }
+            SetofOptions: {
+              from: "*"
+              to: "commission_rules"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
+        | {
+            Args: {
+              _channel: string
+              _estate_id: string
+              _on_date: string
+              _property_type: string
+              _realtor_id: string
+              _referral_type: Database["public"]["Enums"]["referral_type"]
+            }
+            Returns: {
+              created_at: string
+              created_by: string | null
+              effective_from: string | null
+              effective_to: string | null
+              estate_id: string | null
+              fixed_amount: number
+              id: string
+              is_active: boolean
+              name: string
+              notes: string | null
+              priority: number
+              property_type: string | null
+              rate: number
+              realtor_id: string | null
+              referral_type: Database["public"]["Enums"]["referral_type"] | null
+              sales_channel: string | null
+              updated_at: string
+              updated_by: string | null
+            }
+            SetofOptions: {
+              from: "*"
+              to: "commission_rules"
+              isOneToOne: true
+              isSetofReturn: false
+            }
+          }
       run_nightly_operations: { Args: never; Returns: Json }
       sale_timeline: {
         Args: { _sale_id: string }
@@ -2545,6 +2719,7 @@ export type Database = {
         | "allocated"
         | "on_hold"
         | "blocked"
+      referral_type: "direct" | "indirect"
       task_status: "todo" | "in_progress" | "completed" | "overdue"
     }
     CompositeTypes: {
@@ -2725,6 +2900,7 @@ export const Constants = {
         "on_hold",
         "blocked",
       ],
+      referral_type: ["direct", "indirect"],
       task_status: ["todo", "in_progress", "completed", "overdue"],
     },
   },
