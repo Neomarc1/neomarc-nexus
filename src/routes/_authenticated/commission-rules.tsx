@@ -29,10 +29,11 @@ export const Route = createFileRoute("/_authenticated/commission-rules")({
 
 function specificity(r: Row) {
   return (
-    (r.realtor_id ? 8 : 0) +
-    (r.estate_id ? 4 : 0) +
-    (r.property_type ? 2 : 0) +
-    (r.sales_channel ? 1 : 0)
+    (r.realtor_id ? 16 : 0) +
+    (r.estate_id ? 8 : 0) +
+    (r.property_type ? 4 : 0) +
+    (r.sales_channel ? 2 : 0) +
+    (r.referral_type ? 1 : 0)
   );
 }
 
@@ -42,9 +43,11 @@ function scopeLabel(r: Row, estates: Record<string, string>, realtors: Record<st
     r.property_type ? titleCase(r.property_type) : "All property types",
     r.realtor_id ? (realtors[r.realtor_id] ?? "Realtor") : "All realtors",
     r.sales_channel ? titleCase(r.sales_channel) : "All channels",
+    r.referral_type ? `${titleCase(r.referral_type)} referral` : "Any referral type",
   ];
   return parts.join(" · ");
 }
+
 
 function CommissionRulesPage() {
   const { data: me } = useCurrentUser();
@@ -80,7 +83,15 @@ function CommissionRulesPage() {
   const ambiguous = new Set<string>();
   const buckets = new Map<string, Row[]>();
   for (const r of rules.filter((x: Row) => x.is_active)) {
-    const key = [r.estate_id, r.property_type, r.realtor_id, r.sales_channel, r.priority].join("|");
+    const key = [
+      r.estate_id,
+      r.property_type,
+      r.realtor_id,
+      r.sales_channel,
+      r.referral_type,
+      r.priority,
+    ].join("|");
+
     buckets.set(key, [...(buckets.get(key) ?? []), r]);
   }
   for (const group of buckets.values()) {
@@ -141,7 +152,13 @@ function CommissionRulesPage() {
               </div>
             ),
           },
+          {
+            key: "referral_type",
+            label: "Referral type",
+            render: (r) => (r.referral_type ? titleCase(r.referral_type) : "Any"),
+          },
           { key: "rate", label: "Rate", render: (r) => `${Number(r.rate ?? 0)}%` },
+
           {
             key: "fixed_amount",
             label: "Fixed",
@@ -165,7 +182,17 @@ function CommissionRulesPage() {
         ]}
         fields={[
           { name: "name", label: "Rule name", required: true },
+          {
+            name: "referral_type",
+            label: "Referral type (blank = any)",
+            type: "select",
+            options: [
+              { value: "direct", label: "Direct (10% policy)" },
+              { value: "indirect", label: "First-level indirect (3% policy)" },
+            ],
+          },
           { name: "rate", label: "Rate (%)", type: "number", required: true },
+
           { name: "fixed_amount", label: "Fixed component (₦)", type: "number" },
           {
             name: "estate_id",

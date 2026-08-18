@@ -66,7 +66,7 @@ const NEXT: Record<string, { to: string; label: string }[]> = {
 
 const SELECT = `
   id, ref, status, rate, amount, amount_paid, sale_value, fixed_component, notes,
-  created_at, approved_at, payable_at, paid_at, reversed_at, is_auto, rule_id,
+  created_at, approved_at, payable_at, paid_at, reversed_at, is_auto, rule_id, referral_type,
   realtors:realtor_id ( full_name ),
   customers:customer_id ( full_name ),
   estates:estate_id ( name ),
@@ -95,22 +95,22 @@ function CommissionsPage() {
     },
   });
 
-  // Zero-commission safeguard: sales with a realtor that produced no live commission row.
-  const { data: uncovered = [] } = useQuery({
-    queryKey: ["commissions", "zero-safeguard"],
+  // "COMMISSION RULE MISSING" — raised by the database when no active rule applied,
+  // which is a different state from a valid rule that computed ₦0.
+  const { data: issues = [] } = useQuery({
+    queryKey: ["commission_accrual_issues", "open"],
     queryFn: async () => {
-      const { data: sales } = await db
-        .from("sales")
-        .select("id, ref, total_payable, realtor_id, status, realtors:realtor_id ( full_name )")
-        .not("realtor_id", "is", null)
-        .neq("status", "cancelled");
-      const { data: comms } = await db.from("commissions").select("sale_id, status");
-      const covered = new Set(
-        (comms ?? []).filter((c: Row) => c.status !== "reversed").map((c: Row) => c.sale_id),
-      );
-      return (sales ?? []).filter((s: Row) => !covered.has(s.id)) as Row[];
+      const { data } = await db
+        .from("commission_accrual_issues")
+        .select(
+          "id, reason, detail, referral_type, created_at, sales:sale_id ( ref ), realtors:realtor_id ( full_name ), estates:estate_id ( name )",
+        )
+        .is("resolved_at", null)
+        .order("created_at", { ascending: false });
+      return (data ?? []) as Row[];
     },
   });
+
 
   const transition = useMutation({
     mutationFn: async ({ row, to }: { row: Row; to: string }) => {
@@ -199,27 +199,43 @@ function CommissionsPage() {
         />
       </div>
 
-      {zeroRows.length || uncovered.length ? (
-        <div className="surface-card space-y-2 border-warning/40 p-4 text-sm">
-          <p className="flex items-center gap-2 font-medium">
-            <AlertTriangle className="h-4 w-4 text-warning-foreground" /> Zero-commission warnings
+      {issues.length ? (
+        <div className="surface-card space-y-2 border-destructive/50 p-4 text-sm">
+          <p className="flex items-center gap-2 font-medium text-destructive">
+            <AlertTriangle className="h-4 w-4" /> Commission rule missing
           </p>
-          {zeroRows.map((r) => (
-            <p key={r.id} className="text-muted-foreground">
-              {r.ref} — ₦0 commission at {Number(r.rate ?? 0)}%
-              {r.commission_rules?.name
-                ? ` (rule: ${r.commission_rules.name})`
-                : " (no rule matched — realtor default rate used)"}
-            </p>
-          ))}
-          {uncovered.map((s: Row) => (
-            <p key={s.id} className="text-muted-foreground">
-              Sale {s.ref} ({s.realtors?.full_name ?? "realtor"}) has no commission record — the
-              engine resolved a zero or missing rate at accrual time.
+          <p className="text-xs text-muted-foreground">
+            No commission was accrued for these sales because no active rule applied. An
+            administrator must configure a rule — nothing is paid on a fallback rate.
+          </p>
+          {issues.map((i) => (
+            <p key={i.id} className="text-muted-foreground">
+              Sale {i.sales?.ref ?? "—"} · {titleCase(i.referral_type ?? "direct")} ·{" "}
+              {i.realtors?.full_name ?? "realtor"} · {i.estates?.name ?? "no estate"} —{" "}
+              {i.reason === "rule_missing" ? "COMMISSION RULE MISSING" : titleCase(i.reason ?? "")}
             </p>
           ))}
         </div>
       ) : null}
+
+      {zeroRows.length ? (
+        <div className="surface-card space-y-2 border-warning/40 p-4 text-sm">
+          <p className="flex items-center gap-2 font-medium">
+            <AlertTriangle className="h-4 w-4 text-warning-foreground" /> ₦0 commissions
+          </p>
+          <p className="text-xs text-muted-foreground">
+            A valid rule applied but the calculated commission is zero — distinct from a missing
+            rule.
+          </p>
+          {zeroRows.map((r) => (
+            <p key={r.id} className="text-muted-foreground">
+              {r.ref} — ₦0 at {Number(r.rate ?? 0)}%
+              {r.commission_rules?.name ? ` (rule: ${r.commission_rules.name})` : ""}
+            </p>
+          ))}
+        </div>
+      ) : null}
+
 
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative min-w-[200px] flex-1">
@@ -295,8 +311,16 @@ function CommissionsPage() {
           {
             key: "channel",
             label: "Referral type",
-            render: (r) => titleCase(r.sales?.sales_channel ?? "direct"),
+            render: (r) => (
+              <div className="min-w-[110px]">
+                <p>{titleCase(r.referral_type ?? "direct")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {titleCase(r.sales?.sales_channel ?? "direct")} channel
+                </p>
+              </div>
+            ),
           },
+
           { key: "rate", label: "Rate", render: (r) => `${Number(r.rate ?? 0)}%` },
           {
             key: "amount",
