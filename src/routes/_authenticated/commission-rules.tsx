@@ -171,7 +171,17 @@ function CommissionRulesPage() {
         ]}
         fields={[
           { name: "name", label: "Rule name", required: true },
+          {
+            name: "referral_type",
+            label: "Referral type (blank = any)",
+            type: "select",
+            options: [
+              { value: "direct", label: "Direct (10% policy)" },
+              { value: "indirect", label: "First-level indirect (3% policy)" },
+            ],
+          },
           { name: "rate", label: "Rate (%)", type: "number", required: true },
+
           { name: "fixed_amount", label: "Fixed component (₦)", type: "number" },
           {
             name: "estate_id",
