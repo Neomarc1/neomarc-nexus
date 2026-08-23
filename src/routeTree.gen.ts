@@ -41,6 +41,7 @@ import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_a
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
 import { Route as AuthenticatedOperationsIndexRouteImport } from './routes/_authenticated/operations.index'
+import { Route as AuthenticatedOperationsExceptionsRouteImport } from './routes/_authenticated/operations.exceptions'
 import { Route as AuthenticatedPropertiesPropertyIdRouteImport } from './routes/_authenticated/properties.$propertyId'
 import { Route as AuthenticatedPropertiesSearchRouteImport } from './routes/_authenticated/properties.search'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
@@ -220,6 +221,12 @@ const AuthenticatedOperationsIndexRoute =
     path: '/operations/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedOperationsExceptionsRoute =
+  AuthenticatedOperationsExceptionsRouteImport.update({
+    id: '/operations/exceptions',
+    path: '/operations/exceptions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPropertiesPropertyIdRoute =
   AuthenticatedPropertiesPropertyIdRouteImport.update({
     id: '/properties/$propertyId',
@@ -290,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
@@ -330,6 +338,7 @@ export interface FileRoutesByTo {
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
@@ -372,6 +381,7 @@ export interface FileRoutesById {
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/_authenticated/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/_authenticated/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/_authenticated/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
@@ -414,6 +424,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/accounts/payments'
     | '/my-work/inspections'
+    | '/operations/exceptions'
     | '/properties/$propertyId'
     | '/properties/search'
     | '/sales/$saleId'
@@ -454,6 +465,7 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/accounts/payments'
     | '/my-work/inspections'
+    | '/operations/exceptions'
     | '/properties/$propertyId'
     | '/properties/search'
     | '/sales/$saleId'
@@ -495,6 +507,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tasks'
     | '/_authenticated/accounts/payments'
     | '/_authenticated/my-work/inspections'
+    | '/_authenticated/operations/exceptions'
     | '/_authenticated/properties/$propertyId'
     | '/_authenticated/properties/search'
     | '/_authenticated/sales/$saleId'
@@ -740,6 +753,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOperationsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/operations/exceptions': {
+      id: '/_authenticated/operations/exceptions'
+      path: '/operations/exceptions'
+      fullPath: '/operations/exceptions'
+      preLoaderRoute: typeof AuthenticatedOperationsExceptionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/properties/$propertyId': {
       id: '/_authenticated/properties/$propertyId'
       path: '/properties/$propertyId'
@@ -818,6 +838,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedAccountsPaymentsRoute: typeof AuthenticatedAccountsPaymentsRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
+  AuthenticatedOperationsExceptionsRoute: typeof AuthenticatedOperationsExceptionsRoute
   AuthenticatedPropertiesPropertyIdRoute: typeof AuthenticatedPropertiesPropertyIdRoute
   AuthenticatedPropertiesSearchRoute: typeof AuthenticatedPropertiesSearchRoute
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
@@ -857,6 +878,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedAccountsPaymentsRoute: AuthenticatedAccountsPaymentsRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
+  AuthenticatedOperationsExceptionsRoute:
+    AuthenticatedOperationsExceptionsRoute,
   AuthenticatedPropertiesPropertyIdRoute:
     AuthenticatedPropertiesPropertyIdRoute,
   AuthenticatedPropertiesSearchRoute: AuthenticatedPropertiesSearchRoute,
