@@ -7,10 +7,11 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -37,18 +38,35 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const [reportState, setReportState] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
+
+  async function report() {
+    setReportState("sending");
+    try {
+      const { submitErrorReport, safeErrorSummary } = await import("../lib/report-error");
+      const res = await submitErrorReport({
+        pagePath: window.location.pathname,
+        actionAttempted: "Loading this page",
+        errorSummary: safeErrorSummary(error),
+      });
+      setReportState(res.ok ? "sent" : "failed");
+    } catch {
+      setReportState("failed");
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          Something went wrong.
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          This screen could not be loaded. You can try again, or let the NEOMARC team know.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -60,6 +78,17 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Try again
           </button>
+          <button
+            onClick={report}
+            disabled={reportState === "sending" || reportState === "sent"}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent disabled:opacity-60"
+          >
+            {reportState === "sent"
+              ? "Problem reported"
+              : reportState === "sending"
+                ? "Reporting…"
+                : "Report problem"}
+          </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
@@ -67,6 +96,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             Go home
           </a>
         </div>
+        {reportState === "failed" ? (
+          <p className="mt-3 text-xs text-muted-foreground">
+            The report could not be sent. Please tell your NEOMARC administrator.
+          </p>
+        ) : null}
       </div>
     </div>
   );
@@ -121,6 +155,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster />
     </QueryClientProvider>
   );
 }

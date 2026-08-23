@@ -25,7 +25,6 @@ import { Route as AuthenticatedInspectionsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
-import { Route as AuthenticatedOperationsRouteImport } from './routes/_authenticated/operations'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
@@ -39,12 +38,21 @@ import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
 import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
+import { Route as AuthenticatedManagementFeedbackRouteImport } from './routes/_authenticated/management.feedback'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
+import { Route as AuthenticatedOperationsIndexRouteImport } from './routes/_authenticated/operations.index'
+import { Route as AuthenticatedOperationsExceptionsRouteImport } from './routes/_authenticated/operations.exceptions'
 import { Route as AuthenticatedPropertiesPropertyIdRouteImport } from './routes/_authenticated/properties.$propertyId'
 import { Route as AuthenticatedPropertiesSearchRouteImport } from './routes/_authenticated/properties.search'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
 import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
+import { Route as AuthenticatedSystemErrorsRouteImport } from './routes/_authenticated/system.errors'
+import { Route as AuthenticatedSystemHealthRouteImport } from './routes/_authenticated/system.health'
+import { Route as AuthenticatedSystemPilotRouteImport } from './routes/_authenticated/system.pilot'
+import { Route as AuthenticatedSystemRolesRouteImport } from './routes/_authenticated/system.roles'
+import { Route as AuthenticatedSystemTestDataRouteImport } from './routes/_authenticated/system.test-data'
+import { Route as AuthenticatedSystemUatRouteImport } from './routes/_authenticated/system.uat'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
 
@@ -131,11 +139,6 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedOperationsRoute = AuthenticatedOperationsRouteImport.update({
-  id: '/operations',
-  path: '/operations',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
@@ -206,6 +209,12 @@ const AuthenticatedDocumentationIndexRoute =
     path: '/documentation/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedManagementFeedbackRoute =
+  AuthenticatedManagementFeedbackRouteImport.update({
+    id: '/management/feedback',
+    path: '/management/feedback',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMyWorkIndexRoute =
   AuthenticatedMyWorkIndexRouteImport.update({
     id: '/my-work/',
@@ -216,6 +225,18 @@ const AuthenticatedMyWorkInspectionsRoute =
   AuthenticatedMyWorkInspectionsRouteImport.update({
     id: '/my-work/inspections',
     path: '/my-work/inspections',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOperationsIndexRoute =
+  AuthenticatedOperationsIndexRouteImport.update({
+    id: '/operations/',
+    path: '/operations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOperationsExceptionsRoute =
+  AuthenticatedOperationsExceptionsRouteImport.update({
+    id: '/operations/exceptions',
+    path: '/operations/exceptions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedPropertiesPropertyIdRoute =
@@ -241,6 +262,41 @@ const AuthenticatedSalesSaleIdRoute =
     path: '/sales/$saleId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSystemErrorsRoute =
+  AuthenticatedSystemErrorsRouteImport.update({
+    id: '/system/errors',
+    path: '/system/errors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemHealthRoute =
+  AuthenticatedSystemHealthRouteImport.update({
+    id: '/system/health',
+    path: '/system/health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemPilotRoute =
+  AuthenticatedSystemPilotRouteImport.update({
+    id: '/system/pilot',
+    path: '/system/pilot',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemRolesRoute =
+  AuthenticatedSystemRolesRouteImport.update({
+    id: '/system/roles',
+    path: '/system/roles',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemTestDataRoute =
+  AuthenticatedSystemTestDataRouteImport.update({
+    id: '/system/test-data',
+    path: '/system/test-data',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSystemUatRoute = AuthenticatedSystemUatRouteImport.update({
+  id: '/system/uat',
+  path: '/system/uat',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMyWorkLeadsIndexRoute =
   AuthenticatedMyWorkLeadsIndexRouteImport.update({
     id: '/my-work/leads/',
@@ -270,7 +326,6 @@ export interface FileRoutesByFullPath {
   '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
-  '/operations': typeof AuthenticatedOperationsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/projects': typeof AuthenticatedProjectsRoute
@@ -282,13 +337,22 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
+  '/system/errors': typeof AuthenticatedSystemErrorsRoute
+  '/system/health': typeof AuthenticatedSystemHealthRoute
+  '/system/pilot': typeof AuthenticatedSystemPilotRoute
+  '/system/roles': typeof AuthenticatedSystemRolesRoute
+  '/system/test-data': typeof AuthenticatedSystemTestDataRoute
+  '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
+  '/operations/': typeof AuthenticatedOperationsIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -309,7 +373,6 @@ export interface FileRoutesByTo {
   '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
-  '/operations': typeof AuthenticatedOperationsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/projects': typeof AuthenticatedProjectsRoute
@@ -321,13 +384,22 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
+  '/system/errors': typeof AuthenticatedSystemErrorsRoute
+  '/system/health': typeof AuthenticatedSystemHealthRoute
+  '/system/pilot': typeof AuthenticatedSystemPilotRoute
+  '/system/roles': typeof AuthenticatedSystemRolesRoute
+  '/system/test-data': typeof AuthenticatedSystemTestDataRoute
+  '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
+  '/operations': typeof AuthenticatedOperationsIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/my-work/leads': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -350,7 +422,6 @@ export interface FileRoutesById {
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
-  '/_authenticated/operations': typeof AuthenticatedOperationsRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
@@ -362,13 +433,22 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/_authenticated/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/_authenticated/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/_authenticated/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/_authenticated/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
+  '/_authenticated/system/errors': typeof AuthenticatedSystemErrorsRoute
+  '/_authenticated/system/health': typeof AuthenticatedSystemHealthRoute
+  '/_authenticated/system/pilot': typeof AuthenticatedSystemPilotRoute
+  '/_authenticated/system/roles': typeof AuthenticatedSystemRolesRoute
+  '/_authenticated/system/test-data': typeof AuthenticatedSystemTestDataRoute
+  '/_authenticated/system/uat': typeof AuthenticatedSystemUatRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
+  '/_authenticated/operations/': typeof AuthenticatedOperationsIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
   '/_authenticated/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/_authenticated/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -391,7 +471,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/leads'
     | '/notifications'
-    | '/operations'
     | '/payments'
     | '/portal'
     | '/projects'
@@ -403,13 +482,22 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/management/feedback'
     | '/my-work/inspections'
+    | '/operations/exceptions'
     | '/properties/$propertyId'
     | '/properties/search'
     | '/sales/$saleId'
+    | '/system/errors'
+    | '/system/health'
+    | '/system/pilot'
+    | '/system/roles'
+    | '/system/test-data'
+    | '/system/uat'
     | '/accounts/'
     | '/documentation/'
     | '/my-work/'
+    | '/operations/'
     | '/sales/'
     | '/my-work/leads/$leadId'
     | '/my-work/leads/'
@@ -430,7 +518,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/leads'
     | '/notifications'
-    | '/operations'
     | '/payments'
     | '/portal'
     | '/projects'
@@ -442,13 +529,22 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/management/feedback'
     | '/my-work/inspections'
+    | '/operations/exceptions'
     | '/properties/$propertyId'
     | '/properties/search'
     | '/sales/$saleId'
+    | '/system/errors'
+    | '/system/health'
+    | '/system/pilot'
+    | '/system/roles'
+    | '/system/test-data'
+    | '/system/uat'
     | '/accounts'
     | '/documentation'
     | '/my-work'
+    | '/operations'
     | '/sales'
     | '/my-work/leads/$leadId'
     | '/my-work/leads'
@@ -470,7 +566,6 @@ export interface FileRouteTypes {
     | '/_authenticated/inventory'
     | '/_authenticated/leads'
     | '/_authenticated/notifications'
-    | '/_authenticated/operations'
     | '/_authenticated/payments'
     | '/_authenticated/portal'
     | '/_authenticated/projects'
@@ -482,13 +577,22 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/accounts/payments'
+    | '/_authenticated/management/feedback'
     | '/_authenticated/my-work/inspections'
+    | '/_authenticated/operations/exceptions'
     | '/_authenticated/properties/$propertyId'
     | '/_authenticated/properties/search'
     | '/_authenticated/sales/$saleId'
+    | '/_authenticated/system/errors'
+    | '/_authenticated/system/health'
+    | '/_authenticated/system/pilot'
+    | '/_authenticated/system/roles'
+    | '/_authenticated/system/test-data'
+    | '/_authenticated/system/uat'
     | '/_authenticated/accounts/'
     | '/_authenticated/documentation/'
     | '/_authenticated/my-work/'
+    | '/_authenticated/operations/'
     | '/_authenticated/sales/'
     | '/_authenticated/my-work/leads/$leadId'
     | '/_authenticated/my-work/leads/'
@@ -614,13 +718,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/operations': {
-      id: '/_authenticated/operations'
-      path: '/operations'
-      fullPath: '/operations'
-      preLoaderRoute: typeof AuthenticatedOperationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/payments': {
       id: '/_authenticated/payments'
       path: '/payments'
@@ -712,6 +809,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDocumentationIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/management/feedback': {
+      id: '/_authenticated/management/feedback'
+      path: '/management/feedback'
+      fullPath: '/management/feedback'
+      preLoaderRoute: typeof AuthenticatedManagementFeedbackRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/my-work/': {
       id: '/_authenticated/my-work/'
       path: '/my-work'
@@ -724,6 +828,20 @@ declare module '@tanstack/react-router' {
       path: '/my-work/inspections'
       fullPath: '/my-work/inspections'
       preLoaderRoute: typeof AuthenticatedMyWorkInspectionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/operations/': {
+      id: '/_authenticated/operations/'
+      path: '/operations'
+      fullPath: '/operations/'
+      preLoaderRoute: typeof AuthenticatedOperationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/operations/exceptions': {
+      id: '/_authenticated/operations/exceptions'
+      path: '/operations/exceptions'
+      fullPath: '/operations/exceptions'
+      preLoaderRoute: typeof AuthenticatedOperationsExceptionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/properties/$propertyId': {
@@ -752,6 +870,48 @@ declare module '@tanstack/react-router' {
       path: '/sales/$saleId'
       fullPath: '/sales/$saleId'
       preLoaderRoute: typeof AuthenticatedSalesSaleIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/errors': {
+      id: '/_authenticated/system/errors'
+      path: '/system/errors'
+      fullPath: '/system/errors'
+      preLoaderRoute: typeof AuthenticatedSystemErrorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/health': {
+      id: '/_authenticated/system/health'
+      path: '/system/health'
+      fullPath: '/system/health'
+      preLoaderRoute: typeof AuthenticatedSystemHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/pilot': {
+      id: '/_authenticated/system/pilot'
+      path: '/system/pilot'
+      fullPath: '/system/pilot'
+      preLoaderRoute: typeof AuthenticatedSystemPilotRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/roles': {
+      id: '/_authenticated/system/roles'
+      path: '/system/roles'
+      fullPath: '/system/roles'
+      preLoaderRoute: typeof AuthenticatedSystemRolesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/test-data': {
+      id: '/_authenticated/system/test-data'
+      path: '/system/test-data'
+      fullPath: '/system/test-data'
+      preLoaderRoute: typeof AuthenticatedSystemTestDataRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/system/uat': {
+      id: '/_authenticated/system/uat'
+      path: '/system/uat'
+      fullPath: '/system/uat'
+      preLoaderRoute: typeof AuthenticatedSystemUatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/my-work/leads/': {
@@ -785,7 +945,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
-  AuthenticatedOperationsRoute: typeof AuthenticatedOperationsRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
@@ -797,13 +956,22 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedAccountsPaymentsRoute: typeof AuthenticatedAccountsPaymentsRoute
+  AuthenticatedManagementFeedbackRoute: typeof AuthenticatedManagementFeedbackRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
+  AuthenticatedOperationsExceptionsRoute: typeof AuthenticatedOperationsExceptionsRoute
   AuthenticatedPropertiesPropertyIdRoute: typeof AuthenticatedPropertiesPropertyIdRoute
   AuthenticatedPropertiesSearchRoute: typeof AuthenticatedPropertiesSearchRoute
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
+  AuthenticatedSystemErrorsRoute: typeof AuthenticatedSystemErrorsRoute
+  AuthenticatedSystemHealthRoute: typeof AuthenticatedSystemHealthRoute
+  AuthenticatedSystemPilotRoute: typeof AuthenticatedSystemPilotRoute
+  AuthenticatedSystemRolesRoute: typeof AuthenticatedSystemRolesRoute
+  AuthenticatedSystemTestDataRoute: typeof AuthenticatedSystemTestDataRoute
+  AuthenticatedSystemUatRoute: typeof AuthenticatedSystemUatRoute
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
   AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
+  AuthenticatedOperationsIndexRoute: typeof AuthenticatedOperationsIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
   AuthenticatedMyWorkLeadsLeadIdRoute: typeof AuthenticatedMyWorkLeadsLeadIdRoute
   AuthenticatedMyWorkLeadsIndexRoute: typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -823,7 +991,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
-  AuthenticatedOperationsRoute: AuthenticatedOperationsRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRoute,
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
@@ -835,14 +1002,24 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedAccountsPaymentsRoute: AuthenticatedAccountsPaymentsRoute,
+  AuthenticatedManagementFeedbackRoute: AuthenticatedManagementFeedbackRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
+  AuthenticatedOperationsExceptionsRoute:
+    AuthenticatedOperationsExceptionsRoute,
   AuthenticatedPropertiesPropertyIdRoute:
     AuthenticatedPropertiesPropertyIdRoute,
   AuthenticatedPropertiesSearchRoute: AuthenticatedPropertiesSearchRoute,
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
+  AuthenticatedSystemErrorsRoute: AuthenticatedSystemErrorsRoute,
+  AuthenticatedSystemHealthRoute: AuthenticatedSystemHealthRoute,
+  AuthenticatedSystemPilotRoute: AuthenticatedSystemPilotRoute,
+  AuthenticatedSystemRolesRoute: AuthenticatedSystemRolesRoute,
+  AuthenticatedSystemTestDataRoute: AuthenticatedSystemTestDataRoute,
+  AuthenticatedSystemUatRoute: AuthenticatedSystemUatRoute,
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
   AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
+  AuthenticatedOperationsIndexRoute: AuthenticatedOperationsIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
   AuthenticatedMyWorkLeadsLeadIdRoute: AuthenticatedMyWorkLeadsLeadIdRoute,
   AuthenticatedMyWorkLeadsIndexRoute: AuthenticatedMyWorkLeadsIndexRoute,

@@ -280,8 +280,13 @@ export function DataTable({
                 className={onRowClick ? "cursor-pointer" : undefined}
                 onClick={() => onRowClick?.(row)}
               >
-                {columns.map((c) => (
+                {columns.map((c, ci) => (
                   <TableCell key={c.key} className={c.className}>
+                    {ci === 0 && (row.is_test || row.is_demo) ? (
+                      <span className="mr-2 inline-flex items-center rounded-full border border-warning/40 bg-warning/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-warning-foreground">
+                        {row.is_test ? "Test" : "Demo"}
+                      </span>
+                    ) : null}
                     {c.render ? c.render(row) : (row[c.key] ?? "—")}
                   </TableCell>
                 ))}

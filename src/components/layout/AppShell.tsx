@@ -23,6 +23,12 @@ import {
   Search,
   ShieldCheck,
   UserCircle2,
+  Activity,
+  AlertTriangle,
+  ClipboardCheck,
+  MessageSquare,
+  Bug,
+  FlaskConical,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,8 +37,17 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { GlobalSearch } from "@/components/GlobalSearch";
+import { FeedbackDialog } from "@/components/FeedbackDialog";
+import { OnboardingGuide } from "@/components/OnboardingGuide";
 
-type NavItem = { to: string; label: string; icon: typeof Users; staffOnly?: boolean };
+type NavItem = {
+  to: string;
+  label: string;
+  icon: typeof Users;
+  staffOnly?: boolean;
+  adminOnly?: boolean;
+  superAdminOnly?: boolean;
+};
 
 const NAV: { group: string; items: NavItem[] }[] = [
   {
@@ -93,6 +108,19 @@ const NAV: { group: string; items: NavItem[] }[] = [
     ],
   },
   {
+    group: "System Testing",
+    items: [
+      { to: "/system/health", label: "Workflow Health", icon: Activity, adminOnly: true },
+      { to: "/operations/exceptions", label: "Exception Centre", icon: AlertTriangle, staffOnly: true },
+      { to: "/system/uat", label: "UAT Checklist", icon: ClipboardCheck, staffOnly: true },
+      { to: "/management/feedback", label: "Pilot Feedback", icon: MessageSquare, adminOnly: true },
+      { to: "/system/errors", label: "Error Reports", icon: Bug, adminOnly: true },
+      { to: "/system/pilot", label: "Pilot Team", icon: Users, adminOnly: true },
+      { to: "/system/roles", label: "Role Access Review", icon: ShieldCheck, superAdminOnly: true },
+      { to: "/system/test-data", label: "Test Data Safety", icon: FlaskConical, superAdminOnly: true },
+    ],
+  },
+  {
     group: "Account",
     items: [
       { to: "/notifications", label: "Notifications", icon: Bell },
@@ -124,7 +152,12 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
       <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
         {NAV.map((group) => {
-          const items = group.items.filter((i) => !i.staffOnly || me?.isStaff);
+          const items = group.items.filter(
+            (i) =>
+              (!i.staffOnly || me?.isStaff) &&
+              (!i.adminOnly || me?.isAdmin) &&
+              (!i.superAdminOnly || me?.roles.includes("super_admin")),
+          );
           if (!items.length) return null;
           return (
             <div key={group.group}>
@@ -211,6 +244,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </button>
 
           <div className="ml-auto flex items-center gap-2">
+            <FeedbackDialog />
             <Link to="/notifications" aria-label="Notifications">
               <Button variant="ghost" size="icon">
                 <Bell className="h-5 w-5" />
@@ -230,7 +264,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className="flex-1 px-4 py-6 lg:px-8">{children}</main>
+        <main className="flex-1 px-4 py-6 lg:px-8">
+          <OnboardingGuide />
+          {children}
+        </main>
       </div>
 
       <GlobalSearch open={searchOpen} onOpenChange={setSearchOpen} />

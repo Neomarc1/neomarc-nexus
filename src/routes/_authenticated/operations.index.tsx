@@ -10,7 +10,7 @@ import { ContactActions } from "@/components/ContactActions";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatNaira, todayLagos } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/operations")({
+export const Route = createFileRoute("/_authenticated/operations/")({
   head: () => ({
     meta: [
       { title: "Operations Command — NEOMARC NDOS" },

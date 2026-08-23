@@ -498,6 +498,7 @@ export type Database = {
           id: string
           id_number: string | null
           id_type: string | null
+          is_test: boolean
           location: string | null
           next_of_kin: string | null
           next_of_kin_phone: string | null
@@ -521,6 +522,7 @@ export type Database = {
           id?: string
           id_number?: string | null
           id_type?: string | null
+          is_test?: boolean
           location?: string | null
           next_of_kin?: string | null
           next_of_kin_phone?: string | null
@@ -544,6 +546,7 @@ export type Database = {
           id?: string
           id_number?: string | null
           id_type?: string | null
+          is_test?: boolean
           location?: string | null
           next_of_kin?: string | null
           next_of_kin_phone?: string | null
@@ -582,6 +585,7 @@ export type Database = {
           file_size: number | null
           id: string
           is_current: boolean
+          is_test: boolean
           mime_type: string | null
           property_id: string | null
           ref: string
@@ -610,6 +614,7 @@ export type Database = {
           file_size?: number | null
           id?: string
           is_current?: boolean
+          is_test?: boolean
           mime_type?: string | null
           property_id?: string | null
           ref?: string
@@ -638,6 +643,7 @@ export type Database = {
           file_size?: number | null
           id?: string
           is_current?: boolean
+          is_test?: boolean
           mime_type?: string | null
           property_id?: string | null
           ref?: string
@@ -682,6 +688,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      error_reports: {
+        Row: {
+          action_attempted: string | null
+          created_at: string
+          error_summary: string | null
+          id: string
+          page_path: string | null
+          status: string
+          technical_context: Json
+          updated_at: string
+          user_email: string | null
+          user_id: string | null
+          user_role: string | null
+        }
+        Insert: {
+          action_attempted?: string | null
+          created_at?: string
+          error_summary?: string | null
+          id?: string
+          page_path?: string | null
+          status?: string
+          technical_context?: Json
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string | null
+          user_role?: string | null
+        }
+        Update: {
+          action_attempted?: string | null
+          created_at?: string
+          error_summary?: string | null
+          id?: string
+          page_path?: string | null
+          status?: string
+          technical_context?: Json
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string | null
+          user_role?: string | null
+        }
+        Relationships: []
       }
       estates: {
         Row: {
@@ -829,6 +877,54 @@ export type Database = {
           },
         ]
       }
+      feedback: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          id: string
+          page_path: string | null
+          resolution_note: string | null
+          screenshot_path: string | null
+          status: string
+          technical_context: Json
+          updated_at: string
+          user_email: string | null
+          user_id: string | null
+          user_role: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description: string
+          id?: string
+          page_path?: string | null
+          resolution_note?: string | null
+          screenshot_path?: string | null
+          status?: string
+          technical_context?: Json
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string | null
+          user_role?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          page_path?: string | null
+          resolution_note?: string | null
+          screenshot_path?: string | null
+          status?: string
+          technical_context?: Json
+          updated_at?: string
+          user_email?: string | null
+          user_id?: string | null
+          user_role?: string | null
+        }
+        Relationships: []
+      }
       inspections: {
         Row: {
           attendees: number
@@ -839,6 +935,7 @@ export type Database = {
           estate_id: string | null
           followup_date: string | null
           id: string
+          is_test: boolean
           lead_id: string | null
           notes: string | null
           outcome: string | null
@@ -859,6 +956,7 @@ export type Database = {
           estate_id?: string | null
           followup_date?: string | null
           id?: string
+          is_test?: boolean
           lead_id?: string | null
           notes?: string | null
           outcome?: string | null
@@ -879,6 +977,7 @@ export type Database = {
           estate_id?: string | null
           followup_date?: string | null
           id?: string
+          is_test?: boolean
           lead_id?: string | null
           notes?: string | null
           outcome?: string | null
@@ -1013,6 +1112,7 @@ export type Database = {
           estate_id: string | null
           full_name: string
           id: string
+          is_test: boolean
           last_contact_at: string | null
           location: string | null
           next_followup_at: string | null
@@ -1045,6 +1145,7 @@ export type Database = {
           estate_id?: string | null
           full_name: string
           id?: string
+          is_test?: boolean
           last_contact_at?: string | null
           location?: string | null
           next_followup_at?: string | null
@@ -1077,6 +1178,7 @@ export type Database = {
           estate_id?: string | null
           full_name?: string
           id?: string
+          is_test?: boolean
           last_contact_at?: string | null
           location?: string | null
           next_followup_at?: string | null
@@ -1352,6 +1454,7 @@ export type Database = {
           created_by: string | null
           customer_id: string
           id: string
+          is_test: boolean
           method: string
           narration: string | null
           payment_date: string
@@ -1374,6 +1477,7 @@ export type Database = {
           created_by?: string | null
           customer_id: string
           id?: string
+          is_test?: boolean
           method?: string
           narration?: string | null
           payment_date?: string
@@ -1396,6 +1500,7 @@ export type Database = {
           created_by?: string | null
           customer_id?: string
           id?: string
+          is_test?: boolean
           method?: string
           narration?: string | null
           payment_date?: string
@@ -1993,6 +2098,7 @@ export type Database = {
           expired_at: string | null
           expiry_date: string | null
           id: string
+          is_test: boolean
           notes: string | null
           payment_status: string
           property_id: string
@@ -2014,6 +2120,7 @@ export type Database = {
           expired_at?: string | null
           expiry_date?: string | null
           id?: string
+          is_test?: boolean
           notes?: string | null
           payment_status?: string
           property_id: string
@@ -2035,6 +2142,7 @@ export type Database = {
           expired_at?: string | null
           expiry_date?: string | null
           id?: string
+          is_test?: boolean
           notes?: string | null
           payment_status?: string
           property_id?: string
@@ -2209,6 +2317,7 @@ export type Database = {
           estate_id: string | null
           expected_completion: string | null
           id: string
+          is_test: boolean
           notes: string | null
           payment_plan_id: string | null
           price: number
@@ -2237,6 +2346,7 @@ export type Database = {
           estate_id?: string | null
           expected_completion?: string | null
           id?: string
+          is_test?: boolean
           notes?: string | null
           payment_plan_id?: string | null
           price?: number
@@ -2265,6 +2375,7 @@ export type Database = {
           estate_id?: string | null
           expected_completion?: string | null
           id?: string
+          is_test?: boolean
           notes?: string | null
           payment_plan_id?: string | null
           price?: number
@@ -2425,6 +2536,72 @@ export type Database = {
           },
         ]
       }
+      uat_checklist: {
+        Row: {
+          code: string
+          created_at: string
+          done_at: string | null
+          done_by: string | null
+          is_done: boolean
+          label: string
+          notes: string | null
+          section: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          done_at?: string | null
+          done_by?: string | null
+          is_done?: boolean
+          label: string
+          notes?: string | null
+          section: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          done_at?: string | null
+          done_by?: string | null
+          is_done?: boolean
+          label?: string
+          notes?: string | null
+          section?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_onboarding: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          dismissed_at: string | null
+          last_seen_role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          dismissed_at?: string | null
+          last_seen_role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          dismissed_at?: string | null
+          last_seen_role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2547,6 +2724,7 @@ export type Database = {
           estate_id: string | null
           expected_completion: string | null
           id: string
+          is_test: boolean
           notes: string | null
           payment_plan_id: string | null
           price: number
@@ -2584,6 +2762,20 @@ export type Database = {
       is_my_customer: { Args: { _customer_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       my_realtor_id: { Args: never; Returns: string }
+      pilot_users: {
+        Args: never
+        Returns: {
+          created_at: string
+          email: string
+          full_name: string
+          last_sign_in_at: string
+          onboarding_completed_at: string
+          onboarding_dismissed_at: string
+          roles: string[]
+          user_id: string
+        }[]
+      }
+      purge_test_data: { Args: never; Returns: Json }
       refresh_schedule_statuses: { Args: never; Returns: number }
       resolve_commission_rule:
         | {
@@ -2672,6 +2864,7 @@ export type Database = {
         Args: { _due: string; _due_amt: number; _paid: number }
         Returns: string
       }
+      test_data_report: { Args: never; Returns: Json }
     }
     Enums: {
       app_role:
