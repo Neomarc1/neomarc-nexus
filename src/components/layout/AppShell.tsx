@@ -23,6 +23,12 @@ import {
   Search,
   ShieldCheck,
   UserCircle2,
+  Activity,
+  AlertTriangle,
+  ClipboardCheck,
+  MessageSquare,
+  Bug,
+  FlaskConical,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,8 +37,17 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { GlobalSearch } from "@/components/GlobalSearch";
+import { FeedbackDialog } from "@/components/FeedbackDialog";
+import { OnboardingGuide } from "@/components/OnboardingGuide";
 
-type NavItem = { to: string; label: string; icon: typeof Users; staffOnly?: boolean };
+type NavItem = {
+  to: string;
+  label: string;
+  icon: typeof Users;
+  staffOnly?: boolean;
+  adminOnly?: boolean;
+  superAdminOnly?: boolean;
+};
 
 const NAV: { group: string; items: NavItem[] }[] = [
   {
