@@ -36,6 +36,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
+import { Route as AuthenticatedPropertiesSearchRouteImport } from './routes/_authenticated/properties.search'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
 import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
@@ -183,6 +184,12 @@ const AuthenticatedMyWorkInspectionsRoute =
     path: '/my-work/inspections',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPropertiesSearchRoute =
+  AuthenticatedPropertiesSearchRouteImport.update({
+    id: '/properties/search',
+    path: '/properties/search',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSalesIndexRoute = AuthenticatedSalesIndexRouteImport.update({
   id: '/sales/',
   path: '/sales/',
@@ -233,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
@@ -265,6 +273,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
@@ -299,6 +308,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
+  '/_authenticated/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
@@ -333,6 +343,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/my-work/inspections'
+    | '/properties/search'
     | '/sales/$saleId'
     | '/my-work/'
     | '/sales/'
@@ -365,6 +376,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/my-work/inspections'
+    | '/properties/search'
     | '/sales/$saleId'
     | '/my-work'
     | '/sales'
@@ -398,6 +410,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/my-work/inspections'
+    | '/_authenticated/properties/search'
     | '/_authenticated/sales/$saleId'
     | '/_authenticated/my-work/'
     | '/_authenticated/sales/'
@@ -602,6 +615,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyWorkInspectionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/properties/search': {
+      id: '/_authenticated/properties/search'
+      path: '/properties/search'
+      fullPath: '/properties/search'
+      preLoaderRoute: typeof AuthenticatedPropertiesSearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/sales/': {
       id: '/_authenticated/sales/'
       path: '/sales'
@@ -657,6 +677,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
+  AuthenticatedPropertiesSearchRoute: typeof AuthenticatedPropertiesSearchRoute
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
@@ -688,6 +709,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
+  AuthenticatedPropertiesSearchRoute: AuthenticatedPropertiesSearchRoute,
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
