@@ -39,7 +39,19 @@ const NAV: { group: string; items: NavItem[] }[] = [
     group: "Command",
     items: [
       { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/operations", label: "Operations", icon: ListTodo, staffOnly: true },
       { to: "/ai", label: "AI Chief of Staff", icon: Sparkles },
+    ],
+  },
+  {
+    group: "Field Operations",
+    items: [
+      { to: "/my-work", label: "My Work", icon: Handshake },
+      { to: "/my-work/leads", label: "My Leads", icon: Users },
+      { to: "/my-work/inspections", label: "My Inspections", icon: CalendarCheck },
+      { to: "/properties/search", label: "Property Finder", icon: Map },
+      { to: "/accounts", label: "Accounts Desk", icon: Banknote, staffOnly: true },
+      { to: "/documentation", label: "Documentation Desk", icon: FileText, staffOnly: true },
     ],
   },
   {
