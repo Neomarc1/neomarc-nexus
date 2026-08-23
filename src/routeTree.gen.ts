@@ -35,6 +35,7 @@ import { Route as AuthenticatedReservationsRouteImport } from './routes/_authent
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
+import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
 import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
@@ -176,6 +177,12 @@ const AuthenticatedMyWorkIndexRoute =
     path: '/my-work/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMyWorkInspectionsRoute =
+  AuthenticatedMyWorkInspectionsRouteImport.update({
+    id: '/my-work/inspections',
+    path: '/my-work/inspections',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSalesIndexRoute = AuthenticatedSalesIndexRouteImport.update({
   id: '/sales/',
   path: '/sales/',
@@ -225,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/reservations': typeof AuthenticatedReservationsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
@@ -256,6 +264,7 @@ export interface FileRoutesByTo {
   '/reservations': typeof AuthenticatedReservationsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
@@ -289,6 +298,7 @@ export interface FileRoutesById {
   '/_authenticated/reservations': typeof AuthenticatedReservationsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/settings'
     | '/tasks'
+    | '/my-work/inspections'
     | '/sales/$saleId'
     | '/my-work/'
     | '/sales/'
@@ -353,6 +364,7 @@ export interface FileRouteTypes {
     | '/reservations'
     | '/settings'
     | '/tasks'
+    | '/my-work/inspections'
     | '/sales/$saleId'
     | '/my-work'
     | '/sales'
@@ -385,6 +397,7 @@ export interface FileRouteTypes {
     | '/_authenticated/reservations'
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
+    | '/_authenticated/my-work/inspections'
     | '/_authenticated/sales/$saleId'
     | '/_authenticated/my-work/'
     | '/_authenticated/sales/'
@@ -582,6 +595,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyWorkIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/my-work/inspections': {
+      id: '/_authenticated/my-work/inspections'
+      path: '/my-work/inspections'
+      fullPath: '/my-work/inspections'
+      preLoaderRoute: typeof AuthenticatedMyWorkInspectionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/sales/': {
       id: '/_authenticated/sales/'
       path: '/sales'
@@ -636,6 +656,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReservationsRoute: typeof AuthenticatedReservationsRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
+  AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
@@ -666,6 +687,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedReservationsRoute: AuthenticatedReservationsRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
+  AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
