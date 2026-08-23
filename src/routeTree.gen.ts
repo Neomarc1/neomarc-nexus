@@ -37,6 +37,7 @@ import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
 import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
+import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -185,6 +186,12 @@ const AuthenticatedSalesSaleIdRoute =
     path: '/sales/$saleId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMyWorkLeadsIndexRoute =
+  AuthenticatedMyWorkLeadsIndexRouteImport.update({
+    id: '/my-work/leads/',
+    path: '/my-work/leads/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
+  '/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -243,6 +251,7 @@ export interface FileRoutesByTo {
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
+  '/my-work/leads': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -274,6 +283,7 @@ export interface FileRoutesById {
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
+  '/_authenticated/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/sales/$saleId'
     | '/my-work/'
     | '/sales/'
+    | '/my-work/leads/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/sales/$saleId'
     | '/my-work'
     | '/sales'
+    | '/my-work/leads'
   id:
     | '__root__'
     | '/'
@@ -364,6 +376,7 @@ export interface FileRouteTypes {
     | '/_authenticated/sales/$saleId'
     | '/_authenticated/my-work/'
     | '/_authenticated/sales/'
+    | '/_authenticated/my-work/leads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -570,6 +583,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSalesSaleIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/my-work/leads/': {
+      id: '/_authenticated/my-work/leads/'
+      path: '/my-work/leads'
+      fullPath: '/my-work/leads/'
+      preLoaderRoute: typeof AuthenticatedMyWorkLeadsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -599,6 +619,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
+  AuthenticatedMyWorkLeadsIndexRoute: typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -627,6 +648,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
+  AuthenticatedMyWorkLeadsIndexRoute: AuthenticatedMyWorkLeadsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
