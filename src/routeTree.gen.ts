@@ -36,6 +36,7 @@ import { Route as AuthenticatedReserveRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
+import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
 import { Route as AuthenticatedPropertiesPropertyIdRouteImport } from './routes/_authenticated/properties.$propertyId'
@@ -186,6 +187,12 @@ const AuthenticatedAccountsIndexRoute =
     path: '/accounts/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAccountsPaymentsRoute =
+  AuthenticatedAccountsPaymentsRouteImport.update({
+    id: '/accounts/payments',
+    path: '/accounts/payments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMyWorkIndexRoute =
   AuthenticatedMyWorkIndexRouteImport.update({
     id: '/my-work/',
@@ -260,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/reserve': typeof AuthenticatedReserveRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
@@ -296,6 +304,7 @@ export interface FileRoutesByTo {
   '/reserve': typeof AuthenticatedReserveRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
@@ -334,6 +343,7 @@ export interface FileRoutesById {
   '/_authenticated/reserve': typeof AuthenticatedReserveRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/_authenticated/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/_authenticated/properties/search': typeof AuthenticatedPropertiesSearchRoute
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/reserve'
     | '/settings'
     | '/tasks'
+    | '/accounts/payments'
     | '/my-work/inspections'
     | '/properties/$propertyId'
     | '/properties/search'
@@ -408,6 +419,7 @@ export interface FileRouteTypes {
     | '/reserve'
     | '/settings'
     | '/tasks'
+    | '/accounts/payments'
     | '/my-work/inspections'
     | '/properties/$propertyId'
     | '/properties/search'
@@ -445,6 +457,7 @@ export interface FileRouteTypes {
     | '/_authenticated/reserve'
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
+    | '/_authenticated/accounts/payments'
     | '/_authenticated/my-work/inspections'
     | '/_authenticated/properties/$propertyId'
     | '/_authenticated/properties/search'
@@ -653,6 +666,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/accounts/payments': {
+      id: '/_authenticated/accounts/payments'
+      path: '/accounts/payments'
+      fullPath: '/accounts/payments'
+      preLoaderRoute: typeof AuthenticatedAccountsPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/my-work/': {
       id: '/_authenticated/my-work/'
       path: '/my-work'
@@ -736,6 +756,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReserveRoute: typeof AuthenticatedReserveRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
+  AuthenticatedAccountsPaymentsRoute: typeof AuthenticatedAccountsPaymentsRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
   AuthenticatedPropertiesPropertyIdRoute: typeof AuthenticatedPropertiesPropertyIdRoute
   AuthenticatedPropertiesSearchRoute: typeof AuthenticatedPropertiesSearchRoute
@@ -771,6 +792,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedReserveRoute: AuthenticatedReserveRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
+  AuthenticatedAccountsPaymentsRoute: AuthenticatedAccountsPaymentsRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
   AuthenticatedPropertiesPropertyIdRoute:
     AuthenticatedPropertiesPropertyIdRoute,
