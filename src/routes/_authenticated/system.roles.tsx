@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFileRoute } from "@tanstack/react-router";
-import { createFileRoute as _unused } from "@tanstack/react-router";
 import { PageHeader } from "@/components/layout/AppShell";
 import { RequireRole } from "@/components/RequireRole";
 import { ROLE_LABELS, type AppRole } from "@/hooks/useAuth";
