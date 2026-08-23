@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { FileText, FolderOpen, Stamp } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { PageHeader } from "@/components/layout/AppShell";
@@ -27,8 +26,6 @@ export const Route = createFileRoute("/_authenticated/documentation/")({
 });
 
 function DocumentationPage() {
-  const [uploadFor, setUploadFor] = useState<Row | null>(null);
-
   const { data: sales = [] } = useQuery({
     queryKey: ["documentation", "sales"],
     queryFn: async () => {
@@ -117,9 +114,13 @@ function DocumentationPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <StatusBadge value={s.documentation_status} />
-                  <Button size="sm" variant="outline" className="h-10" onClick={() => setUploadFor(s)}>
-                    Upload
-                  </Button>
+                  <DocumentUploader
+                    saleId={s.id}
+                    customerId={s.customer_id}
+                    estateId={s.estate_id}
+                    propertyId={s.property_id}
+                    label="Upload"
+                  />
                 </div>
               </div>
             ))}
@@ -148,16 +149,6 @@ function DocumentationPage() {
         )}
       </div>
 
-      {uploadFor ? (
-        <DocumentUploader
-          open={!!uploadFor}
-          onOpenChange={(v) => !v && setUploadFor(null)}
-          saleId={uploadFor.id}
-          customerId={uploadFor.customer_id}
-          estateId={uploadFor.estate_id}
-          propertyId={uploadFor.property_id}
-        />
-      ) : null}
     </div>
   );
 }
