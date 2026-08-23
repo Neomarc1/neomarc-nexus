@@ -51,6 +51,7 @@ import { Route as AuthenticatedSystemErrorsRouteImport } from './routes/_authent
 import { Route as AuthenticatedSystemHealthRouteImport } from './routes/_authenticated/system.health'
 import { Route as AuthenticatedSystemPilotRouteImport } from './routes/_authenticated/system.pilot'
 import { Route as AuthenticatedSystemRolesRouteImport } from './routes/_authenticated/system.roles'
+import { Route as AuthenticatedSystemTestDataRouteImport } from './routes/_authenticated/system.test-data'
 import { Route as AuthenticatedSystemUatRouteImport } from './routes/_authenticated/system.uat'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
@@ -285,6 +286,12 @@ const AuthenticatedSystemRolesRoute =
     path: '/system/roles',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSystemTestDataRoute =
+  AuthenticatedSystemTestDataRouteImport.update({
+    id: '/system/test-data',
+    path: '/system/test-data',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSystemUatRoute = AuthenticatedSystemUatRouteImport.update({
   id: '/system/uat',
   path: '/system/uat',
@@ -340,6 +347,7 @@ export interface FileRoutesByFullPath {
   '/system/health': typeof AuthenticatedSystemHealthRoute
   '/system/pilot': typeof AuthenticatedSystemPilotRoute
   '/system/roles': typeof AuthenticatedSystemRolesRoute
+  '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
@@ -386,6 +394,7 @@ export interface FileRoutesByTo {
   '/system/health': typeof AuthenticatedSystemHealthRoute
   '/system/pilot': typeof AuthenticatedSystemPilotRoute
   '/system/roles': typeof AuthenticatedSystemRolesRoute
+  '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
@@ -434,6 +443,7 @@ export interface FileRoutesById {
   '/_authenticated/system/health': typeof AuthenticatedSystemHealthRoute
   '/_authenticated/system/pilot': typeof AuthenticatedSystemPilotRoute
   '/_authenticated/system/roles': typeof AuthenticatedSystemRolesRoute
+  '/_authenticated/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/_authenticated/system/uat': typeof AuthenticatedSystemUatRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
@@ -482,6 +492,7 @@ export interface FileRouteTypes {
     | '/system/health'
     | '/system/pilot'
     | '/system/roles'
+    | '/system/test-data'
     | '/system/uat'
     | '/accounts/'
     | '/documentation/'
@@ -528,6 +539,7 @@ export interface FileRouteTypes {
     | '/system/health'
     | '/system/pilot'
     | '/system/roles'
+    | '/system/test-data'
     | '/system/uat'
     | '/accounts'
     | '/documentation'
@@ -575,6 +587,7 @@ export interface FileRouteTypes {
     | '/_authenticated/system/health'
     | '/_authenticated/system/pilot'
     | '/_authenticated/system/roles'
+    | '/_authenticated/system/test-data'
     | '/_authenticated/system/uat'
     | '/_authenticated/accounts/'
     | '/_authenticated/documentation/'
@@ -887,6 +900,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSystemRolesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/system/test-data': {
+      id: '/_authenticated/system/test-data'
+      path: '/system/test-data'
+      fullPath: '/system/test-data'
+      preLoaderRoute: typeof AuthenticatedSystemTestDataRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/system/uat': {
       id: '/_authenticated/system/uat'
       path: '/system/uat'
@@ -946,6 +966,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSystemHealthRoute: typeof AuthenticatedSystemHealthRoute
   AuthenticatedSystemPilotRoute: typeof AuthenticatedSystemPilotRoute
   AuthenticatedSystemRolesRoute: typeof AuthenticatedSystemRolesRoute
+  AuthenticatedSystemTestDataRoute: typeof AuthenticatedSystemTestDataRoute
   AuthenticatedSystemUatRoute: typeof AuthenticatedSystemUatRoute
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
   AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
@@ -993,6 +1014,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSystemHealthRoute: AuthenticatedSystemHealthRoute,
   AuthenticatedSystemPilotRoute: AuthenticatedSystemPilotRoute,
   AuthenticatedSystemRolesRoute: AuthenticatedSystemRolesRoute,
+  AuthenticatedSystemTestDataRoute: AuthenticatedSystemTestDataRoute,
   AuthenticatedSystemUatRoute: AuthenticatedSystemUatRoute,
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
   AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,

@@ -93,6 +93,19 @@ const NAV: { group: string; items: NavItem[] }[] = [
     ],
   },
   {
+    group: "System Testing",
+    items: [
+      { to: "/system/health", label: "Workflow Health", icon: Activity, adminOnly: true },
+      { to: "/operations/exceptions", label: "Exception Centre", icon: AlertTriangle, staffOnly: true },
+      { to: "/system/uat", label: "UAT Checklist", icon: ClipboardCheck, staffOnly: true },
+      { to: "/management/feedback", label: "Pilot Feedback", icon: MessageSquare, adminOnly: true },
+      { to: "/system/errors", label: "Error Reports", icon: Bug, adminOnly: true },
+      { to: "/system/pilot", label: "Pilot Team", icon: Users, adminOnly: true },
+      { to: "/system/roles", label: "Role Access Review", icon: ShieldCheck, superAdminOnly: true },
+      { to: "/system/test-data", label: "Test Data Safety", icon: FlaskConical, superAdminOnly: true },
+    ],
+  },
+  {
     group: "Account",
     items: [
       { to: "/notifications", label: "Notifications", icon: Bell },
