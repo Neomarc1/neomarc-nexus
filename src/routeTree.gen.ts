@@ -25,7 +25,6 @@ import { Route as AuthenticatedInspectionsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
-import { Route as AuthenticatedOperationsRouteImport } from './routes/_authenticated/operations'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
@@ -41,6 +40,7 @@ import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_aut
 import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
+import { Route as AuthenticatedOperationsIndexRouteImport } from './routes/_authenticated/operations.index'
 import { Route as AuthenticatedPropertiesPropertyIdRouteImport } from './routes/_authenticated/properties.$propertyId'
 import { Route as AuthenticatedPropertiesSearchRouteImport } from './routes/_authenticated/properties.search'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
@@ -131,11 +131,6 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedOperationsRoute = AuthenticatedOperationsRouteImport.update({
-  id: '/operations',
-  path: '/operations',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
@@ -218,6 +213,12 @@ const AuthenticatedMyWorkInspectionsRoute =
     path: '/my-work/inspections',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedOperationsIndexRoute =
+  AuthenticatedOperationsIndexRouteImport.update({
+    id: '/operations/',
+    path: '/operations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPropertiesPropertyIdRoute =
   AuthenticatedPropertiesPropertyIdRouteImport.update({
     id: '/properties/$propertyId',
@@ -270,7 +271,6 @@ export interface FileRoutesByFullPath {
   '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
-  '/operations': typeof AuthenticatedOperationsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/projects': typeof AuthenticatedProjectsRoute
@@ -289,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
+  '/operations/': typeof AuthenticatedOperationsIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -309,7 +310,6 @@ export interface FileRoutesByTo {
   '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
-  '/operations': typeof AuthenticatedOperationsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/projects': typeof AuthenticatedProjectsRoute
@@ -328,6 +328,7 @@ export interface FileRoutesByTo {
   '/accounts': typeof AuthenticatedAccountsIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
+  '/operations': typeof AuthenticatedOperationsIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/my-work/leads': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -350,7 +351,6 @@ export interface FileRoutesById {
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
-  '/_authenticated/operations': typeof AuthenticatedOperationsRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
@@ -369,6 +369,7 @@ export interface FileRoutesById {
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
+  '/_authenticated/operations/': typeof AuthenticatedOperationsIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
   '/_authenticated/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/_authenticated/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -391,7 +392,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/leads'
     | '/notifications'
-    | '/operations'
     | '/payments'
     | '/portal'
     | '/projects'
@@ -410,6 +410,7 @@ export interface FileRouteTypes {
     | '/accounts/'
     | '/documentation/'
     | '/my-work/'
+    | '/operations/'
     | '/sales/'
     | '/my-work/leads/$leadId'
     | '/my-work/leads/'
@@ -430,7 +431,6 @@ export interface FileRouteTypes {
     | '/inventory'
     | '/leads'
     | '/notifications'
-    | '/operations'
     | '/payments'
     | '/portal'
     | '/projects'
@@ -449,6 +449,7 @@ export interface FileRouteTypes {
     | '/accounts'
     | '/documentation'
     | '/my-work'
+    | '/operations'
     | '/sales'
     | '/my-work/leads/$leadId'
     | '/my-work/leads'
@@ -470,7 +471,6 @@ export interface FileRouteTypes {
     | '/_authenticated/inventory'
     | '/_authenticated/leads'
     | '/_authenticated/notifications'
-    | '/_authenticated/operations'
     | '/_authenticated/payments'
     | '/_authenticated/portal'
     | '/_authenticated/projects'
@@ -489,6 +489,7 @@ export interface FileRouteTypes {
     | '/_authenticated/accounts/'
     | '/_authenticated/documentation/'
     | '/_authenticated/my-work/'
+    | '/_authenticated/operations/'
     | '/_authenticated/sales/'
     | '/_authenticated/my-work/leads/$leadId'
     | '/_authenticated/my-work/leads/'
@@ -614,13 +615,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/operations': {
-      id: '/_authenticated/operations'
-      path: '/operations'
-      fullPath: '/operations'
-      preLoaderRoute: typeof AuthenticatedOperationsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/payments': {
       id: '/_authenticated/payments'
       path: '/payments'
@@ -726,6 +720,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyWorkInspectionsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/operations/': {
+      id: '/_authenticated/operations/'
+      path: '/operations'
+      fullPath: '/operations/'
+      preLoaderRoute: typeof AuthenticatedOperationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/properties/$propertyId': {
       id: '/_authenticated/properties/$propertyId'
       path: '/properties/$propertyId'
@@ -785,7 +786,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
-  AuthenticatedOperationsRoute: typeof AuthenticatedOperationsRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
@@ -804,6 +804,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
   AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
+  AuthenticatedOperationsIndexRoute: typeof AuthenticatedOperationsIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
   AuthenticatedMyWorkLeadsLeadIdRoute: typeof AuthenticatedMyWorkLeadsLeadIdRoute
   AuthenticatedMyWorkLeadsIndexRoute: typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -823,7 +824,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
-  AuthenticatedOperationsRoute: AuthenticatedOperationsRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRoute,
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
@@ -843,6 +843,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
   AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
+  AuthenticatedOperationsIndexRoute: AuthenticatedOperationsIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
   AuthenticatedMyWorkLeadsLeadIdRoute: AuthenticatedMyWorkLeadsLeadIdRoute,
   AuthenticatedMyWorkLeadsIndexRoute: AuthenticatedMyWorkLeadsIndexRoute,
