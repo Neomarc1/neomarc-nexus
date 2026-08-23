@@ -58,7 +58,7 @@ const GUIDES: Partial<Record<AppRole, { title: string; steps: Step[] }>> = {
     ],
   },
 };
-GUIDES.super_admin = GUIDES.management;
+GUIDES.super_admin = GUIDES.management!;
 GUIDES.project_manager = {
   title: "Welcome to NEOMARC NDOS",
   steps: [

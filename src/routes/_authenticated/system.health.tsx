@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_authenticated/system/health")({
   ),
 });
 
-type Metric = { label: string; value: number; to: string; tone?: "warn" | "bad" };
+type Metric = { label: string; value: number; to: string; tone?: "warn" | "bad" | undefined };
 
 function WorkflowHealthPage() {
   const { data: t } = useOpsThresholds();
