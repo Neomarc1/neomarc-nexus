@@ -2531,6 +2531,7 @@ export type Database = {
         Returns: boolean
       }
       can_read_document_path: { Args: { _path: string }; Returns: boolean }
+      can_view_money: { Args: { _user_id: string }; Returns: boolean }
       close_sale: {
         Args: { _sale_id: string }
         Returns: {
@@ -2579,6 +2580,7 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_crm_staff: { Args: { _user_id: string }; Returns: boolean }
       is_my_customer: { Args: { _customer_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       my_realtor_id: { Args: never; Returns: string }
