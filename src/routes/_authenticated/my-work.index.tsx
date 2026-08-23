@@ -117,7 +117,7 @@ function MyWorkPage() {
       />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Button className="h-16 flex-col gap-1 text-xs" onClick={() => navigate({ to: "/my-work/leads" })}>
+        <Button className="h-16 flex-col gap-1 text-xs" onClick={() => navigate({ to: "/my-work/leads", search: { filter: "all" as const } })}>
           <Plus className="h-5 w-5" /> New lead
         </Button>
         <Button
@@ -144,7 +144,7 @@ function MyWorkPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Link to="/my-work/leads">
+        <Link to="/my-work/leads" search={{ filter: "all" as const }}>
           <StatCard label="My new leads" value={newLeads.length} icon={Users} />
         </Link>
         <Link to="/my-work/leads" search={{ filter: "followups" } as any}>

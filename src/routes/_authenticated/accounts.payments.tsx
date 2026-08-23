@@ -117,7 +117,7 @@ function VerificationQueuePage() {
         <EmptyState
           icon={Receipt}
           title={tab === "pending" ? "Verification queue is clear." : "No verified payments yet."}
-          description={tab === "pending" ? "New lodgements will appear here." : undefined}
+          description={tab === "pending" ? "New lodgements will appear here." : ""}
         />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">

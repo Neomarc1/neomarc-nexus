@@ -111,7 +111,7 @@ function LeadDetailPage() {
 
   return (
     <div className="space-y-5">
-      <Button variant="ghost" className="h-10 px-2" onClick={() => navigate({ to: "/my-work/leads" })}>
+      <Button variant="ghost" className="h-10 px-2" onClick={() => navigate({ to: "/my-work/leads", search: { filter: "all" as const } })}>
         <ArrowLeft className="mr-1 h-4 w-4" /> My leads
       </Button>
 

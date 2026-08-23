@@ -150,7 +150,7 @@ function ReservePage() {
       <div className="surface-card space-y-4 p-4">
         <div>
           <Label className="mb-1.5 block text-xs font-medium">Plot</Label>
-          <Select value={selectedProperty} onValueChange={setSelectedProperty}>
+          <Select value={selectedProperty ?? ""} onValueChange={setSelectedProperty}>
             <SelectTrigger className="h-12">
               <SelectValue placeholder="Choose an available plot" />
             </SelectTrigger>
@@ -170,7 +170,7 @@ function ReservePage() {
 
         <div>
           <Label className="mb-1.5 block text-xs font-medium">Buyer</Label>
-          <Select value={customerId} onValueChange={setCustomerId}>
+          <Select value={customerId ?? ""} onValueChange={setCustomerId}>
             <SelectTrigger className="h-12">
               <SelectValue placeholder="Choose the customer" />
             </SelectTrigger>

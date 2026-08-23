@@ -71,7 +71,7 @@ export function DocumentUploader({
 
       const { error: upErr } = await supabase.storage
         .from("documents")
-        .upload(path, file, { upsert: false, contentType: file.type || undefined });
+        .upload(path, file, { upsert: false, contentType: file.type || "application/octet-stream" });
       if (upErr) throw upErr;
 
       const payload: any = {
