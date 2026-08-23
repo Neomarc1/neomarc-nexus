@@ -140,13 +140,25 @@ function Dashboard() {
   const monthStart = data.monthStart;
 
   const activeSales = sales.filter((s) => s.status !== "cancelled");
+  const activeSaleIds = new Set(activeSales.map((s) => s.id));
+  // Only VERIFIED payments count as collected, and only against live sales.
   const verified = payments.filter((p) => p.status === "verified");
-  const collected = verified.reduce((s, p) => s + Number(p.amount), 0);
+  const collected = verified
+    .filter((p) => !p.sale_id || activeSaleIds.has(p.sale_id))
+    .reduce((s, p) => s + Number(p.amount), 0);
   const contractValue = activeSales.reduce((s, r) => s + Number(r.total_payable ?? 0), 0);
-  const outstanding = Math.max(contractValue - collected, 0);
-  const overdue = schedule
+  // Receivables come from the schedule (source of truth), ignoring waived/reversed lines.
+  const liveSchedule = schedule.filter(
+    (r) => activeSaleIds.has(r.sale_id) && !["waived", "reversed"].includes(r.status),
+  );
+  const outstanding = liveSchedule.reduce(
+    (s, r) => s + Math.max(Number(r.amount_due) - Number(r.amount_paid), 0),
+    0,
+  );
+  const overdue = liveSchedule
     .filter((s) => s.status !== "paid" && s.due_date < today)
     .reduce((s, r) => s + Math.max(Number(r.amount_due) - Number(r.amount_paid), 0), 0);
+
 
   const monthSales = activeSales.filter((s) => s.sale_date >= monthStart);
   const monthCollected = verified
