@@ -38,6 +38,7 @@ import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenti
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
 import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
+import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -192,6 +193,12 @@ const AuthenticatedMyWorkLeadsIndexRoute =
     path: '/my-work/leads/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMyWorkLeadsLeadIdRoute =
+  AuthenticatedMyWorkLeadsLeadIdRouteImport.update({
+    id: '/my-work/leads/$leadId',
+    path: '/my-work/leads/$leadId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -221,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
+  '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -251,6 +259,7 @@ export interface FileRoutesByTo {
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
+  '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/my-work/leads': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRoutesById {
@@ -283,6 +292,7 @@ export interface FileRoutesById {
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
+  '/_authenticated/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/_authenticated/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRouteTypes {
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/sales/$saleId'
     | '/my-work/'
     | '/sales/'
+    | '/my-work/leads/$leadId'
     | '/my-work/leads/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/sales/$saleId'
     | '/my-work'
     | '/sales'
+    | '/my-work/leads/$leadId'
     | '/my-work/leads'
   id:
     | '__root__'
@@ -376,6 +388,7 @@ export interface FileRouteTypes {
     | '/_authenticated/sales/$saleId'
     | '/_authenticated/my-work/'
     | '/_authenticated/sales/'
+    | '/_authenticated/my-work/leads/$leadId'
     | '/_authenticated/my-work/leads/'
   fileRoutesById: FileRoutesById
 }
@@ -590,6 +603,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyWorkLeadsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/my-work/leads/$leadId': {
+      id: '/_authenticated/my-work/leads/$leadId'
+      path: '/my-work/leads/$leadId'
+      fullPath: '/my-work/leads/$leadId'
+      preLoaderRoute: typeof AuthenticatedMyWorkLeadsLeadIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -619,6 +639,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
+  AuthenticatedMyWorkLeadsLeadIdRoute: typeof AuthenticatedMyWorkLeadsLeadIdRoute
   AuthenticatedMyWorkLeadsIndexRoute: typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 
@@ -648,6 +669,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
+  AuthenticatedMyWorkLeadsLeadIdRoute: AuthenticatedMyWorkLeadsLeadIdRoute,
   AuthenticatedMyWorkLeadsIndexRoute: AuthenticatedMyWorkLeadsIndexRoute,
 }
 
