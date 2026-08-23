@@ -47,6 +47,7 @@ import { Route as AuthenticatedPropertiesPropertyIdRouteImport } from './routes/
 import { Route as AuthenticatedPropertiesSearchRouteImport } from './routes/_authenticated/properties.search'
 import { Route as AuthenticatedSalesIndexRouteImport } from './routes/_authenticated/sales.index'
 import { Route as AuthenticatedSalesSaleIdRouteImport } from './routes/_authenticated/sales.$saleId'
+import { Route as AuthenticatedSystemErrorsRouteImport } from './routes/_authenticated/system.errors'
 import { Route as AuthenticatedSystemHealthRouteImport } from './routes/_authenticated/system.health'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
@@ -257,6 +258,12 @@ const AuthenticatedSalesSaleIdRoute =
     path: '/sales/$saleId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSystemErrorsRoute =
+  AuthenticatedSystemErrorsRouteImport.update({
+    id: '/system/errors',
+    path: '/system/errors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSystemHealthRoute =
   AuthenticatedSystemHealthRouteImport.update({
     id: '/system/health',
@@ -309,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
+  '/system/errors': typeof AuthenticatedSystemErrorsRoute
   '/system/health': typeof AuthenticatedSystemHealthRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
@@ -351,6 +359,7 @@ export interface FileRoutesByTo {
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
+  '/system/errors': typeof AuthenticatedSystemErrorsRoute
   '/system/health': typeof AuthenticatedSystemHealthRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
@@ -395,6 +404,7 @@ export interface FileRoutesById {
   '/_authenticated/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
   '/_authenticated/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
+  '/_authenticated/system/errors': typeof AuthenticatedSystemErrorsRoute
   '/_authenticated/system/health': typeof AuthenticatedSystemHealthRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
@@ -439,6 +449,7 @@ export interface FileRouteTypes {
     | '/properties/$propertyId'
     | '/properties/search'
     | '/sales/$saleId'
+    | '/system/errors'
     | '/system/health'
     | '/accounts/'
     | '/documentation/'
@@ -481,6 +492,7 @@ export interface FileRouteTypes {
     | '/properties/$propertyId'
     | '/properties/search'
     | '/sales/$saleId'
+    | '/system/errors'
     | '/system/health'
     | '/accounts'
     | '/documentation'
@@ -524,6 +536,7 @@ export interface FileRouteTypes {
     | '/_authenticated/properties/$propertyId'
     | '/_authenticated/properties/search'
     | '/_authenticated/sales/$saleId'
+    | '/_authenticated/system/errors'
     | '/_authenticated/system/health'
     | '/_authenticated/accounts/'
     | '/_authenticated/documentation/'
@@ -808,6 +821,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSalesSaleIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/system/errors': {
+      id: '/_authenticated/system/errors'
+      path: '/system/errors'
+      fullPath: '/system/errors'
+      preLoaderRoute: typeof AuthenticatedSystemErrorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/system/health': {
       id: '/_authenticated/system/health'
       path: '/system/health'
@@ -863,6 +883,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPropertiesPropertyIdRoute: typeof AuthenticatedPropertiesPropertyIdRoute
   AuthenticatedPropertiesSearchRoute: typeof AuthenticatedPropertiesSearchRoute
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
+  AuthenticatedSystemErrorsRoute: typeof AuthenticatedSystemErrorsRoute
   AuthenticatedSystemHealthRoute: typeof AuthenticatedSystemHealthRoute
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
   AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
@@ -906,6 +927,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedPropertiesPropertyIdRoute,
   AuthenticatedPropertiesSearchRoute: AuthenticatedPropertiesSearchRoute,
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
+  AuthenticatedSystemErrorsRoute: AuthenticatedSystemErrorsRoute,
   AuthenticatedSystemHealthRoute: AuthenticatedSystemHealthRoute,
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
   AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,
