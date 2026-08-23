@@ -69,7 +69,7 @@ function useDashboard() {
           db.from("leads").select("id, full_name, status, temperature, created_at, next_followup_at, source, ref"),
           db.from("properties").select("id, status, price, estate_id"),
           db.from("sales").select("id, ref, total_payable, sale_date, estate_id, realtor_id, status, documentation_status, allocation_status"),
-          db.from("payments").select("id, amount, status, payment_date, customer_id"),
+          db.from("payments").select("id, amount, status, payment_date, customer_id, sale_id"),
           db.from("payment_schedule").select("id, sale_id, customer_id, due_date, amount_due, amount_paid, status"),
           db.from("inspections").select("id, scheduled_date, status, estate_id"),
           db.from("commissions").select("id, amount, amount_paid, status, realtor_id"),
@@ -204,7 +204,12 @@ function Dashboard() {
     { label: "Allocated", value: inv("allocated"), icon: Building2 },
     {
       label: "Realtor Commissions",
-      value: formatNaira(commissions.reduce((s, c) => s + Number(c.amount), 0), true),
+      value: formatNaira(
+        commissions
+          .filter((c) => !["cancelled", "reversed"].includes(c.status))
+          .reduce((s, c) => s + Number(c.amount), 0),
+        true,
+      ),
       icon: Handshake,
       tone: "gold" as const,
     },
@@ -265,9 +270,9 @@ function Dashboard() {
   // NEOMARC TODAY
   const followupsDue = leads.filter((l) => l.next_followup_at && String(l.next_followup_at).slice(0, 10) <= today);
   const inspectionsToday = inspections.filter((i) => i.scheduled_date === today);
-  const overdueRows = schedule.filter((s) => s.status !== "paid" && s.due_date < today);
-  const pendingDocs = sales.filter((s) => s.documentation_status !== "completed");
-  const pendingAllocations = sales.filter(
+  const overdueRows = liveSchedule.filter((s) => s.status !== "paid" && s.due_date < today);
+  const pendingDocs = activeSales.filter((s) => s.documentation_status !== "completed");
+  const pendingAllocations = activeSales.filter(
     (s) => s.documentation_status === "completed" && s.allocation_status !== "allocated",
   );
   const expiring = reservations.filter(
