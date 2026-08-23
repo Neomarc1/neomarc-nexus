@@ -38,6 +38,7 @@ import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
 import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
+import { Route as AuthenticatedManagementFeedbackRouteImport } from './routes/_authenticated/management.feedback'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
 import { Route as AuthenticatedOperationsIndexRouteImport } from './routes/_authenticated/operations.index'
@@ -203,6 +204,12 @@ const AuthenticatedDocumentationIndexRoute =
     path: '/documentation/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedManagementFeedbackRoute =
+  AuthenticatedManagementFeedbackRouteImport.update({
+    id: '/management/feedback',
+    path: '/management/feedback',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMyWorkIndexRoute =
   AuthenticatedMyWorkIndexRouteImport.update({
     id: '/my-work/',
@@ -296,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
@@ -337,6 +345,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
@@ -380,6 +389,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/_authenticated/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/_authenticated/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
   '/_authenticated/properties/$propertyId': typeof AuthenticatedPropertiesPropertyIdRoute
@@ -423,6 +433,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/management/feedback'
     | '/my-work/inspections'
     | '/operations/exceptions'
     | '/properties/$propertyId'
@@ -464,6 +475,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/management/feedback'
     | '/my-work/inspections'
     | '/operations/exceptions'
     | '/properties/$propertyId'
@@ -506,6 +518,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/accounts/payments'
+    | '/_authenticated/management/feedback'
     | '/_authenticated/my-work/inspections'
     | '/_authenticated/operations/exceptions'
     | '/_authenticated/properties/$propertyId'
@@ -732,6 +745,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDocumentationIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/management/feedback': {
+      id: '/_authenticated/management/feedback'
+      path: '/management/feedback'
+      fullPath: '/management/feedback'
+      preLoaderRoute: typeof AuthenticatedManagementFeedbackRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/my-work/': {
       id: '/_authenticated/my-work/'
       path: '/my-work'
@@ -837,6 +857,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedAccountsPaymentsRoute: typeof AuthenticatedAccountsPaymentsRoute
+  AuthenticatedManagementFeedbackRoute: typeof AuthenticatedManagementFeedbackRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
   AuthenticatedOperationsExceptionsRoute: typeof AuthenticatedOperationsExceptionsRoute
   AuthenticatedPropertiesPropertyIdRoute: typeof AuthenticatedPropertiesPropertyIdRoute
@@ -877,6 +898,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedAccountsPaymentsRoute: AuthenticatedAccountsPaymentsRoute,
+  AuthenticatedManagementFeedbackRoute: AuthenticatedManagementFeedbackRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
   AuthenticatedOperationsExceptionsRoute:
     AuthenticatedOperationsExceptionsRoute,
