@@ -32,6 +32,7 @@ import { Route as AuthenticatedRealtorsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedReceivablesRouteImport } from './routes/_authenticated/receivables'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedReservationsRouteImport } from './routes/_authenticated/reservations'
+import { Route as AuthenticatedReserveRouteImport } from './routes/_authenticated/reserve'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
@@ -163,6 +164,11 @@ const AuthenticatedReservationsRoute =
     path: '/reservations',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReserveRoute = AuthenticatedReserveRouteImport.update({
+  id: '/reserve',
+  path: '/reserve',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/receivables': typeof AuthenticatedReceivablesRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/reservations': typeof AuthenticatedReservationsRoute
+  '/reserve': typeof AuthenticatedReserveRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/receivables': typeof AuthenticatedReceivablesRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/reservations': typeof AuthenticatedReservationsRoute
+  '/reserve': typeof AuthenticatedReserveRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
@@ -314,6 +322,7 @@ export interface FileRoutesById {
   '/_authenticated/receivables': typeof AuthenticatedReceivablesRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/reservations': typeof AuthenticatedReservationsRoute
+  '/_authenticated/reserve': typeof AuthenticatedReserveRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
@@ -350,6 +359,7 @@ export interface FileRouteTypes {
     | '/receivables'
     | '/reports'
     | '/reservations'
+    | '/reserve'
     | '/settings'
     | '/tasks'
     | '/my-work/inspections'
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
     | '/receivables'
     | '/reports'
     | '/reservations'
+    | '/reserve'
     | '/settings'
     | '/tasks'
     | '/my-work/inspections'
@@ -419,6 +430,7 @@ export interface FileRouteTypes {
     | '/_authenticated/receivables'
     | '/_authenticated/reports'
     | '/_authenticated/reservations'
+    | '/_authenticated/reserve'
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/my-work/inspections'
@@ -600,6 +612,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedReservationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/reserve': {
+      id: '/_authenticated/reserve'
+      path: '/reserve'
+      fullPath: '/reserve'
+      preLoaderRoute: typeof AuthenticatedReserveRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -694,6 +713,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedReceivablesRoute: typeof AuthenticatedReceivablesRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedReservationsRoute: typeof AuthenticatedReservationsRoute
+  AuthenticatedReserveRoute: typeof AuthenticatedReserveRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
@@ -727,6 +747,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedReceivablesRoute: AuthenticatedReceivablesRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedReservationsRoute: AuthenticatedReservationsRoute,
+  AuthenticatedReserveRoute: AuthenticatedReserveRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
