@@ -244,6 +244,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </button>
 
           <div className="ml-auto flex items-center gap-2">
+            <FeedbackDialog />
             <Link to="/notifications" aria-label="Notifications">
               <Button variant="ghost" size="icon">
                 <Bell className="h-5 w-5" />
