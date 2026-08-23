@@ -87,9 +87,9 @@ function AccountsPage() {
       />
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <StatCard title="Awaiting verification" value={String(pending.length)} icon={Clock} />
-        <StatCard title="Verified today" value={formatNaira(moneyToday)} icon={Banknote} />
-        <StatCard title="Overdue receivables" value={formatNaira(overdueTotal)} icon={TriangleAlert} />
+        <StatCard label="Awaiting verification" value={String(pending.length)} icon={Clock} />
+        <StatCard label="Verified today" value={formatNaira(moneyToday)} icon={Banknote} />
+        <StatCard label="Overdue receivables" value={formatNaira(overdueTotal)} icon={TriangleAlert} tone="destructive" />
       </div>
 
       <div className="surface-card p-4">
