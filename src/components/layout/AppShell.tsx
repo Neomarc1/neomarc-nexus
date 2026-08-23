@@ -152,7 +152,12 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
       <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
         {NAV.map((group) => {
-          const items = group.items.filter((i) => !i.staffOnly || me?.isStaff);
+          const items = group.items.filter(
+            (i) =>
+              (!i.staffOnly || me?.isStaff) &&
+              (!i.adminOnly || me?.isAdmin) &&
+              (!i.superAdminOnly || me?.roles.includes("super_admin")),
+          );
           if (!items.length) return null;
           return (
             <div key={group.group}>
