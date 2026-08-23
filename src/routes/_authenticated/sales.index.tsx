@@ -39,6 +39,7 @@ function SalesPage() {
         ]}
         fields={[
           { name: "customer_id", label: "Customer", type: "select", lookup: { table: "customers", labelKey: "full_name" }, required: true },
+          { name: "is_test", label: "Mark as TEST record (pilot only)", type: "boolean" },
           { name: "estate_id", label: "Estate", type: "select", lookup: { table: "estates", labelKey: "name" }, required: true },
           { name: "property_id", label: "Plot", type: "select", lookup: { table: "properties", labelKey: "plot_number" }, required: true },
           { name: "realtor_id", label: "Realtor", type: "select", lookup: { table: "realtors", labelKey: "full_name" } },

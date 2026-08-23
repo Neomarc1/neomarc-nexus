@@ -108,6 +108,7 @@ function LeadsPage() {
 
   const fields: FieldDef[] = [
     { name: "full_name", label: "Full name", required: true },
+    { name: "is_test", label: "Mark as TEST record (pilot only)", type: "boolean" },
     { name: "phone", label: "Phone", required: true },
     { name: "whatsapp", label: "WhatsApp" },
     { name: "email", label: "Email", type: "email" },
