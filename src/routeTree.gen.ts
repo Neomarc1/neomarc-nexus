@@ -37,6 +37,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
+import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
 import { Route as AuthenticatedMyWorkInspectionsRouteImport } from './routes/_authenticated/my-work.inspections'
 import { Route as AuthenticatedPropertiesPropertyIdRouteImport } from './routes/_authenticated/properties.$propertyId'
@@ -193,6 +194,12 @@ const AuthenticatedAccountsPaymentsRoute =
     path: '/accounts/payments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDocumentationIndexRoute =
+  AuthenticatedDocumentationIndexRouteImport.update({
+    id: '/documentation/',
+    path: '/documentation/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMyWorkIndexRoute =
   AuthenticatedMyWorkIndexRouteImport.update({
     id: '/my-work/',
@@ -273,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
+  '/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
@@ -310,6 +318,7 @@ export interface FileRoutesByTo {
   '/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
+  '/documentation': typeof AuthenticatedDocumentationIndexRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
@@ -349,6 +358,7 @@ export interface FileRoutesById {
   '/_authenticated/properties/search': typeof AuthenticatedPropertiesSearchRoute
   '/_authenticated/sales/$saleId': typeof AuthenticatedSalesSaleIdRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
+  '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
   '/_authenticated/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/properties/search'
     | '/sales/$saleId'
     | '/accounts/'
+    | '/documentation/'
     | '/my-work/'
     | '/sales/'
     | '/my-work/leads/$leadId'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/properties/search'
     | '/sales/$saleId'
     | '/accounts'
+    | '/documentation'
     | '/my-work'
     | '/sales'
     | '/my-work/leads/$leadId'
@@ -463,6 +475,7 @@ export interface FileRouteTypes {
     | '/_authenticated/properties/search'
     | '/_authenticated/sales/$saleId'
     | '/_authenticated/accounts/'
+    | '/_authenticated/documentation/'
     | '/_authenticated/my-work/'
     | '/_authenticated/sales/'
     | '/_authenticated/my-work/leads/$leadId'
@@ -673,6 +686,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountsPaymentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/documentation/': {
+      id: '/_authenticated/documentation/'
+      path: '/documentation'
+      fullPath: '/documentation/'
+      preLoaderRoute: typeof AuthenticatedDocumentationIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/my-work/': {
       id: '/_authenticated/my-work/'
       path: '/my-work'
@@ -762,6 +782,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPropertiesSearchRoute: typeof AuthenticatedPropertiesSearchRoute
   AuthenticatedSalesSaleIdRoute: typeof AuthenticatedSalesSaleIdRoute
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
+  AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
   AuthenticatedMyWorkLeadsLeadIdRoute: typeof AuthenticatedMyWorkLeadsLeadIdRoute
@@ -799,6 +820,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPropertiesSearchRoute: AuthenticatedPropertiesSearchRoute,
   AuthenticatedSalesSaleIdRoute: AuthenticatedSalesSaleIdRoute,
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
+  AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
   AuthenticatedMyWorkLeadsLeadIdRoute: AuthenticatedMyWorkLeadsLeadIdRoute,
