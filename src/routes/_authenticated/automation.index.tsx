@@ -58,6 +58,7 @@ function StatusPill({ status }: { status: string }) {
 function AutomationCentre() {
   const qc = useQueryClient();
   const [busy, setBusy] = useState<string | null>(null);
+  const [runFilter, setRunFilter] = useState<"all" | "success" | "failed" | "pending">("all");
 
   const { data: jobs = [] } = useQuery({
     queryKey: ["automation-jobs"],
