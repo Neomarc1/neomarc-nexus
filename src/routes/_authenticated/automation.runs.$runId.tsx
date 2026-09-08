@@ -123,17 +123,25 @@ function RunDetail() {
   const [diffA, setDiffA] = useState<number | null>(null);
   const [diffB, setDiffB] = useState<number | null>(null);
   const attemptRefs = useRef<Map<string, HTMLLIElement | null>>(new Map());
+  const attemptCardRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
 
-  function scrollToAttempt(index: number | null) {
+  function flashAttempt(index: number | null) {
     if (index == null) return;
     const attempt = attempts[index];
     if (!attempt) return;
-    const el = attemptRefs.current.get(String(attempt.id));
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      el.classList.add("ring-2", "ring-primary", "rounded-lg");
-      window.setTimeout(() => el.classList.remove("ring-2", "ring-primary", "rounded-lg"), 1500);
+    const li = attemptRefs.current.get(String(attempt.id));
+    const card = attemptCardRefs.current.get(String(attempt.id));
+    if (li) {
+      li.scrollIntoView({ behavior: "smooth", block: "center" });
+      li.classList.add("ring-2", "ring-primary", "rounded-lg");
     }
+    if (card) {
+      card.classList.add("bg-primary/10", "border-primary", "shadow-[0_0_0_3px_hsl(var(--primary)/0.25)]");
+    }
+    window.setTimeout(() => {
+      li?.classList.remove("ring-2", "ring-primary", "rounded-lg");
+      card?.classList.remove("bg-primary/10", "border-primary", "shadow-[0_0_0_3px_hsl(var(--primary)/0.25)]");
+    }, 1400);
   }
 
   function copyPayload(a: any, n: number) {
