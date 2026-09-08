@@ -93,6 +93,29 @@ function RunDetail() {
   const { runId } = useParams({ from: "/_authenticated/automation/runs/$runId" });
   const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
+  const [diffA, setDiffA] = useState<number | null>(null);
+  const [diffB, setDiffB] = useState<number | null>(null);
+
+  function copyPayload(a: any, n: number) {
+    const text = payloadText(a);
+    if (!text) return void toast.info("No payload recorded for that attempt.");
+    navigator.clipboard.writeText(text).then(
+      () => toast.success(`Attempt ${n} payload copied.`),
+      () => toast.error("Could not copy to clipboard."),
+    );
+  }
+
+  function downloadPayload(a: any, n: number) {
+    const text = payloadText(a);
+    if (!text) return void toast.info("No payload recorded for that attempt.");
+    const blob = new Blob([text], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const el = document.createElement("a");
+    el.href = url;
+    el.download = `automation-attempt-${n}-payload.json`;
+    el.click();
+    URL.revokeObjectURL(url);
+  }
 
   const { data: run, isLoading } = useQuery({
     queryKey: ["automation-run", runId],
