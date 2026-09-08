@@ -24,6 +24,7 @@ import { Route as AuthenticatedExpensesRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedInspectionsRouteImport } from './routes/_authenticated/inspections'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
+import { Route as AuthenticatedManagerRouteImport } from './routes/_authenticated/manager'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
@@ -37,6 +38,8 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
+import { Route as AuthenticatedAutomationIndexRouteImport } from './routes/_authenticated/automation.index'
+import { Route as AuthenticatedAutomationTasksRouteImport } from './routes/_authenticated/automation.tasks'
 import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
 import { Route as AuthenticatedManagementFeedbackRouteImport } from './routes/_authenticated/management.feedback'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
@@ -133,6 +136,11 @@ const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedManagerRoute = AuthenticatedManagerRouteImport.update({
+  id: '/manager',
+  path: '/manager',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -201,6 +209,18 @@ const AuthenticatedAccountsPaymentsRoute =
   AuthenticatedAccountsPaymentsRouteImport.update({
     id: '/accounts/payments',
     path: '/accounts/payments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAutomationIndexRoute =
+  AuthenticatedAutomationIndexRouteImport.update({
+    id: '/automation/',
+    path: '/automation/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAutomationTasksRoute =
+  AuthenticatedAutomationTasksRouteImport.update({
+    id: '/automation/tasks',
+    path: '/automation/tasks',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedDocumentationIndexRoute =
@@ -325,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/inspections': typeof AuthenticatedInspectionsRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
+  '/manager': typeof AuthenticatedManagerRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/portal': typeof AuthenticatedPortalRoute
@@ -337,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
@@ -350,6 +372,7 @@ export interface FileRoutesByFullPath {
   '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
+  '/automation/': typeof AuthenticatedAutomationIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/operations/': typeof AuthenticatedOperationsIndexRoute
@@ -372,6 +395,7 @@ export interface FileRoutesByTo {
   '/inspections': typeof AuthenticatedInspectionsRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/leads': typeof AuthenticatedLeadsRoute
+  '/manager': typeof AuthenticatedManagerRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/portal': typeof AuthenticatedPortalRoute
@@ -384,6 +408,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
@@ -397,6 +422,7 @@ export interface FileRoutesByTo {
   '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
+  '/automation': typeof AuthenticatedAutomationIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/operations': typeof AuthenticatedOperationsIndexRoute
@@ -421,6 +447,7 @@ export interface FileRoutesById {
   '/_authenticated/inspections': typeof AuthenticatedInspectionsRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
+  '/_authenticated/manager': typeof AuthenticatedManagerRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
@@ -433,6 +460,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/_authenticated/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/_authenticated/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/_authenticated/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
@@ -446,6 +474,7 @@ export interface FileRoutesById {
   '/_authenticated/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/_authenticated/system/uat': typeof AuthenticatedSystemUatRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
+  '/_authenticated/automation/': typeof AuthenticatedAutomationIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/operations/': typeof AuthenticatedOperationsIndexRoute
@@ -470,6 +499,7 @@ export interface FileRouteTypes {
     | '/inspections'
     | '/inventory'
     | '/leads'
+    | '/manager'
     | '/notifications'
     | '/payments'
     | '/portal'
@@ -482,6 +512,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/automation/tasks'
     | '/management/feedback'
     | '/my-work/inspections'
     | '/operations/exceptions'
@@ -495,6 +526,7 @@ export interface FileRouteTypes {
     | '/system/test-data'
     | '/system/uat'
     | '/accounts/'
+    | '/automation/'
     | '/documentation/'
     | '/my-work/'
     | '/operations/'
@@ -517,6 +549,7 @@ export interface FileRouteTypes {
     | '/inspections'
     | '/inventory'
     | '/leads'
+    | '/manager'
     | '/notifications'
     | '/payments'
     | '/portal'
@@ -529,6 +562,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/automation/tasks'
     | '/management/feedback'
     | '/my-work/inspections'
     | '/operations/exceptions'
@@ -542,6 +576,7 @@ export interface FileRouteTypes {
     | '/system/test-data'
     | '/system/uat'
     | '/accounts'
+    | '/automation'
     | '/documentation'
     | '/my-work'
     | '/operations'
@@ -565,6 +600,7 @@ export interface FileRouteTypes {
     | '/_authenticated/inspections'
     | '/_authenticated/inventory'
     | '/_authenticated/leads'
+    | '/_authenticated/manager'
     | '/_authenticated/notifications'
     | '/_authenticated/payments'
     | '/_authenticated/portal'
@@ -577,6 +613,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/accounts/payments'
+    | '/_authenticated/automation/tasks'
     | '/_authenticated/management/feedback'
     | '/_authenticated/my-work/inspections'
     | '/_authenticated/operations/exceptions'
@@ -590,6 +627,7 @@ export interface FileRouteTypes {
     | '/_authenticated/system/test-data'
     | '/_authenticated/system/uat'
     | '/_authenticated/accounts/'
+    | '/_authenticated/automation/'
     | '/_authenticated/documentation/'
     | '/_authenticated/my-work/'
     | '/_authenticated/operations/'
@@ -711,6 +749,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLeadsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/manager': {
+      id: '/_authenticated/manager'
+      path: '/manager'
+      fullPath: '/manager'
+      preLoaderRoute: typeof AuthenticatedManagerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notifications': {
       id: '/_authenticated/notifications'
       path: '/notifications'
@@ -800,6 +845,20 @@ declare module '@tanstack/react-router' {
       path: '/accounts/payments'
       fullPath: '/accounts/payments'
       preLoaderRoute: typeof AuthenticatedAccountsPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/automation/': {
+      id: '/_authenticated/automation/'
+      path: '/automation'
+      fullPath: '/automation/'
+      preLoaderRoute: typeof AuthenticatedAutomationIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/automation/tasks': {
+      id: '/_authenticated/automation/tasks'
+      path: '/automation/tasks'
+      fullPath: '/automation/tasks'
+      preLoaderRoute: typeof AuthenticatedAutomationTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/documentation/': {
@@ -944,6 +1003,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInspectionsRoute: typeof AuthenticatedInspectionsRoute
   AuthenticatedInventoryRoute: typeof AuthenticatedInventoryRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
+  AuthenticatedManagerRoute: typeof AuthenticatedManagerRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedPortalRoute: typeof AuthenticatedPortalRoute
@@ -956,6 +1016,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedAccountsPaymentsRoute: typeof AuthenticatedAccountsPaymentsRoute
+  AuthenticatedAutomationTasksRoute: typeof AuthenticatedAutomationTasksRoute
   AuthenticatedManagementFeedbackRoute: typeof AuthenticatedManagementFeedbackRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
   AuthenticatedOperationsExceptionsRoute: typeof AuthenticatedOperationsExceptionsRoute
@@ -969,6 +1030,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSystemTestDataRoute: typeof AuthenticatedSystemTestDataRoute
   AuthenticatedSystemUatRoute: typeof AuthenticatedSystemUatRoute
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
+  AuthenticatedAutomationIndexRoute: typeof AuthenticatedAutomationIndexRoute
   AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedOperationsIndexRoute: typeof AuthenticatedOperationsIndexRoute
@@ -990,6 +1052,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInspectionsRoute: AuthenticatedInspectionsRoute,
   AuthenticatedInventoryRoute: AuthenticatedInventoryRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
+  AuthenticatedManagerRoute: AuthenticatedManagerRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedPortalRoute: AuthenticatedPortalRoute,
@@ -1002,6 +1065,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedAccountsPaymentsRoute: AuthenticatedAccountsPaymentsRoute,
+  AuthenticatedAutomationTasksRoute: AuthenticatedAutomationTasksRoute,
   AuthenticatedManagementFeedbackRoute: AuthenticatedManagementFeedbackRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
   AuthenticatedOperationsExceptionsRoute:
@@ -1017,6 +1081,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSystemTestDataRoute: AuthenticatedSystemTestDataRoute,
   AuthenticatedSystemUatRoute: AuthenticatedSystemUatRoute,
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
+  AuthenticatedAutomationIndexRoute: AuthenticatedAutomationIndexRoute,
   AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedOperationsIndexRoute: AuthenticatedOperationsIndexRoute,

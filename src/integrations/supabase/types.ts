@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -179,6 +179,51 @@ export type Database = {
           template_code?: string | null
           trigger_event?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      automation_runs: {
+        Row: {
+          actor: string
+          attempts: number
+          automation: string
+          created_at: string
+          error: string | null
+          event_type: string
+          id: string
+          resolved_at: string | null
+          result: Json
+          source_record_id: string | null
+          source_table: string | null
+          status: string
+        }
+        Insert: {
+          actor?: string
+          attempts?: number
+          automation: string
+          created_at?: string
+          error?: string | null
+          event_type: string
+          id?: string
+          resolved_at?: string | null
+          result?: Json
+          source_record_id?: string | null
+          source_table?: string | null
+          status?: string
+        }
+        Update: {
+          actor?: string
+          attempts?: number
+          automation?: string
+          created_at?: string
+          error?: string | null
+          event_type?: string
+          id?: string
+          resolved_at?: string | null
+          result?: Json
+          source_record_id?: string | null
+          source_table?: string | null
+          status?: string
         }
         Relationships: []
       }
@@ -2457,11 +2502,16 @@ export type Database = {
           customer_id: string | null
           description: string | null
           due_date: string | null
+          escalation_level: number
           id: string
+          is_auto: boolean
+          last_escalated_at: string | null
           lead_id: string | null
           priority: string
           ref: string
           sale_id: string | null
+          source_record_id: string | null
+          source_table: string | null
           status: Database["public"]["Enums"]["task_status"]
           title: string
           updated_at: string
@@ -2476,11 +2526,16 @@ export type Database = {
           customer_id?: string | null
           description?: string | null
           due_date?: string | null
+          escalation_level?: number
           id?: string
+          is_auto?: boolean
+          last_escalated_at?: string | null
           lead_id?: string | null
           priority?: string
           ref?: string
           sale_id?: string | null
+          source_record_id?: string | null
+          source_table?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           title: string
           updated_at?: string
@@ -2495,11 +2550,16 @@ export type Database = {
           customer_id?: string | null
           description?: string | null
           due_date?: string | null
+          escalation_level?: number
           id?: string
+          is_auto?: boolean
+          last_escalated_at?: string | null
           lead_id?: string | null
           priority?: string
           ref?: string
           sale_id?: string | null
+          source_record_id?: string | null
+          source_table?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           title?: string
           updated_at?: string
@@ -2695,6 +2755,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      automation_setting: {
+        Args: { _default: number; _key: string }
+        Returns: number
+      }
       can_docs: { Args: { _user_id: string }; Returns: boolean }
       can_finance: { Args: { _user_id: string }; Returns: boolean }
       can_payout: { Args: { _user_id: string }; Returns: boolean }
@@ -2747,8 +2811,10 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      escalate_overdue_tasks: { Args: never; Returns: number }
       expire_due_reservations: { Args: never; Returns: number }
       gen_ref: { Args: { prefix: string }; Returns: string }
+      generate_followup_tasks: { Args: never; Returns: number }
       generate_payment_reminders: { Args: never; Returns: number }
       has_role: {
         Args: {
@@ -2761,7 +2827,29 @@ export type Database = {
       is_crm_staff: { Args: { _user_id: string }; Returns: boolean }
       is_my_customer: { Args: { _customer_id: string }; Returns: boolean }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      log_automation: {
+        Args: {
+          _automation: string
+          _error?: string
+          _event: string
+          _record: string
+          _result?: Json
+          _status?: string
+          _table: string
+        }
+        Returns: string
+      }
       my_realtor_id: { Args: never; Returns: string }
+      notify_user: {
+        Args: {
+          _body: string
+          _link: string
+          _title: string
+          _type: string
+          _user: string
+        }
+        Returns: undefined
+      }
       pilot_users: {
         Args: never
         Returns: {
@@ -2849,6 +2937,7 @@ export type Database = {
               isSetofReturn: false
             }
           }
+      run_automations: { Args: never; Returns: Json }
       run_nightly_operations: { Args: never; Returns: Json }
       sale_timeline: {
         Args: { _sale_id: string }
@@ -2931,12 +3020,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -2960,11 +3049,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -2985,11 +3074,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -3010,11 +3099,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -3027,11 +3116,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
