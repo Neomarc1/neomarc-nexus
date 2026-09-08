@@ -81,11 +81,11 @@ function diffLines(aLines: string[], bLines: string[]): DiffRow[] {
   let i = 0, j = 0;
   while (i < m && j < n) {
     if (aLines[i] === bLines[j]) { rows.push({ a: aLines[i], b: bLines[j], type: "same" }); i++; j++; }
-    else if (dp[i + 1][j] >= dp[i][j + 1]) { rows.push({ a: aLines[i], type: "del" }); i++; }
+    else if (dp[i + 1]![j]! >= dp[i]![j + 1]!) { rows.push({ a: aLines[i], type: "del" }); i++; }
     else { rows.push({ b: bLines[j], type: "add" }); j++; }
   }
-  while (i < m) rows.push({ a: aLines[i++], type: "del" });
-  while (j < n) rows.push({ b: bLines[j++], type: "add" });
+  while (i < m) { rows.push({ a: aLines[i], type: "del" }); i++; }
+  while (j < n) { rows.push({ b: bLines[j], type: "add" }); j++; }
   return rows;
 }
 
