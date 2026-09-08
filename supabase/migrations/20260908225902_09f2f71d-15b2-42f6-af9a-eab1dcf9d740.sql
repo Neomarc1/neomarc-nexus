@@ -1,0 +1,1 @@
+REVOKE ALL ON FUNCTION public.automation_setting(text, numeric) FROM PUBLIC, anon, authenticated;
