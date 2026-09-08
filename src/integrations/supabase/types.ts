@@ -146,6 +146,60 @@ export type Database = {
         }
         Relationships: []
       }
+      automation_jobs: {
+        Row: {
+          created_at: string
+          description: string | null
+          interval_minutes: number
+          is_enabled: boolean
+          key: string
+          last_run_at: string | null
+          last_status: string | null
+          lease_id: string | null
+          lease_until: string | null
+          max_attempts: number
+          name: string
+          next_run_at: string
+          paused_at: string | null
+          paused_reason: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          interval_minutes?: number
+          is_enabled?: boolean
+          key: string
+          last_run_at?: string | null
+          last_status?: string | null
+          lease_id?: string | null
+          lease_until?: string | null
+          max_attempts?: number
+          name: string
+          next_run_at?: string
+          paused_at?: string | null
+          paused_reason?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          interval_minutes?: number
+          is_enabled?: boolean
+          key?: string
+          last_run_at?: string | null
+          last_status?: string | null
+          lease_id?: string | null
+          lease_until?: string | null
+          max_attempts?: number
+          name?: string
+          next_run_at?: string
+          paused_at?: string | null
+          paused_reason?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       automation_rules: {
         Row: {
           action: string
@@ -190,11 +244,16 @@ export type Database = {
           created_at: string
           error: string | null
           event_type: string
+          finished_at: string | null
           id: string
+          job_key: string | null
+          next_retry_at: string | null
+          parent_run_id: string | null
           resolved_at: string | null
           result: Json
           source_record_id: string | null
           source_table: string | null
+          started_at: string | null
           status: string
         }
         Insert: {
@@ -204,11 +263,16 @@ export type Database = {
           created_at?: string
           error?: string | null
           event_type: string
+          finished_at?: string | null
           id?: string
+          job_key?: string | null
+          next_retry_at?: string | null
+          parent_run_id?: string | null
           resolved_at?: string | null
           result?: Json
           source_record_id?: string | null
           source_table?: string | null
+          started_at?: string | null
           status?: string
         }
         Update: {
@@ -218,11 +282,16 @@ export type Database = {
           created_at?: string
           error?: string | null
           event_type?: string
+          finished_at?: string | null
           id?: string
+          job_key?: string | null
+          next_retry_at?: string | null
+          parent_run_id?: string | null
           resolved_at?: string | null
           result?: Json
           source_record_id?: string | null
           source_table?: string | null
+          started_at?: string | null
           status?: string
         }
         Relationships: []
@@ -2812,6 +2881,7 @@ export type Database = {
         }
       }
       escalate_overdue_tasks: { Args: never; Returns: number }
+      execute_automation_job: { Args: { _key: string }; Returns: Json }
       expire_due_reservations: { Args: never; Returns: number }
       gen_ref: { Args: { prefix: string }; Returns: string }
       generate_followup_tasks: { Args: never; Returns: number }
@@ -2937,7 +3007,12 @@ export type Database = {
               isSetofReturn: false
             }
           }
+      retry_automation_run: { Args: { _run_id: string }; Returns: Json }
       run_automations: { Args: never; Returns: Json }
+      run_due_automations: {
+        Args: { _actor?: string; _limit?: number }
+        Returns: Json
+      }
       run_nightly_operations: { Args: never; Returns: Json }
       sale_timeline: {
         Args: { _sale_id: string }
@@ -2952,6 +3027,10 @@ export type Database = {
       schedule_status: {
         Args: { _due: string; _due_amt: number; _paid: number }
         Returns: string
+      }
+      set_automation_job_paused: {
+        Args: { _key: string; _paused: boolean; _reason?: string }
+        Returns: undefined
       }
       test_data_report: { Args: never; Returns: Json }
     }
