@@ -70,6 +70,33 @@ function payloadText(a: any): string {
 
 type DiffRow = { a?: string | undefined; b?: string | undefined; type: "same" | "del" | "add" };
 
+function flattenJson(value: any, prefix = "", out: Record<string, string> = {}): Record<string, string> {
+  if (value !== null && typeof value === "object") {
+    const keys = Object.keys(value);
+    if (keys.length === 0) out[prefix || "(root)"] = Array.isArray(value) ? "[]" : "{}";
+    for (const k of keys) flattenJson(value[k], prefix ? `${prefix}.${k}` : k, out);
+  } else {
+    out[prefix || "(root)"] = JSON.stringify(value);
+  }
+  return out;
+}
+
+type DiffSummary = { added: string[]; removed: string[]; changed: { path: string; from: string; to: string }[] };
+
+function summarizeDiff(a: any, b: any): DiffSummary {
+  const fa = flattenJson(a);
+  const fb = flattenJson(b);
+  const added: string[] = [];
+  const removed: string[] = [];
+  const changed: DiffSummary["changed"] = [];
+  for (const k of Object.keys(fb)) {
+    if (!(k in fa)) added.push(k);
+    else if (fa[k] !== fb[k]) changed.push({ path: k, from: fa[k]!, to: fb[k]! });
+  }
+  for (const k of Object.keys(fa)) if (!(k in fb)) removed.push(k);
+  return { added, removed, changed };
+}
+
 function diffLines(aLines: string[], bLines: string[]): DiffRow[] {
   // LCS-based line diff (payloads are small)
   const m = aLines.length, n = bLines.length;
@@ -372,8 +399,37 @@ function RunDetail() {
                 );
               const rows = diffLines(ta.split("\n"), tb.split("\n"));
               const changed = rows.some((r) => r.type !== "same");
+              const summary = changed ? summarizeDiff(attemptPayload(attempts[diffA]), attemptPayload(attempts[diffB])) : null;
               return (
                 <div className="mt-2">
+                  {summary ? (
+                    <div className="mb-2 space-y-1 rounded border border-border bg-muted/40 p-2 text-[11px]">
+                      <p className="font-display text-[11px] font-bold uppercase tracking-wide">
+                        Summary: {summary.added.length} added · {summary.removed.length} removed · {summary.changed.length} changed
+                      </p>
+                      {summary.added.length > 0 ? (
+                        <p className="text-success">+ Added: {summary.added.join(", ")}</p>
+                      ) : null}
+                      {summary.removed.length > 0 ? (
+                        <p className="text-destructive">− Removed: {summary.removed.join(", ")}</p>
+                      ) : null}
+                      {summary.changed.length > 0 ? (
+                        <div className="space-y-0.5">
+                          <p className="font-medium text-amber-600">~ Changed:</p>
+                          {summary.changed.slice(0, 12).map((c) => (
+                            <p key={c.path} className="pl-2 text-muted-foreground">
+                              <span className="font-medium text-foreground">{c.path}</span>:{" "}
+                              <span className="text-destructive line-through">{c.from}</span> →{" "}
+                              <span className="text-success">{c.to}</span>
+                            </p>
+                          ))}
+                          {summary.changed.length > 12 ? (
+                            <p className="pl-2 text-muted-foreground">…and {summary.changed.length - 12} more</p>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
                   <div className="grid grid-cols-2 gap-1 text-[11px] font-medium text-muted-foreground">
                     <span>Attempt {diffA + 1}</span>
                     <span>Attempt {diffB + 1}</span>
