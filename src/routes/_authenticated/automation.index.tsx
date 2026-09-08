@@ -308,7 +308,7 @@ function AutomationCentre() {
                   {r.finished_at ? ` · Finished ${formatDateTime(r.finished_at)}` : ""}
                 </p>
                 {r.error ? <p className="mt-0.5 text-destructive">{r.error}</p> : null}
-              </div>
+              </Link>
             ))}
           </div>
         )}
