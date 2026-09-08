@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Copy, Download, Repeat, RotateCcw } from "lucide-react";
+import { ArrowLeft, Copy, Download, Repeat, RotateCcw, Target } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/layout/AppShell";
@@ -122,6 +122,19 @@ function RunDetail() {
   const [busy, setBusy] = useState(false);
   const [diffA, setDiffA] = useState<number | null>(null);
   const [diffB, setDiffB] = useState<number | null>(null);
+  const attemptRefs = useRef<Map<string, HTMLLIElement | null>>(new Map());
+
+  function scrollToAttempt(index: number | null) {
+    if (index == null) return;
+    const attempt = attempts[index];
+    if (!attempt) return;
+    const el = attemptRefs.current.get(String(attempt.id));
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("ring-2", "ring-primary", "rounded-lg");
+      window.setTimeout(() => el.classList.remove("ring-2", "ring-primary", "rounded-lg"), 1500);
+    }
+  }
 
   function copyPayload(a: any, n: number) {
     const text = payloadText(a);
@@ -285,7 +298,11 @@ function RunDetail() {
                 ? "Completed successfully"
                 : "In progress or awaiting retry";
             return (
-              <li key={a.id} className="relative">
+              <li
+                key={a.id}
+                ref={(el) => { attemptRefs.current.set(String(a.id), el); }}
+                className="relative scroll-mt-4"
+              >
                 <span
                   className={`absolute -left-[27px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 ${dot} ring-4 ring-background`}
                   aria-hidden
@@ -387,6 +404,24 @@ function RunDetail() {
                   <option key={i} value={i}>Attempt {i + 1}</option>
                 ))}
               </select>
+              {diffA != null && diffB != null && diffA !== diffB ? (
+                <div className="ml-auto flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => scrollToAttempt(diffA)}
+                    className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                  >
+                    <Target className="h-3 w-3" /> Jump to attempt {diffA + 1}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollToAttempt(diffB)}
+                    className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                  >
+                    <Target className="h-3 w-3" /> Jump to attempt {diffB + 1}
+                  </button>
+                </div>
+              ) : null}
             </div>
             {diffA != null && diffB != null && diffA !== diffB ? (() => {
               const ta = payloadText(attempts[diffA]);
