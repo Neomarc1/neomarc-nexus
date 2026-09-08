@@ -37,6 +37,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
+import { Route as AuthenticatedAutomationIndexRouteImport } from './routes/_authenticated/automation.index'
 import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
 import { Route as AuthenticatedManagementFeedbackRouteImport } from './routes/_authenticated/management.feedback'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
@@ -203,6 +204,12 @@ const AuthenticatedAccountsPaymentsRoute =
     path: '/accounts/payments',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAutomationIndexRoute =
+  AuthenticatedAutomationIndexRouteImport.update({
+    id: '/automation/',
+    path: '/automation/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDocumentationIndexRoute =
   AuthenticatedDocumentationIndexRouteImport.update({
     id: '/documentation/',
@@ -350,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
+  '/automation/': typeof AuthenticatedAutomationIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/operations/': typeof AuthenticatedOperationsIndexRoute
@@ -397,6 +405,7 @@ export interface FileRoutesByTo {
   '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
+  '/automation': typeof AuthenticatedAutomationIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/operations': typeof AuthenticatedOperationsIndexRoute
@@ -446,6 +455,7 @@ export interface FileRoutesById {
   '/_authenticated/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/_authenticated/system/uat': typeof AuthenticatedSystemUatRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
+  '/_authenticated/automation/': typeof AuthenticatedAutomationIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/operations/': typeof AuthenticatedOperationsIndexRoute
@@ -495,6 +505,7 @@ export interface FileRouteTypes {
     | '/system/test-data'
     | '/system/uat'
     | '/accounts/'
+    | '/automation/'
     | '/documentation/'
     | '/my-work/'
     | '/operations/'
@@ -542,6 +553,7 @@ export interface FileRouteTypes {
     | '/system/test-data'
     | '/system/uat'
     | '/accounts'
+    | '/automation'
     | '/documentation'
     | '/my-work'
     | '/operations'
@@ -590,6 +602,7 @@ export interface FileRouteTypes {
     | '/_authenticated/system/test-data'
     | '/_authenticated/system/uat'
     | '/_authenticated/accounts/'
+    | '/_authenticated/automation/'
     | '/_authenticated/documentation/'
     | '/_authenticated/my-work/'
     | '/_authenticated/operations/'
@@ -802,6 +815,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountsPaymentsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/automation/': {
+      id: '/_authenticated/automation/'
+      path: '/automation'
+      fullPath: '/automation/'
+      preLoaderRoute: typeof AuthenticatedAutomationIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/documentation/': {
       id: '/_authenticated/documentation/'
       path: '/documentation'
@@ -969,6 +989,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSystemTestDataRoute: typeof AuthenticatedSystemTestDataRoute
   AuthenticatedSystemUatRoute: typeof AuthenticatedSystemUatRoute
   AuthenticatedAccountsIndexRoute: typeof AuthenticatedAccountsIndexRoute
+  AuthenticatedAutomationIndexRoute: typeof AuthenticatedAutomationIndexRoute
   AuthenticatedDocumentationIndexRoute: typeof AuthenticatedDocumentationIndexRoute
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedOperationsIndexRoute: typeof AuthenticatedOperationsIndexRoute
@@ -1017,6 +1038,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSystemTestDataRoute: AuthenticatedSystemTestDataRoute,
   AuthenticatedSystemUatRoute: AuthenticatedSystemUatRoute,
   AuthenticatedAccountsIndexRoute: AuthenticatedAccountsIndexRoute,
+  AuthenticatedAutomationIndexRoute: AuthenticatedAutomationIndexRoute,
   AuthenticatedDocumentationIndexRoute: AuthenticatedDocumentationIndexRoute,
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedOperationsIndexRoute: AuthenticatedOperationsIndexRoute,
