@@ -420,14 +420,14 @@ function RunDetail() {
                 <div className="ml-auto flex flex-wrap gap-1.5">
                   <button
                     type="button"
-                    onClick={() => scrollToAttempt(diffA)}
+                    onClick={() => flashAttempt(diffA)}
                     className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
                   >
                     <Target className="h-3 w-3" /> Jump to attempt {diffA + 1}
                   </button>
                   <button
                     type="button"
-                    onClick={() => scrollToAttempt(diffB)}
+                    onClick={() => flashAttempt(diffB)}
                     className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
                   >
                     <Target className="h-3 w-3" /> Jump to attempt {diffB + 1}
@@ -461,7 +461,7 @@ function RunDetail() {
                             <button
                               key={f}
                               type="button"
-                              onClick={() => scrollToAttempt(diffB)}
+                              onClick={() => flashAttempt(diffB)}
                               title={`Jump to attempt ${diffB + 1}`}
                               className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 pl-4 text-left text-success hover:bg-success/10"
                             >
@@ -481,7 +481,7 @@ function RunDetail() {
                             <button
                               key={f}
                               type="button"
-                              onClick={() => scrollToAttempt(diffA)}
+                              onClick={() => flashAttempt(diffA)}
                               title={`Jump to attempt ${diffA + 1}`}
                               className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 pl-4 text-left text-destructive hover:bg-destructive/10"
                             >
@@ -506,7 +506,7 @@ function RunDetail() {
                               </span>
                               <button
                                 type="button"
-                                onClick={() => scrollToAttempt(diffA)}
+                                onClick={() => flashAttempt(diffA)}
                                 title={`Jump to attempt ${diffA + 1} (old value)`}
                                 className="inline-flex shrink-0 items-center gap-0.5 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium hover:bg-muted"
                               >
@@ -514,7 +514,7 @@ function RunDetail() {
                               </button>
                               <button
                                 type="button"
-                                onClick={() => scrollToAttempt(diffB)}
+                                onClick={() => flashAttempt(diffB)}
                                 title={`Jump to attempt ${diffB + 1} (new value)`}
                                 className="inline-flex shrink-0 items-center gap-0.5 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium hover:bg-muted"
                               >
