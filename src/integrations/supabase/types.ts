@@ -2935,6 +2935,7 @@ export type Database = {
       }
       purge_test_data: { Args: never; Returns: Json }
       refresh_schedule_statuses: { Args: never; Returns: number }
+      replay_automation_run: { Args: { _run_id: string }; Returns: Json }
       resolve_commission_rule:
         | {
             Args: {

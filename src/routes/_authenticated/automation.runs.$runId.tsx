@@ -3,7 +3,7 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, RotateCcw } from "lucide-react";
+import { ArrowLeft, Repeat, RotateCcw } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/layout/AppShell";
@@ -101,6 +101,17 @@ function RunDetail() {
     qc.invalidateQueries();
   }
 
+  async function replay() {
+    if (!run) return;
+    setBusy(true);
+    const { data, error } = await supabase.rpc("replay_automation_run" as never, { _run_id: run.id } as never);
+    setBusy(false);
+    if (error) return void toast.error("Could not replay that run.");
+    if ((data as any)?.ok) toast.success("Replayed — a new attempt was recorded.");
+    else toast.error("The replay failed — the new attempt is in the failed queue.");
+    qc.invalidateQueries();
+  }
+
   if (isLoading) return <p className="text-sm text-muted-foreground">Loading…</p>;
   if (!run) {
     return (
@@ -126,11 +137,18 @@ function RunDetail() {
         title={String(run.automation)}
         description={`${run.event_type}${run.job_key ? ` · ${run.job_key}` : ""}`}
         action={
-          run.status === "failed" ? (
-            <Button className="h-11" onClick={retry} disabled={busy}>
-              <RotateCcw className="mr-2 h-4 w-4" /> Retry now
-            </Button>
-          ) : undefined
+          <div className="flex flex-wrap gap-2">
+            {run.status === "failed" ? (
+              <Button className="h-11" onClick={retry} disabled={busy}>
+                <RotateCcw className="mr-2 h-4 w-4" /> Retry now
+              </Button>
+            ) : null}
+            {run.job_key ? (
+              <Button variant="outline" className="h-11" onClick={replay} disabled={busy}>
+                <Repeat className="mr-2 h-4 w-4" /> Replay
+              </Button>
+            ) : null}
+          </div>
         }
       />
 
