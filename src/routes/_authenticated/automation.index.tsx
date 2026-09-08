@@ -58,6 +58,7 @@ function StatusPill({ status }: { status: string }) {
 function AutomationCentre() {
   const qc = useQueryClient();
   const [busy, setBusy] = useState<string | null>(null);
+  const [runFilter, setRunFilter] = useState<"all" | "success" | "failed" | "pending">("all");
 
   const { data: jobs = [] } = useQuery({
     queryKey: ["automation-jobs"],
@@ -114,6 +115,14 @@ function AutomationCentre() {
   const failed = runs.filter((r) => r.status === "failed" && !r.resolved_at);
   const succeeded = runs.filter((r) => r.status === "success");
   const pending = runs.filter((r) => r.status === "running" || r.status === "pending");
+  const filteredRuns =
+    runFilter === "all"
+      ? runs
+      : runFilter === "success"
+        ? runs.filter((r) => r.status === "success")
+        : runFilter === "failed"
+          ? runs.filter((r) => r.status === "failed")
+          : runs.filter((r) => r.status === "running" || r.status === "pending");
   const awaitingRetry = failed.filter((r) => r.next_retry_at);
   const today = new Date().toISOString().slice(0, 10);
   const overdueTasks = openTasks.filter((t) => t.due_date && t.due_date < today);
@@ -256,17 +265,44 @@ function AutomationCentre() {
       </div>
 
       <div className="surface-card p-4">
-        <p className="mb-3 font-display text-sm font-bold uppercase tracking-wide">Recent activity</p>
-        {runs.length === 0 ? (
-          <EmptyState icon={Activity} title="Nothing has run yet." />
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <p className="font-display text-sm font-bold uppercase tracking-wide">Automation runs</p>
+          <div className="flex flex-wrap gap-1.5">
+            {(["all", "success", "failed", "pending"] as const).map((f) => (
+              <Button
+                key={f}
+                size="sm"
+                variant={runFilter === f ? "default" : "outline"}
+                className="h-8 capitalize"
+                onClick={() => setRunFilter(f)}
+              >
+                {f === "success" ? "Successful" : f === "all" ? "All" : f}
+                {f === "success" ? ` (${succeeded.length})` : f === "failed" ? ` (${failed.length})` : f === "pending" ? ` (${pending.length})` : ""}
+              </Button>
+            ))}
+          </div>
+        </div>
+        {filteredRuns.length === 0 ? (
+          <EmptyState icon={Activity} title="Nothing to show." description="No automation runs match this filter yet." />
         ) : (
           <div className="space-y-1.5">
-            {runs.slice(0, 40).map((r) => (
-              <div key={r.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border p-2.5 text-xs">
-                <span className="font-medium">{r.automation}</span>
-                <span className="text-muted-foreground">{r.event_type}</span>
-                <StatusPill status={r.status} />
-                <span className="text-muted-foreground">{formatDateTime(r.created_at)}</span>
+            {filteredRuns.slice(0, 60).map((r) => (
+              <div key={r.id} className="rounded-lg border border-border p-2.5 text-xs">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="font-medium">{r.automation}</span>
+                  <div className="flex items-center gap-2">
+                    {r.attempts > 1 ? (
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-[11px]">{r.attempts - 1} retr{r.attempts - 1 === 1 ? "y" : "ies"}</span>
+                    ) : null}
+                    <StatusPill status={r.status} />
+                  </div>
+                </div>
+                <p className="mt-1 text-muted-foreground">
+                  {r.event_type}
+                  {r.job_key ? ` · ${r.job_key}` : ""} · Started {r.started_at ? formatDateTime(r.started_at) : formatDateTime(r.created_at)}
+                  {r.finished_at ? ` · Finished ${formatDateTime(r.finished_at)}` : ""}
+                </p>
+                {r.error ? <p className="mt-0.5 text-destructive">{r.error}</p> : null}
               </div>
             ))}
           </div>
