@@ -115,6 +115,14 @@ function AutomationCentre() {
   const failed = runs.filter((r) => r.status === "failed" && !r.resolved_at);
   const succeeded = runs.filter((r) => r.status === "success");
   const pending = runs.filter((r) => r.status === "running" || r.status === "pending");
+  const filteredRuns =
+    runFilter === "all"
+      ? runs
+      : runFilter === "success"
+        ? runs.filter((r) => r.status === "success")
+        : runFilter === "failed"
+          ? runs.filter((r) => r.status === "failed")
+          : runs.filter((r) => r.status === "running" || r.status === "pending");
   const awaitingRetry = failed.filter((r) => r.next_retry_at);
   const today = new Date().toISOString().slice(0, 10);
   const overdueTasks = openTasks.filter((t) => t.due_date && t.due_date < today);
