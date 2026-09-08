@@ -404,6 +404,24 @@ function RunDetail() {
                   <option key={i} value={i}>Attempt {i + 1}</option>
                 ))}
               </select>
+              {diffA != null && diffB != null && diffA !== diffB ? (
+                <div className="ml-auto flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => scrollToAttempt(diffA)}
+                    className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                  >
+                    <Target className="h-3 w-3" /> Jump to attempt {diffA + 1}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollToAttempt(diffB)}
+                    className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                  >
+                    <Target className="h-3 w-3" /> Jump to attempt {diffB + 1}
+                  </button>
+                </div>
+              ) : null}
             </div>
             {diffA != null && diffB != null && diffA !== diffB ? (() => {
               const ta = payloadText(attempts[diffA]);
