@@ -3,7 +3,7 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Repeat, RotateCcw } from "lucide-react";
+import { ArrowLeft, Copy, Download, Repeat, RotateCcw } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/layout/AppShell";
@@ -56,6 +56,37 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div className="text-sm">{children}</div>
     </div>
   );
+}
+
+function attemptPayload(a: any): any | null {
+  const input = a?.result?.input;
+  return input != null && typeof input === "object" && Object.keys(input).length > 0 ? input : null;
+}
+
+function payloadText(a: any): string {
+  const p = attemptPayload(a);
+  return p ? JSON.stringify(p, null, 2) : "";
+}
+
+type DiffRow = { a?: string; b?: string; type: "same" | "del" | "add" };
+
+function diffLines(aLines: string[], bLines: string[]): DiffRow[] {
+  // LCS-based line diff (payloads are small)
+  const m = aLines.length, n = bLines.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = m - 1; i >= 0; i--)
+    for (let j = n - 1; j >= 0; j--)
+      dp[i][j] = aLines[i] === bLines[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const rows: DiffRow[] = [];
+  let i = 0, j = 0;
+  while (i < m && j < n) {
+    if (aLines[i] === bLines[j]) { rows.push({ a: aLines[i], b: bLines[j], type: "same" }); i++; j++; }
+    else if (dp[i + 1][j] >= dp[i][j + 1]) { rows.push({ a: aLines[i], type: "del" }); i++; }
+    else { rows.push({ b: bLines[j], type: "add" }); j++; }
+  }
+  while (i < m) rows.push({ a: aLines[i++], type: "del" });
+  while (j < n) rows.push({ b: bLines[j++], type: "add" });
+  return rows;
 }
 
 function RunDetail() {
