@@ -334,6 +334,75 @@ function RunDetail() {
             );
           })}
         </ol>
+
+        {attempts.length > 1 ? (
+          <div className="mt-4 border-t border-border pt-3">
+            <p className="mb-2 font-display text-xs font-bold uppercase tracking-wide">Compare attempt payloads</p>
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <select
+                className="rounded border border-border bg-background px-2 py-1.5"
+                value={diffA ?? ""}
+                onChange={(e) => setDiffA(e.target.value === "" ? null : Number(e.target.value))}
+              >
+                <option value="">First attempt…</option>
+                {attempts.map((_, i) => (
+                  <option key={i} value={i}>Attempt {i + 1}</option>
+                ))}
+              </select>
+              <span className="text-muted-foreground">vs</span>
+              <select
+                className="rounded border border-border bg-background px-2 py-1.5"
+                value={diffB ?? ""}
+                onChange={(e) => setDiffB(e.target.value === "" ? null : Number(e.target.value))}
+              >
+                <option value="">Second attempt…</option>
+                {attempts.map((_, i) => (
+                  <option key={i} value={i}>Attempt {i + 1}</option>
+                ))}
+              </select>
+            </div>
+            {diffA != null && diffB != null && diffA !== diffB ? (() => {
+              const ta = payloadText(attempts[diffA]);
+              const tb = payloadText(attempts[diffB]);
+              if (!ta || !tb)
+                return (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    One of the selected attempts has no recorded payload to compare.
+                  </p>
+                );
+              const rows = diffLines(ta.split("\n"), tb.split("\n"));
+              const changed = rows.some((r) => r.type !== "same");
+              return (
+                <div className="mt-2">
+                  <div className="grid grid-cols-2 gap-1 text-[11px] font-medium text-muted-foreground">
+                    <span>Attempt {diffA + 1}</span>
+                    <span>Attempt {diffB + 1}</span>
+                  </div>
+                  {!changed ? (
+                    <p className="mt-1 text-xs text-muted-foreground">The two payloads are identical.</p>
+                  ) : null}
+                  <div className="mt-1 grid max-h-72 grid-cols-2 gap-1 overflow-auto rounded bg-muted/60 p-2 font-mono text-[11px]">
+                    {rows.map((r, k) => (
+                      <div key={k} className="contents">
+                        <div className={`whitespace-pre-wrap break-words rounded px-1 ${r.type === "del" ? "bg-destructive/15 text-destructive" : "text-muted-foreground"}`}>
+                          {r.a ?? ""}
+                        </div>
+                        <div className={`whitespace-pre-wrap break-words rounded px-1 ${r.type === "add" ? "bg-success/15 text-success" : "text-muted-foreground"}`}>
+                          {r.b ?? ""}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    Red = only in attempt {diffA + 1}; green = only in attempt {diffB + 1}.
+                  </p>
+                </div>
+              );
+            })() : diffA != null && diffB != null ? (
+              <p className="mt-2 text-xs text-muted-foreground">Pick two different attempts to compare.</p>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );
