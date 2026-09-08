@@ -188,37 +188,61 @@ function RunDetail() {
       </div>
 
       <div className="surface-card p-4">
-        <p className="mb-3 font-display text-sm font-bold uppercase tracking-wide">Attempt log</p>
-        <div className="space-y-1.5">
-          {attempts.map((a, i) => (
-            <div key={a.id} className={`rounded-lg border p-2.5 text-xs ${a.id === run.id ? "border-primary" : "border-border"}`}>
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-medium">
-                  Attempt {i + 1}
-                  {a.parent_run_id ? " (retry)" : " (original)"}
+        <p className="mb-3 font-display text-sm font-bold uppercase tracking-wide">Attempt timeline</p>
+        <ol className="relative ml-3 space-y-4 border-l-2 border-border pl-5">
+          {attempts.map((a, i) => {
+            const status = String(a.status);
+            const dot =
+              status === "failed"
+                ? "border-destructive bg-destructive"
+                : status === "success"
+                  ? "border-primary bg-primary"
+                  : "border-amber-500 bg-amber-500";
+            const outcome = status === "failed"
+              ? `Failed${a.error ? ` — ${String(a.error)}` : ""}`
+              : status === "success"
+                ? "Completed successfully"
+                : "In progress or awaiting retry";
+            return (
+              <li key={a.id} className="relative">
+                <span
+                  className={`absolute -left-[27px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 ${dot} ring-4 ring-background`}
+                  aria-hidden
+                >
+                  <span className="text-[8px] font-bold text-white">{i + 1}</span>
                 </span>
-                <div className="flex items-center gap-2">
-                  <StatusPill status={String(a.status)} />
-                  {a.id !== run.id ? (
-                    <Link to="/automation/runs/$runId" params={{ runId: String(a.id) }} className="text-primary underline">
-                      Open
-                    </Link>
+                <div className={`rounded-lg border p-2.5 text-xs ${a.id === run.id ? "border-primary" : "border-border"}`}>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="font-medium">
+                      Attempt {i + 1}
+                      {a.parent_run_id ? " (retry)" : " (original)"}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <StatusPill status={status} />
+                      {a.id !== run.id ? (
+                        <Link to="/automation/runs/$runId" params={{ runId: String(a.id) }} className="text-primary underline">
+                          Open
+                        </Link>
+                      ) : null}
+                    </div>
+                  </div>
+                  <p className="mt-1 text-muted-foreground">
+                    {a.started_at ? formatDateTime(a.started_at) : formatDateTime(a.created_at)}
+                    {a.finished_at ? ` → ${formatDateTime(a.finished_at)}` : ""}
+                  </p>
+                  <p className={`mt-1 font-medium ${status === "failed" ? "text-destructive" : status === "success" ? "text-primary" : "text-amber-600"}`}>
+                    {outcome}
+                  </p>
+                  {a.result && Object.keys(a.result as any).length > 0 ? (
+                    <pre className="mt-1.5 max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
+                      {JSON.stringify(a.result, null, 2)}
+                    </pre>
                   ) : null}
                 </div>
-              </div>
-              <p className="mt-1 text-muted-foreground">
-                {a.started_at ? formatDateTime(a.started_at) : formatDateTime(a.created_at)}
-                {a.finished_at ? ` → ${formatDateTime(a.finished_at)}` : ""}
-              </p>
-              {a.error ? <p className="mt-0.5 break-words text-destructive">{String(a.error)}</p> : null}
-              {a.result && Object.keys(a.result as any).length > 0 ? (
-                <pre className="mt-1.5 max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
-                  {JSON.stringify(a.result, null, 2)}
-                </pre>
-              ) : null}
-            </div>
-          ))}
-        </div>
+              </li>
+            );
+          })}
+        </ol>
       </div>
     </div>
   );
