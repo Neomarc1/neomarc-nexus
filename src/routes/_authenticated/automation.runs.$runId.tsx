@@ -137,11 +137,18 @@ function RunDetail() {
         title={String(run.automation)}
         description={`${run.event_type}${run.job_key ? ` · ${run.job_key}` : ""}`}
         action={
-          run.status === "failed" ? (
-            <Button className="h-11" onClick={retry} disabled={busy}>
-              <RotateCcw className="mr-2 h-4 w-4" /> Retry now
-            </Button>
-          ) : undefined
+          <div className="flex flex-wrap gap-2">
+            {run.status === "failed" ? (
+              <Button className="h-11" onClick={retry} disabled={busy}>
+                <RotateCcw className="mr-2 h-4 w-4" /> Retry now
+              </Button>
+            ) : null}
+            {run.job_key ? (
+              <Button variant="outline" className="h-11" onClick={replay} disabled={busy}>
+                <Repeat className="mr-2 h-4 w-4" /> Replay
+              </Button>
+            ) : null}
+          </div>
         }
       />
 
