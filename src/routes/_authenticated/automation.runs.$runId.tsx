@@ -68,7 +68,7 @@ function payloadText(a: any): string {
   return p ? JSON.stringify(p, null, 2) : "";
 }
 
-type DiffRow = { a?: string; b?: string; type: "same" | "del" | "add" };
+type DiffRow = { a?: string | undefined; b?: string | undefined; type: "same" | "del" | "add" };
 
 function diffLines(aLines: string[], bLines: string[]): DiffRow[] {
   // LCS-based line diff (payloads are small)
