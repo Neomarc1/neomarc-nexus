@@ -298,7 +298,11 @@ function RunDetail() {
                 ? "Completed successfully"
                 : "In progress or awaiting retry";
             return (
-              <li key={a.id} className="relative">
+              <li
+                key={a.id}
+                ref={(el) => attemptRefs.current.set(String(a.id), el)}
+                className="relative scroll-mt-4"
+              >
                 <span
                   className={`absolute -left-[27px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 ${dot} ring-4 ring-background`}
                   aria-hidden
