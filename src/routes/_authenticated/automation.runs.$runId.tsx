@@ -311,17 +311,17 @@ function RunDetail() {
                 ref={(el) => { attemptRefs.current.set(String(a.id), el); }}
                 className="relative scroll-mt-4"
               >
-                <div
-                  ref={(el) => { attemptCardRefs.current.set(String(a.id), el); }}
-                  className="rounded-lg border p-2.5 text-xs transition-colors duration-200"
-                  data-attempt-card={a.id}
-                >
+                <span
                   className={`absolute -left-[27px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 ${dot} ring-4 ring-background`}
                   aria-hidden
                 >
                   <span className="text-[8px] font-bold text-white">{i + 1}</span>
                 </span>
-                <div className={`rounded-lg border p-2.5 text-xs ${a.id === run.id ? "border-primary" : "border-border"}`}>
+                <div
+                  ref={(el) => { attemptCardRefs.current.set(String(a.id), el); }}
+                  className={`rounded-lg border p-2.5 text-xs transition-colors duration-200 ${a.id === run.id ? "border-primary" : "border-border"}`}
+                  data-attempt-card={a.id}
+                >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="font-medium">
                       Attempt {i + 1}
