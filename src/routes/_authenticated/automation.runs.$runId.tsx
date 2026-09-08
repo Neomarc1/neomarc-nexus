@@ -293,9 +293,27 @@ function RunDetail() {
                     </summary>
                     <div className="mt-1">
                       {a.result && (a.result as any).input != null && Object.keys((a.result as any).input).length > 0 ? (
-                        <pre className="max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
-                          {JSON.stringify((a.result as any).input, null, 2)}
-                        </pre>
+                        <div>
+                          <div className="mb-1 flex gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => copyPayload(a, i + 1)}
+                              className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                            >
+                              <Copy className="h-3 w-3" /> Copy
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => downloadPayload(a, i + 1)}
+                              className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                            >
+                              <Download className="h-3 w-3" /> Download JSON
+                            </button>
+                          </div>
+                          <pre className="max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
+                            {JSON.stringify((a.result as any).input, null, 2)}
+                          </pre>
+                        </div>
                       ) : (
                         <p className="text-[11px] text-muted-foreground">
                           No input was recorded for this attempt — it ran with the job's default parameters.
