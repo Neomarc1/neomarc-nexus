@@ -311,7 +311,11 @@ function RunDetail() {
                 ref={(el) => { attemptRefs.current.set(String(a.id), el); }}
                 className="relative scroll-mt-4"
               >
-                <span
+                <div
+                  ref={(el) => { attemptCardRefs.current.set(String(a.id), el); }}
+                  className="rounded-lg border p-2.5 text-xs transition-colors duration-200"
+                  data-attempt-card={a.id}
+                >
                   className={`absolute -left-[27px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 ${dot} ring-4 ring-background`}
                   aria-hidden
                 >
