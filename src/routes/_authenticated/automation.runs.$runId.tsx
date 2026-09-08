@@ -300,7 +300,7 @@ function RunDetail() {
             return (
               <li
                 key={a.id}
-                ref={(el) => attemptRefs.current.set(String(a.id), el)}
+                ref={(el) => { attemptRefs.current.set(String(a.id), el); }}
                 className="relative scroll-mt-4"
               >
                 <span
