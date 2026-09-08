@@ -287,7 +287,12 @@ function AutomationCentre() {
         ) : (
           <div className="space-y-1.5">
             {filteredRuns.slice(0, 60).map((r) => (
-              <div key={r.id} className="rounded-lg border border-border p-2.5 text-xs">
+              <Link
+                key={r.id}
+                to="/automation/runs/$runId"
+                params={{ runId: String(r.id) }}
+                className="block rounded-lg border border-border p-2.5 text-xs transition-colors hover:border-primary"
+              >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-medium">{r.automation}</span>
                   <div className="flex items-center gap-2">
