@@ -443,20 +443,72 @@ function RunDetail() {
                         Summary: {summary.added.length} added · {summary.removed.length} removed · {summary.changed.length} changed
                       </p>
                       {summary.added.length > 0 ? (
-                        <p className="text-success">+ Added: {summary.added.join(", ")}</p>
+                        <div className="space-y-0.5">
+                          <p className="font-medium text-success">+ Added (in attempt {diffB + 1}):</p>
+                          {summary.added.slice(0, 12).map((f) => (
+                            <button
+                              key={f}
+                              type="button"
+                              onClick={() => scrollToAttempt(diffB)}
+                              title={`Jump to attempt ${diffB + 1}`}
+                              className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 pl-4 text-left text-success hover:bg-success/10"
+                            >
+                              <span className="flex-1 truncate font-mono">{f}</span>
+                              <Target className="h-3 w-3 shrink-0 opacity-60" />
+                            </button>
+                          ))}
+                          {summary.added.length > 12 ? (
+                            <p className="pl-4 text-muted-foreground">…and {summary.added.length - 12} more</p>
+                          ) : null}
+                        </div>
                       ) : null}
                       {summary.removed.length > 0 ? (
-                        <p className="text-destructive">− Removed: {summary.removed.join(", ")}</p>
+                        <div className="space-y-0.5">
+                          <p className="font-medium text-destructive">− Removed (from attempt {diffA + 1}):</p>
+                          {summary.removed.slice(0, 12).map((f) => (
+                            <button
+                              key={f}
+                              type="button"
+                              onClick={() => scrollToAttempt(diffA)}
+                              title={`Jump to attempt ${diffA + 1}`}
+                              className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 pl-4 text-left text-destructive hover:bg-destructive/10"
+                            >
+                              <span className="flex-1 truncate font-mono">{f}</span>
+                              <Target className="h-3 w-3 shrink-0 opacity-60" />
+                            </button>
+                          ))}
+                          {summary.removed.length > 12 ? (
+                            <p className="pl-4 text-muted-foreground">…and {summary.removed.length - 12} more</p>
+                          ) : null}
+                        </div>
                       ) : null}
                       {summary.changed.length > 0 ? (
                         <div className="space-y-0.5">
                           <p className="font-medium text-amber-600">~ Changed:</p>
                           {summary.changed.slice(0, 12).map((c) => (
-                            <p key={c.path} className="pl-2 text-muted-foreground">
-                              <span className="font-medium text-foreground">{c.path}</span>:{" "}
-                              <span className="text-destructive line-through">{c.from}</span> →{" "}
-                              <span className="text-success">{c.to}</span>
-                            </p>
+                            <div key={c.path} className="flex items-center gap-1.5 pl-2 text-muted-foreground">
+                              <span className="flex-1 truncate">
+                                <span className="font-medium text-foreground">{c.path}</span>:{" "}
+                                <span className="text-destructive line-through">{c.from}</span> →{" "}
+                                <span className="text-success">{c.to}</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => scrollToAttempt(diffA)}
+                                title={`Jump to attempt ${diffA + 1} (old value)`}
+                                className="inline-flex shrink-0 items-center gap-0.5 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium hover:bg-muted"
+                              >
+                                <Target className="h-2.5 w-2.5" /> A{diffA + 1}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => scrollToAttempt(diffB)}
+                                title={`Jump to attempt ${diffB + 1} (new value)`}
+                                className="inline-flex shrink-0 items-center gap-0.5 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium hover:bg-muted"
+                              >
+                                <Target className="h-2.5 w-2.5" /> A{diffB + 1}
+                              </button>
+                            </div>
                           ))}
                           {summary.changed.length > 12 ? (
                             <p className="pl-2 text-muted-foreground">…and {summary.changed.length - 12} more</p>
