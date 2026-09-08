@@ -70,6 +70,33 @@ function payloadText(a: any): string {
 
 type DiffRow = { a?: string | undefined; b?: string | undefined; type: "same" | "del" | "add" };
 
+function flattenJson(value: any, prefix = "", out: Record<string, string> = {}): Record<string, string> {
+  if (value !== null && typeof value === "object") {
+    const keys = Object.keys(value);
+    if (keys.length === 0) out[prefix || "(root)"] = Array.isArray(value) ? "[]" : "{}";
+    for (const k of keys) flattenJson(value[k], prefix ? `${prefix}.${k}` : k, out);
+  } else {
+    out[prefix || "(root)"] = JSON.stringify(value);
+  }
+  return out;
+}
+
+type DiffSummary = { added: string[]; removed: string[]; changed: { path: string; from: string; to: string }[] };
+
+function summarizeDiff(a: any, b: any): DiffSummary {
+  const fa = flattenJson(a);
+  const fb = flattenJson(b);
+  const added: string[] = [];
+  const removed: string[] = [];
+  const changed: DiffSummary["changed"] = [];
+  for (const k of Object.keys(fb)) {
+    if (!(k in fa)) added.push(k);
+    else if (fa[k] !== fb[k]) changed.push({ path: k, from: fa[k]!, to: fb[k]! });
+  }
+  for (const k of Object.keys(fa)) if (!(k in fb)) removed.push(k);
+  return { added, removed, changed };
+}
+
 function diffLines(aLines: string[], bLines: string[]): DiffRow[] {
   // LCS-based line diff (payloads are small)
   const m = aLines.length, n = bLines.length;
