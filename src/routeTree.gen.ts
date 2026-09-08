@@ -58,6 +58,7 @@ import { Route as AuthenticatedSystemTestDataRouteImport } from './routes/_authe
 import { Route as AuthenticatedSystemUatRouteImport } from './routes/_authenticated/system.uat'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
+import { Route as ApiPublicHooksAutomationRunnerRouteImport } from './routes/api/public/hooks/automation-runner'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -329,6 +330,12 @@ const AuthenticatedMyWorkLeadsLeadIdRoute =
     path: '/my-work/leads/$leadId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicHooksAutomationRunnerRoute =
+  ApiPublicHooksAutomationRunnerRouteImport.update({
+    id: '/api/public/hooks/automation-runner',
+    path: '/api/public/hooks/automation-runner',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -378,6 +385,7 @@ export interface FileRoutesByFullPath {
   '/operations/': typeof AuthenticatedOperationsIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
+  '/api/public/hooks/automation-runner': typeof ApiPublicHooksAutomationRunnerRoute
   '/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -428,6 +436,7 @@ export interface FileRoutesByTo {
   '/operations': typeof AuthenticatedOperationsIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
+  '/api/public/hooks/automation-runner': typeof ApiPublicHooksAutomationRunnerRoute
   '/my-work/leads': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRoutesById {
@@ -480,6 +489,7 @@ export interface FileRoutesById {
   '/_authenticated/operations/': typeof AuthenticatedOperationsIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
   '/_authenticated/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
+  '/api/public/hooks/automation-runner': typeof ApiPublicHooksAutomationRunnerRoute
   '/_authenticated/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
 }
 export interface FileRouteTypes {
@@ -532,6 +542,7 @@ export interface FileRouteTypes {
     | '/operations/'
     | '/sales/'
     | '/my-work/leads/$leadId'
+    | '/api/public/hooks/automation-runner'
     | '/my-work/leads/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -582,6 +593,7 @@ export interface FileRouteTypes {
     | '/operations'
     | '/sales'
     | '/my-work/leads/$leadId'
+    | '/api/public/hooks/automation-runner'
     | '/my-work/leads'
   id:
     | '__root__'
@@ -633,6 +645,7 @@ export interface FileRouteTypes {
     | '/_authenticated/operations/'
     | '/_authenticated/sales/'
     | '/_authenticated/my-work/leads/$leadId'
+    | '/api/public/hooks/automation-runner'
     | '/_authenticated/my-work/leads/'
   fileRoutesById: FileRoutesById
 }
@@ -640,6 +653,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicHooksAutomationRunnerRoute: typeof ApiPublicHooksAutomationRunnerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -987,6 +1001,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyWorkLeadsLeadIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/hooks/automation-runner': {
+      id: '/api/public/hooks/automation-runner'
+      path: '/api/public/hooks/automation-runner'
+      fullPath: '/api/public/hooks/automation-runner'
+      preLoaderRoute: typeof ApiPublicHooksAutomationRunnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1097,6 +1118,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicHooksAutomationRunnerRoute: ApiPublicHooksAutomationRunnerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
