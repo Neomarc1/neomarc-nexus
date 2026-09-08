@@ -122,6 +122,19 @@ function RunDetail() {
   const [busy, setBusy] = useState(false);
   const [diffA, setDiffA] = useState<number | null>(null);
   const [diffB, setDiffB] = useState<number | null>(null);
+  const attemptRefs = useRef<Map<string, HTMLLIElement | null>>(new Map());
+
+  function scrollToAttempt(index: number | null) {
+    if (index == null) return;
+    const attempt = attempts[index];
+    if (!attempt) return;
+    const el = attemptRefs.current.get(String(attempt.id));
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("ring-2", "ring-primary", "rounded-lg");
+      window.setTimeout(() => el.classList.remove("ring-2", "ring-primary", "rounded-lg"), 1500);
+    }
+  }
 
   function copyPayload(a: any, n: number) {
     const text = payloadText(a);
