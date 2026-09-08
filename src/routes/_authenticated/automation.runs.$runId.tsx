@@ -233,10 +233,29 @@ function RunDetail() {
                   <p className={`mt-1 font-medium ${status === "failed" ? "text-destructive" : status === "success" ? "text-primary" : "text-amber-600"}`}>
                     {outcome}
                   </p>
+                  <details className="mt-1.5">
+                    <summary className="cursor-pointer text-[11px] font-medium text-primary">
+                      View input payload
+                    </summary>
+                    <div className="mt-1">
+                      {a.result && (a.result as any).input != null && Object.keys((a.result as any).input).length > 0 ? (
+                        <pre className="max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
+                          {JSON.stringify((a.result as any).input, null, 2)}
+                        </pre>
+                      ) : (
+                        <p className="text-[11px] text-muted-foreground">
+                          No input was recorded for this attempt — it ran with the job's default parameters.
+                        </p>
+                      )}
+                    </div>
+                  </details>
                   {a.result && Object.keys(a.result as any).length > 0 ? (
-                    <pre className="mt-1.5 max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
-                      {JSON.stringify(a.result, null, 2)}
-                    </pre>
+                    <details className="mt-1">
+                      <summary className="cursor-pointer text-[11px] font-medium text-primary">View full output</summary>
+                      <pre className="mt-1 max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
+                        {JSON.stringify(a.result, null, 2)}
+                      </pre>
+                    </details>
                   ) : null}
                 </div>
               </li>
