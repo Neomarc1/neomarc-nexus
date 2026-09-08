@@ -101,6 +101,17 @@ function RunDetail() {
     qc.invalidateQueries();
   }
 
+  async function replay() {
+    if (!run) return;
+    setBusy(true);
+    const { data, error } = await supabase.rpc("replay_automation_run" as never, { _run_id: run.id } as never);
+    setBusy(false);
+    if (error) return void toast.error("Could not replay that run.");
+    if ((data as any)?.ok) toast.success("Replayed — a new attempt was recorded.");
+    else toast.error("The replay failed — the new attempt is in the failed queue.");
+    qc.invalidateQueries();
+  }
+
   if (isLoading) return <p className="text-sm text-muted-foreground">Loading…</p>;
   if (!run) {
     return (
