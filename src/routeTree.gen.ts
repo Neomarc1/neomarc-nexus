@@ -56,6 +56,7 @@ import { Route as AuthenticatedSystemPilotRouteImport } from './routes/_authenti
 import { Route as AuthenticatedSystemRolesRouteImport } from './routes/_authenticated/system.roles'
 import { Route as AuthenticatedSystemTestDataRouteImport } from './routes/_authenticated/system.test-data'
 import { Route as AuthenticatedSystemUatRouteImport } from './routes/_authenticated/system.uat'
+import { Route as AuthenticatedAutomationRunsRunIdRouteImport } from './routes/_authenticated/automation.runs.$runId'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
 import { Route as ApiPublicHooksAutomationRunnerRouteImport } from './routes/api/public/hooks/automation-runner'
@@ -318,6 +319,12 @@ const AuthenticatedSystemUatRoute = AuthenticatedSystemUatRouteImport.update({
   path: '/system/uat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAutomationRunsRunIdRoute =
+  AuthenticatedAutomationRunsRunIdRouteImport.update({
+    id: '/automation/runs/$runId',
+    path: '/automation/runs/$runId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMyWorkLeadsIndexRoute =
   AuthenticatedMyWorkLeadsIndexRouteImport.update({
     id: '/my-work/leads/',
@@ -384,6 +391,7 @@ export interface FileRoutesByFullPath {
   '/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/operations/': typeof AuthenticatedOperationsIndexRoute
   '/sales/': typeof AuthenticatedSalesIndexRoute
+  '/automation/runs/$runId': typeof AuthenticatedAutomationRunsRunIdRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/api/public/hooks/automation-runner': typeof ApiPublicHooksAutomationRunnerRoute
   '/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -435,6 +443,7 @@ export interface FileRoutesByTo {
   '/my-work': typeof AuthenticatedMyWorkIndexRoute
   '/operations': typeof AuthenticatedOperationsIndexRoute
   '/sales': typeof AuthenticatedSalesIndexRoute
+  '/automation/runs/$runId': typeof AuthenticatedAutomationRunsRunIdRoute
   '/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/api/public/hooks/automation-runner': typeof ApiPublicHooksAutomationRunnerRoute
   '/my-work/leads': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -488,6 +497,7 @@ export interface FileRoutesById {
   '/_authenticated/my-work/': typeof AuthenticatedMyWorkIndexRoute
   '/_authenticated/operations/': typeof AuthenticatedOperationsIndexRoute
   '/_authenticated/sales/': typeof AuthenticatedSalesIndexRoute
+  '/_authenticated/automation/runs/$runId': typeof AuthenticatedAutomationRunsRunIdRoute
   '/_authenticated/my-work/leads/$leadId': typeof AuthenticatedMyWorkLeadsLeadIdRoute
   '/api/public/hooks/automation-runner': typeof ApiPublicHooksAutomationRunnerRoute
   '/_authenticated/my-work/leads/': typeof AuthenticatedMyWorkLeadsIndexRoute
@@ -541,6 +551,7 @@ export interface FileRouteTypes {
     | '/my-work/'
     | '/operations/'
     | '/sales/'
+    | '/automation/runs/$runId'
     | '/my-work/leads/$leadId'
     | '/api/public/hooks/automation-runner'
     | '/my-work/leads/'
@@ -592,6 +603,7 @@ export interface FileRouteTypes {
     | '/my-work'
     | '/operations'
     | '/sales'
+    | '/automation/runs/$runId'
     | '/my-work/leads/$leadId'
     | '/api/public/hooks/automation-runner'
     | '/my-work/leads'
@@ -644,6 +656,7 @@ export interface FileRouteTypes {
     | '/_authenticated/my-work/'
     | '/_authenticated/operations/'
     | '/_authenticated/sales/'
+    | '/_authenticated/automation/runs/$runId'
     | '/_authenticated/my-work/leads/$leadId'
     | '/api/public/hooks/automation-runner'
     | '/_authenticated/my-work/leads/'
@@ -987,6 +1000,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSystemUatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/automation/runs/$runId': {
+      id: '/_authenticated/automation/runs/$runId'
+      path: '/automation/runs/$runId'
+      fullPath: '/automation/runs/$runId'
+      preLoaderRoute: typeof AuthenticatedAutomationRunsRunIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/my-work/leads/': {
       id: '/_authenticated/my-work/leads/'
       path: '/my-work/leads'
@@ -1056,6 +1076,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMyWorkIndexRoute: typeof AuthenticatedMyWorkIndexRoute
   AuthenticatedOperationsIndexRoute: typeof AuthenticatedOperationsIndexRoute
   AuthenticatedSalesIndexRoute: typeof AuthenticatedSalesIndexRoute
+  AuthenticatedAutomationRunsRunIdRoute: typeof AuthenticatedAutomationRunsRunIdRoute
   AuthenticatedMyWorkLeadsLeadIdRoute: typeof AuthenticatedMyWorkLeadsLeadIdRoute
   AuthenticatedMyWorkLeadsIndexRoute: typeof AuthenticatedMyWorkLeadsIndexRoute
 }
@@ -1107,6 +1128,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMyWorkIndexRoute: AuthenticatedMyWorkIndexRoute,
   AuthenticatedOperationsIndexRoute: AuthenticatedOperationsIndexRoute,
   AuthenticatedSalesIndexRoute: AuthenticatedSalesIndexRoute,
+  AuthenticatedAutomationRunsRunIdRoute: AuthenticatedAutomationRunsRunIdRoute,
   AuthenticatedMyWorkLeadsLeadIdRoute: AuthenticatedMyWorkLeadsLeadIdRoute,
   AuthenticatedMyWorkLeadsIndexRoute: AuthenticatedMyWorkLeadsIndexRoute,
 }
