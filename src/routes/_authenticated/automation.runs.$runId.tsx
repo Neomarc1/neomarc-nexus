@@ -3,7 +3,7 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Repeat, RotateCcw } from "lucide-react";
+import { ArrowLeft, Copy, Download, Repeat, RotateCcw } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader } from "@/components/layout/AppShell";
@@ -58,10 +58,64 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+function attemptPayload(a: any): any | null {
+  const input = a?.result?.input;
+  return input != null && typeof input === "object" && Object.keys(input).length > 0 ? input : null;
+}
+
+function payloadText(a: any): string {
+  const p = attemptPayload(a);
+  return p ? JSON.stringify(p, null, 2) : "";
+}
+
+type DiffRow = { a?: string | undefined; b?: string | undefined; type: "same" | "del" | "add" };
+
+function diffLines(aLines: string[], bLines: string[]): DiffRow[] {
+  // LCS-based line diff (payloads are small)
+  const m = aLines.length, n = bLines.length;
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+  for (let i = m - 1; i >= 0; i--)
+    for (let j = n - 1; j >= 0; j--)
+      dp[i]![j] = aLines[i] === bLines[j] ? dp[i + 1]![j + 1]! + 1 : Math.max(dp[i + 1]![j]!, dp[i]![j + 1]!);
+  const rows: DiffRow[] = [];
+  let i = 0, j = 0;
+  while (i < m && j < n) {
+    if (aLines[i] === bLines[j]) { rows.push({ a: aLines[i], b: bLines[j], type: "same" }); i++; j++; }
+    else if (dp[i + 1]![j]! >= dp[i]![j + 1]!) { rows.push({ a: aLines[i], type: "del" }); i++; }
+    else { rows.push({ b: bLines[j], type: "add" }); j++; }
+  }
+  while (i < m) { rows.push({ a: aLines[i], type: "del" }); i++; }
+  while (j < n) { rows.push({ b: bLines[j], type: "add" }); j++; }
+  return rows;
+}
+
 function RunDetail() {
   const { runId } = useParams({ from: "/_authenticated/automation/runs/$runId" });
   const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
+  const [diffA, setDiffA] = useState<number | null>(null);
+  const [diffB, setDiffB] = useState<number | null>(null);
+
+  function copyPayload(a: any, n: number) {
+    const text = payloadText(a);
+    if (!text) return void toast.info("No payload recorded for that attempt.");
+    navigator.clipboard.writeText(text).then(
+      () => toast.success(`Attempt ${n} payload copied.`),
+      () => toast.error("Could not copy to clipboard."),
+    );
+  }
+
+  function downloadPayload(a: any, n: number) {
+    const text = payloadText(a);
+    if (!text) return void toast.info("No payload recorded for that attempt.");
+    const blob = new Blob([text], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const el = document.createElement("a");
+    el.href = url;
+    el.download = `automation-attempt-${n}-payload.json`;
+    el.click();
+    URL.revokeObjectURL(url);
+  }
 
   const { data: run, isLoading } = useQuery({
     queryKey: ["automation-run", runId],
@@ -239,9 +293,27 @@ function RunDetail() {
                     </summary>
                     <div className="mt-1">
                       {a.result && (a.result as any).input != null && Object.keys((a.result as any).input).length > 0 ? (
-                        <pre className="max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
-                          {JSON.stringify((a.result as any).input, null, 2)}
-                        </pre>
+                        <div>
+                          <div className="mb-1 flex gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => copyPayload(a, i + 1)}
+                              className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                            >
+                              <Copy className="h-3 w-3" /> Copy
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => downloadPayload(a, i + 1)}
+                              className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
+                            >
+                              <Download className="h-3 w-3" /> Download JSON
+                            </button>
+                          </div>
+                          <pre className="max-h-40 overflow-auto rounded bg-muted/60 p-2 text-[11px] whitespace-pre-wrap break-words">
+                            {JSON.stringify((a.result as any).input, null, 2)}
+                          </pre>
+                        </div>
                       ) : (
                         <p className="text-[11px] text-muted-foreground">
                           No input was recorded for this attempt — it ran with the job's default parameters.
@@ -262,6 +334,75 @@ function RunDetail() {
             );
           })}
         </ol>
+
+        {attempts.length > 1 ? (
+          <div className="mt-4 border-t border-border pt-3">
+            <p className="mb-2 font-display text-xs font-bold uppercase tracking-wide">Compare attempt payloads</p>
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <select
+                className="rounded border border-border bg-background px-2 py-1.5"
+                value={diffA ?? ""}
+                onChange={(e) => setDiffA(e.target.value === "" ? null : Number(e.target.value))}
+              >
+                <option value="">First attempt…</option>
+                {attempts.map((_, i) => (
+                  <option key={i} value={i}>Attempt {i + 1}</option>
+                ))}
+              </select>
+              <span className="text-muted-foreground">vs</span>
+              <select
+                className="rounded border border-border bg-background px-2 py-1.5"
+                value={diffB ?? ""}
+                onChange={(e) => setDiffB(e.target.value === "" ? null : Number(e.target.value))}
+              >
+                <option value="">Second attempt…</option>
+                {attempts.map((_, i) => (
+                  <option key={i} value={i}>Attempt {i + 1}</option>
+                ))}
+              </select>
+            </div>
+            {diffA != null && diffB != null && diffA !== diffB ? (() => {
+              const ta = payloadText(attempts[diffA]);
+              const tb = payloadText(attempts[diffB]);
+              if (!ta || !tb)
+                return (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    One of the selected attempts has no recorded payload to compare.
+                  </p>
+                );
+              const rows = diffLines(ta.split("\n"), tb.split("\n"));
+              const changed = rows.some((r) => r.type !== "same");
+              return (
+                <div className="mt-2">
+                  <div className="grid grid-cols-2 gap-1 text-[11px] font-medium text-muted-foreground">
+                    <span>Attempt {diffA + 1}</span>
+                    <span>Attempt {diffB + 1}</span>
+                  </div>
+                  {!changed ? (
+                    <p className="mt-1 text-xs text-muted-foreground">The two payloads are identical.</p>
+                  ) : null}
+                  <div className="mt-1 grid max-h-72 grid-cols-2 gap-1 overflow-auto rounded bg-muted/60 p-2 font-mono text-[11px]">
+                    {rows.map((r, k) => (
+                      <div key={k} className="contents">
+                        <div className={`whitespace-pre-wrap break-words rounded px-1 ${r.type === "del" ? "bg-destructive/15 text-destructive" : "text-muted-foreground"}`}>
+                          {r.a ?? ""}
+                        </div>
+                        <div className={`whitespace-pre-wrap break-words rounded px-1 ${r.type === "add" ? "bg-success/15 text-success" : "text-muted-foreground"}`}>
+                          {r.b ?? ""}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    Red = only in attempt {diffA + 1}; green = only in attempt {diffB + 1}.
+                  </p>
+                </div>
+              );
+            })() : diffA != null && diffB != null ? (
+              <p className="mt-2 text-xs text-muted-foreground">Pick two different attempts to compare.</p>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );
