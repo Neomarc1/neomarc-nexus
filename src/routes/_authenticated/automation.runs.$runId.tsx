@@ -123,17 +123,25 @@ function RunDetail() {
   const [diffA, setDiffA] = useState<number | null>(null);
   const [diffB, setDiffB] = useState<number | null>(null);
   const attemptRefs = useRef<Map<string, HTMLLIElement | null>>(new Map());
+  const attemptCardRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
 
-  function scrollToAttempt(index: number | null) {
+  function flashAttempt(index: number | null) {
     if (index == null) return;
     const attempt = attempts[index];
     if (!attempt) return;
-    const el = attemptRefs.current.get(String(attempt.id));
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      el.classList.add("ring-2", "ring-primary", "rounded-lg");
-      window.setTimeout(() => el.classList.remove("ring-2", "ring-primary", "rounded-lg"), 1500);
+    const li = attemptRefs.current.get(String(attempt.id));
+    const card = attemptCardRefs.current.get(String(attempt.id));
+    if (li) {
+      li.scrollIntoView({ behavior: "smooth", block: "center" });
+      li.classList.add("ring-2", "ring-primary", "rounded-lg");
     }
+    if (card) {
+      card.classList.add("bg-primary/10", "border-primary", "shadow-[0_0_0_3px_hsl(var(--primary)/0.25)]");
+    }
+    window.setTimeout(() => {
+      li?.classList.remove("ring-2", "ring-primary", "rounded-lg");
+      card?.classList.remove("bg-primary/10", "border-primary", "shadow-[0_0_0_3px_hsl(var(--primary)/0.25)]");
+    }, 1400);
   }
 
   function copyPayload(a: any, n: number) {
@@ -309,7 +317,11 @@ function RunDetail() {
                 >
                   <span className="text-[8px] font-bold text-white">{i + 1}</span>
                 </span>
-                <div className={`rounded-lg border p-2.5 text-xs ${a.id === run.id ? "border-primary" : "border-border"}`}>
+                <div
+                  ref={(el) => { attemptCardRefs.current.set(String(a.id), el); }}
+                  className={`rounded-lg border p-2.5 text-xs transition-colors duration-200 ${a.id === run.id ? "border-primary" : "border-border"}`}
+                  data-attempt-card={a.id}
+                >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="font-medium">
                       Attempt {i + 1}
@@ -408,14 +420,14 @@ function RunDetail() {
                 <div className="ml-auto flex flex-wrap gap-1.5">
                   <button
                     type="button"
-                    onClick={() => scrollToAttempt(diffA)}
+                    onClick={() => flashAttempt(diffA)}
                     className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
                   >
                     <Target className="h-3 w-3" /> Jump to attempt {diffA + 1}
                   </button>
                   <button
                     type="button"
-                    onClick={() => scrollToAttempt(diffB)}
+                    onClick={() => flashAttempt(diffB)}
                     className="inline-flex items-center gap-1 rounded border border-border px-2 py-1 text-[11px] font-medium hover:bg-muted"
                   >
                     <Target className="h-3 w-3" /> Jump to attempt {diffB + 1}
@@ -449,7 +461,7 @@ function RunDetail() {
                             <button
                               key={f}
                               type="button"
-                              onClick={() => scrollToAttempt(diffB)}
+                              onClick={() => flashAttempt(diffB)}
                               title={`Jump to attempt ${diffB + 1}`}
                               className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 pl-4 text-left text-success hover:bg-success/10"
                             >
@@ -469,7 +481,7 @@ function RunDetail() {
                             <button
                               key={f}
                               type="button"
-                              onClick={() => scrollToAttempt(diffA)}
+                              onClick={() => flashAttempt(diffA)}
                               title={`Jump to attempt ${diffA + 1}`}
                               className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 pl-4 text-left text-destructive hover:bg-destructive/10"
                             >
@@ -494,7 +506,7 @@ function RunDetail() {
                               </span>
                               <button
                                 type="button"
-                                onClick={() => scrollToAttempt(diffA)}
+                                onClick={() => flashAttempt(diffA)}
                                 title={`Jump to attempt ${diffA + 1} (old value)`}
                                 className="inline-flex shrink-0 items-center gap-0.5 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium hover:bg-muted"
                               >
@@ -502,7 +514,7 @@ function RunDetail() {
                               </button>
                               <button
                                 type="button"
-                                onClick={() => scrollToAttempt(diffB)}
+                                onClick={() => flashAttempt(diffB)}
                                 title={`Jump to attempt ${diffB + 1} (new value)`}
                                 className="inline-flex shrink-0 items-center gap-0.5 rounded border border-border px-1.5 py-0.5 text-[10px] font-medium hover:bg-muted"
                               >
