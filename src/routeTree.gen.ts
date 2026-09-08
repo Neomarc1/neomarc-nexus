@@ -38,6 +38,7 @@ import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
 import { Route as AuthenticatedAutomationIndexRouteImport } from './routes/_authenticated/automation.index'
+import { Route as AuthenticatedAutomationTasksRouteImport } from './routes/_authenticated/automation.tasks'
 import { Route as AuthenticatedDocumentationIndexRouteImport } from './routes/_authenticated/documentation.index'
 import { Route as AuthenticatedManagementFeedbackRouteImport } from './routes/_authenticated/management.feedback'
 import { Route as AuthenticatedMyWorkIndexRouteImport } from './routes/_authenticated/my-work.index'
@@ -210,6 +211,12 @@ const AuthenticatedAutomationIndexRoute =
     path: '/automation/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAutomationTasksRoute =
+  AuthenticatedAutomationTasksRouteImport.update({
+    id: '/automation/tasks',
+    path: '/automation/tasks',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedDocumentationIndexRoute =
   AuthenticatedDocumentationIndexRouteImport.update({
     id: '/documentation/',
@@ -344,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
@@ -392,6 +400,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
@@ -442,6 +451,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
+  '/_authenticated/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/_authenticated/management/feedback': typeof AuthenticatedManagementFeedbackRoute
   '/_authenticated/my-work/inspections': typeof AuthenticatedMyWorkInspectionsRoute
   '/_authenticated/operations/exceptions': typeof AuthenticatedOperationsExceptionsRoute
@@ -492,6 +502,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/automation/tasks'
     | '/management/feedback'
     | '/my-work/inspections'
     | '/operations/exceptions'
@@ -540,6 +551,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/accounts/payments'
+    | '/automation/tasks'
     | '/management/feedback'
     | '/my-work/inspections'
     | '/operations/exceptions'
@@ -589,6 +601,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
     | '/_authenticated/accounts/payments'
+    | '/_authenticated/automation/tasks'
     | '/_authenticated/management/feedback'
     | '/_authenticated/my-work/inspections'
     | '/_authenticated/operations/exceptions'
@@ -822,6 +835,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAutomationIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/automation/tasks': {
+      id: '/_authenticated/automation/tasks'
+      path: '/automation/tasks'
+      fullPath: '/automation/tasks'
+      preLoaderRoute: typeof AuthenticatedAutomationTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/documentation/': {
       id: '/_authenticated/documentation/'
       path: '/documentation'
@@ -976,6 +996,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
   AuthenticatedAccountsPaymentsRoute: typeof AuthenticatedAccountsPaymentsRoute
+  AuthenticatedAutomationTasksRoute: typeof AuthenticatedAutomationTasksRoute
   AuthenticatedManagementFeedbackRoute: typeof AuthenticatedManagementFeedbackRoute
   AuthenticatedMyWorkInspectionsRoute: typeof AuthenticatedMyWorkInspectionsRoute
   AuthenticatedOperationsExceptionsRoute: typeof AuthenticatedOperationsExceptionsRoute
@@ -1023,6 +1044,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
   AuthenticatedAccountsPaymentsRoute: AuthenticatedAccountsPaymentsRoute,
+  AuthenticatedAutomationTasksRoute: AuthenticatedAutomationTasksRoute,
   AuthenticatedManagementFeedbackRoute: AuthenticatedManagementFeedbackRoute,
   AuthenticatedMyWorkInspectionsRoute: AuthenticatedMyWorkInspectionsRoute,
   AuthenticatedOperationsExceptionsRoute:
