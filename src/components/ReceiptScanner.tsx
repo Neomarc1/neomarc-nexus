@@ -32,7 +32,7 @@ export function ReceiptScanner() {
   const [draft, setDraft] = useState<any>(null);
 
   const run = async () => {
-    if (file && file.size > 10 * 1024 * 1024) return toast.error("File is larger than 10 MB.");
+    if (file && file.size > 10 * 1024 * 1024) { toast.error("File is larger than 10 MB."); return; }
     setBusy(true);
     try {
       const out = await analyze({
@@ -50,7 +50,7 @@ export function ReceiptScanner() {
   };
 
   const save = async () => {
-    if (!draft?.amount || !draft?.expense_date) return toast.error("Amount and date are required.");
+    if (!draft?.amount || !draft?.expense_date) { toast.error("Amount and date are required."); return; }
     let receipt_path: string | null = null;
     if (file) {
       const path = `receipts/${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g, "_")}`;
@@ -62,7 +62,7 @@ export function ReceiptScanner() {
       method: draft.method, description: draft.description, account_id: draft.account_id,
       category: "other", status: "pending", receipt_path, created_by: me?.user.id,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Expense saved as pending");
     setDraft(null); setFile(null); setNotes("");
     qc.invalidateQueries({ queryKey: ["expenses"] });

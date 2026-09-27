@@ -28,8 +28,8 @@ export type Extraction = {
 
 export async function extractExpense(opts: {
   apiKey: string;
-  text?: string;
-  file?: { dataBase64: string; mimeType: string };
+  text?: string | undefined;
+  file?: { dataBase64: string; mimeType: string } | undefined;
   accounts: { code: string; name: string; description: string | null }[];
 }): Promise<Extraction> {
   const provider = createOpenAI({
