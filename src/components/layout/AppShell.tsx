@@ -128,6 +128,7 @@ const NAV: { group: string; items: NavItem[] }[] = [
     items: [
       { to: "/notifications", label: "Notifications", icon: Bell },
       { to: "/portal", label: "Customer Portal", icon: UserCircle2 },
+      { to: "/company", label: "Company & Finance", icon: Settings, staffOnly: true },
       { to: "/settings", label: "Settings", icon: Settings, staffOnly: true },
     ],
   },
