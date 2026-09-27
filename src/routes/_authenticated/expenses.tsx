@@ -36,6 +36,7 @@ function ExpensesPage() {
         ]}
         fields={[
           { name: "category", label: "Category", type: "select", options: [{ value: "marketing", label: titleCase("marketing") }, { value: "logistics", label: titleCase("logistics") }, { value: "construction", label: titleCase("construction") }, { value: "admin", label: titleCase("admin") }, { value: "legal", label: titleCase("legal") }, { value: "commission", label: titleCase("commission") }, { value: "other", label: titleCase("other") }] },
+          { name: "account_id", label: "Account", type: "select", lookup: { table: "chart_of_accounts", labelKey: "name", filter: ["is_active", true] } },
           { name: "amount", label: "Amount (₦)", type: "number", required: true },
           { name: "expense_date", label: "Date", type: "date", required: true },
           { name: "vendor", label: "Vendor" },
