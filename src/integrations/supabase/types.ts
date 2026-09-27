@@ -296,6 +296,56 @@ export type Database = {
         }
         Relationships: []
       }
+      chart_of_accounts: {
+        Row: {
+          account_type: string
+          code: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          parent_id: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          account_type?: string
+          code: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          parent_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          account_type?: string
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          parent_id?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chart_of_accounts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       closing_checklist_templates: {
         Row: {
           code: string
@@ -600,6 +650,66 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      company_profile: {
+        Row: {
+          address: string | null
+          currency: string
+          email: string | null
+          fiscal_year_start_month: number
+          id: number
+          legal_name: string
+          phone: string | null
+          rc_number: string | null
+          timezone: string
+          tin: string | null
+          trading_name: string | null
+          updated_at: string
+          updated_by: string | null
+          vat_number: string | null
+          vat_rate: number
+          website: string | null
+          wht_rate: number
+        }
+        Insert: {
+          address?: string | null
+          currency?: string
+          email?: string | null
+          fiscal_year_start_month?: number
+          id?: number
+          legal_name?: string
+          phone?: string | null
+          rc_number?: string | null
+          timezone?: string
+          tin?: string | null
+          trading_name?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          vat_number?: string | null
+          vat_rate?: number
+          website?: string | null
+          wht_rate?: number
+        }
+        Update: {
+          address?: string | null
+          currency?: string
+          email?: string | null
+          fiscal_year_start_month?: number
+          id?: number
+          legal_name?: string
+          phone?: string | null
+          rc_number?: string | null
+          timezone?: string
+          tin?: string | null
+          trading_name?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          vat_number?: string | null
+          vat_rate?: number
+          website?: string | null
+          wht_rate?: number
+        }
+        Relationships: []
       }
       customers: {
         Row: {
@@ -918,6 +1028,7 @@ export type Database = {
       }
       expenses: {
         Row: {
+          account_id: string | null
           amount: number
           approved_by: string | null
           category: string
@@ -937,6 +1048,7 @@ export type Database = {
           vendor: string | null
         }
         Insert: {
+          account_id?: string | null
           amount?: number
           approved_by?: string | null
           category: string
@@ -956,6 +1068,7 @@ export type Database = {
           vendor?: string | null
         }
         Update: {
+          account_id?: string | null
           amount?: number
           approved_by?: string | null
           category?: string
@@ -975,6 +1088,13 @@ export type Database = {
           vendor?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "expenses_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "expenses_estate_id_fkey"
             columns: ["estate_id"]
