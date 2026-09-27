@@ -16,6 +16,7 @@ import { Route as AuthenticatedAiRouteImport } from './routes/_authenticated/ai'
 import { Route as AuthenticatedAuditRouteImport } from './routes/_authenticated/audit'
 import { Route as AuthenticatedCommissionRulesRouteImport } from './routes/_authenticated/commission-rules'
 import { Route as AuthenticatedCommissionsRouteImport } from './routes/_authenticated/commissions'
+import { Route as AuthenticatedCompanyRouteImport } from './routes/_authenticated/company'
 import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents'
@@ -97,6 +98,11 @@ const AuthenticatedCommissionsRoute =
     path: '/commissions',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCompanyRoute = AuthenticatedCompanyRouteImport.update({
+  id: '/company',
+  path: '/company',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCustomersRoute = AuthenticatedCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
@@ -351,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/audit': typeof AuthenticatedAuditRoute
   '/commission-rules': typeof AuthenticatedCommissionRulesRoute
   '/commissions': typeof AuthenticatedCommissionsRoute
+  '/company': typeof AuthenticatedCompanyRoute
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/documents': typeof AuthenticatedDocumentsRoute
@@ -403,6 +410,7 @@ export interface FileRoutesByTo {
   '/audit': typeof AuthenticatedAuditRoute
   '/commission-rules': typeof AuthenticatedCommissionRulesRoute
   '/commissions': typeof AuthenticatedCommissionsRoute
+  '/company': typeof AuthenticatedCompanyRoute
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/documents': typeof AuthenticatedDocumentsRoute
@@ -457,6 +465,7 @@ export interface FileRoutesById {
   '/_authenticated/audit': typeof AuthenticatedAuditRoute
   '/_authenticated/commission-rules': typeof AuthenticatedCommissionRulesRoute
   '/_authenticated/commissions': typeof AuthenticatedCommissionsRoute
+  '/_authenticated/company': typeof AuthenticatedCompanyRoute
   '/_authenticated/customers': typeof AuthenticatedCustomersRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/documents': typeof AuthenticatedDocumentsRoute
@@ -511,6 +520,7 @@ export interface FileRouteTypes {
     | '/audit'
     | '/commission-rules'
     | '/commissions'
+    | '/company'
     | '/customers'
     | '/dashboard'
     | '/documents'
@@ -563,6 +573,7 @@ export interface FileRouteTypes {
     | '/audit'
     | '/commission-rules'
     | '/commissions'
+    | '/company'
     | '/customers'
     | '/dashboard'
     | '/documents'
@@ -616,6 +627,7 @@ export interface FileRouteTypes {
     | '/_authenticated/audit'
     | '/_authenticated/commission-rules'
     | '/_authenticated/commissions'
+    | '/_authenticated/company'
     | '/_authenticated/customers'
     | '/_authenticated/dashboard'
     | '/_authenticated/documents'
@@ -718,6 +730,13 @@ declare module '@tanstack/react-router' {
       path: '/commissions'
       fullPath: '/commissions'
       preLoaderRoute: typeof AuthenticatedCommissionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/company': {
+      id: '/_authenticated/company'
+      path: '/company'
+      fullPath: '/company'
+      preLoaderRoute: typeof AuthenticatedCompanyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/customers': {
@@ -1036,6 +1055,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAuditRoute: typeof AuthenticatedAuditRoute
   AuthenticatedCommissionRulesRoute: typeof AuthenticatedCommissionRulesRoute
   AuthenticatedCommissionsRoute: typeof AuthenticatedCommissionsRoute
+  AuthenticatedCompanyRoute: typeof AuthenticatedCompanyRoute
   AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedDocumentsRoute: typeof AuthenticatedDocumentsRoute
@@ -1086,6 +1106,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAuditRoute: AuthenticatedAuditRoute,
   AuthenticatedCommissionRulesRoute: AuthenticatedCommissionRulesRoute,
   AuthenticatedCommissionsRoute: AuthenticatedCommissionsRoute,
+  AuthenticatedCompanyRoute: AuthenticatedCompanyRoute,
   AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedDocumentsRoute: AuthenticatedDocumentsRoute,
