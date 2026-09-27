@@ -3,6 +3,7 @@ import { CrudModule } from "@/components/CrudModule";
 import { PageHeader } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatNaira, formatDate, titleCase } from "@/lib/format";
+import { ReceiptScanner } from "@/components/ReceiptScanner";
 
 export const Route = createFileRoute("/_authenticated/expenses")({
   head: () => ({
@@ -20,6 +21,7 @@ function ExpensesPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Expenses" description="Operational and project expenditure." />
+      <ReceiptScanner />
       <CrudModule
         table="expenses"
         entityName="Expense"
