@@ -57,6 +57,7 @@ import { Route as AuthenticatedSystemPilotRouteImport } from './routes/_authenti
 import { Route as AuthenticatedSystemRolesRouteImport } from './routes/_authenticated/system.roles'
 import { Route as AuthenticatedSystemTestDataRouteImport } from './routes/_authenticated/system.test-data'
 import { Route as AuthenticatedSystemUatRouteImport } from './routes/_authenticated/system.uat'
+import { Route as ApiPublicTmpCreateAdminRouteImport } from './routes/api/public/tmp-create-admin'
 import { Route as AuthenticatedAutomationRunsRunIdRouteImport } from './routes/_authenticated/automation.runs.$runId'
 import { Route as AuthenticatedMyWorkLeadsIndexRouteImport } from './routes/_authenticated/my-work.leads.index'
 import { Route as AuthenticatedMyWorkLeadsLeadIdRouteImport } from './routes/_authenticated/my-work.leads.$leadId'
@@ -325,6 +326,11 @@ const AuthenticatedSystemUatRoute = AuthenticatedSystemUatRouteImport.update({
   path: '/system/uat',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicTmpCreateAdminRoute = ApiPublicTmpCreateAdminRouteImport.update({
+  id: '/api/public/tmp-create-admin',
+  path: '/api/public/tmp-create-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAutomationRunsRunIdRoute =
   AuthenticatedAutomationRunsRunIdRouteImport.update({
     id: '/automation/runs/$runId',
@@ -392,6 +398,7 @@ export interface FileRoutesByFullPath {
   '/system/roles': typeof AuthenticatedSystemRolesRoute
   '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
+  '/api/public/tmp-create-admin': typeof ApiPublicTmpCreateAdminRoute
   '/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/automation/': typeof AuthenticatedAutomationIndexRoute
   '/documentation/': typeof AuthenticatedDocumentationIndexRoute
@@ -445,6 +452,7 @@ export interface FileRoutesByTo {
   '/system/roles': typeof AuthenticatedSystemRolesRoute
   '/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/system/uat': typeof AuthenticatedSystemUatRoute
+  '/api/public/tmp-create-admin': typeof ApiPublicTmpCreateAdminRoute
   '/accounts': typeof AuthenticatedAccountsIndexRoute
   '/automation': typeof AuthenticatedAutomationIndexRoute
   '/documentation': typeof AuthenticatedDocumentationIndexRoute
@@ -500,6 +508,7 @@ export interface FileRoutesById {
   '/_authenticated/system/roles': typeof AuthenticatedSystemRolesRoute
   '/_authenticated/system/test-data': typeof AuthenticatedSystemTestDataRoute
   '/_authenticated/system/uat': typeof AuthenticatedSystemUatRoute
+  '/api/public/tmp-create-admin': typeof ApiPublicTmpCreateAdminRoute
   '/_authenticated/accounts/': typeof AuthenticatedAccountsIndexRoute
   '/_authenticated/automation/': typeof AuthenticatedAutomationIndexRoute
   '/_authenticated/documentation/': typeof AuthenticatedDocumentationIndexRoute
@@ -555,6 +564,7 @@ export interface FileRouteTypes {
     | '/system/roles'
     | '/system/test-data'
     | '/system/uat'
+    | '/api/public/tmp-create-admin'
     | '/accounts/'
     | '/automation/'
     | '/documentation/'
@@ -608,6 +618,7 @@ export interface FileRouteTypes {
     | '/system/roles'
     | '/system/test-data'
     | '/system/uat'
+    | '/api/public/tmp-create-admin'
     | '/accounts'
     | '/automation'
     | '/documentation'
@@ -662,6 +673,7 @@ export interface FileRouteTypes {
     | '/_authenticated/system/roles'
     | '/_authenticated/system/test-data'
     | '/_authenticated/system/uat'
+    | '/api/public/tmp-create-admin'
     | '/_authenticated/accounts/'
     | '/_authenticated/automation/'
     | '/_authenticated/documentation/'
@@ -678,6 +690,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicTmpCreateAdminRoute: typeof ApiPublicTmpCreateAdminRoute
   ApiPublicHooksAutomationRunnerRoute: typeof ApiPublicHooksAutomationRunnerRoute
 }
 
@@ -1019,6 +1032,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSystemUatRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/tmp-create-admin': {
+      id: '/api/public/tmp-create-admin'
+      path: '/api/public/tmp-create-admin'
+      fullPath: '/api/public/tmp-create-admin'
+      preLoaderRoute: typeof ApiPublicTmpCreateAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/automation/runs/$runId': {
       id: '/_authenticated/automation/runs/$runId'
       path: '/automation/runs/$runId'
@@ -1161,6 +1181,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicTmpCreateAdminRoute: ApiPublicTmpCreateAdminRoute,
   ApiPublicHooksAutomationRunnerRoute: ApiPublicHooksAutomationRunnerRoute,
 }
 export const routeTree = rootRouteImport
