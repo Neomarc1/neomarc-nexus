@@ -37,7 +37,6 @@ import { Route as AuthenticatedReservationsRouteImport } from './routes/_authent
 import { Route as AuthenticatedReserveRouteImport } from './routes/_authenticated/reserve'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
-import { Route as ApiTmpAdminRouteImport } from './routes/api/tmp-admin'
 import { Route as AuthenticatedAccountsIndexRouteImport } from './routes/_authenticated/accounts.index'
 import { Route as AuthenticatedAccountsPaymentsRouteImport } from './routes/_authenticated/accounts.payments'
 import { Route as AuthenticatedAutomationIndexRouteImport } from './routes/_authenticated/automation.index'
@@ -207,11 +206,6 @@ const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const ApiTmpAdminRoute = ApiTmpAdminRouteImport.update({
-  id: '/api/tmp-admin',
-  path: '/api/tmp-admin',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAccountsIndexRoute =
   AuthenticatedAccountsIndexRouteImport.update({
@@ -384,7 +378,6 @@ export interface FileRoutesByFullPath {
   '/reserve': typeof AuthenticatedReserveRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
-  '/api/tmp-admin': typeof ApiTmpAdminRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
@@ -438,7 +431,6 @@ export interface FileRoutesByTo {
   '/reserve': typeof AuthenticatedReserveRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/tasks': typeof AuthenticatedTasksRoute
-  '/api/tmp-admin': typeof ApiTmpAdminRoute
   '/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/management/feedback': typeof AuthenticatedManagementFeedbackRoute
@@ -494,7 +486,6 @@ export interface FileRoutesById {
   '/_authenticated/reserve': typeof AuthenticatedReserveRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
-  '/api/tmp-admin': typeof ApiTmpAdminRoute
   '/_authenticated/accounts/payments': typeof AuthenticatedAccountsPaymentsRoute
   '/_authenticated/automation/tasks': typeof AuthenticatedAutomationTasksRoute
   '/_authenticated/management/feedback': typeof AuthenticatedManagementFeedbackRoute
@@ -550,7 +541,6 @@ export interface FileRouteTypes {
     | '/reserve'
     | '/settings'
     | '/tasks'
-    | '/api/tmp-admin'
     | '/accounts/payments'
     | '/automation/tasks'
     | '/management/feedback'
@@ -604,7 +594,6 @@ export interface FileRouteTypes {
     | '/reserve'
     | '/settings'
     | '/tasks'
-    | '/api/tmp-admin'
     | '/accounts/payments'
     | '/automation/tasks'
     | '/management/feedback'
@@ -659,7 +648,6 @@ export interface FileRouteTypes {
     | '/_authenticated/reserve'
     | '/_authenticated/settings'
     | '/_authenticated/tasks'
-    | '/api/tmp-admin'
     | '/_authenticated/accounts/payments'
     | '/_authenticated/automation/tasks'
     | '/_authenticated/management/feedback'
@@ -690,7 +678,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  ApiTmpAdminRoute: typeof ApiTmpAdminRoute
   ApiPublicHooksAutomationRunnerRoute: typeof ApiPublicHooksAutomationRunnerRoute
 }
 
@@ -891,13 +878,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/tasks'
       preLoaderRoute: typeof AuthenticatedTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/api/tmp-admin': {
-      id: '/api/tmp-admin'
-      path: '/api/tmp-admin'
-      fullPath: '/api/tmp-admin'
-      preLoaderRoute: typeof ApiTmpAdminRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/accounts/': {
       id: '/_authenticated/accounts/'
@@ -1181,7 +1161,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  ApiTmpAdminRoute: ApiTmpAdminRoute,
   ApiPublicHooksAutomationRunnerRoute: ApiPublicHooksAutomationRunnerRoute,
 }
 export const routeTree = rootRouteImport
