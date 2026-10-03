@@ -8,6 +8,13 @@
       "when": 1790515710155,
       "tag": "0000_company_profile_and_chart_of_accounts",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791013701432,
+      "tag": "0001_restrict_internal_reads_to_staff",
+      "breakpoints": true
     }
   ]
 }
