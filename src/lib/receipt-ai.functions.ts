@@ -30,7 +30,7 @@ export const analyzeReceipt = createServerFn({ method: "POST" })
       .order("code");
     if (error) throw new Error(error.message);
 
-    const apiKey = process.env["LOVABLE_API_KEY"];
+    const apiKey = process.env["OPENAI_API_KEY"];
     if (!apiKey) throw new Error("AI is not configured for this app.");
 
     try {

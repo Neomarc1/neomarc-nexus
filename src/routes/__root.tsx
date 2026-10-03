@@ -10,7 +10,6 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
@@ -41,7 +40,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const [reportState, setReportState] = useState<"idle" | "sending" | "sent" | "failed">("idle");
 
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   async function report() {
@@ -111,14 +109,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "NEOMARC NDOS" },
+      { name: "description", content: "NEOMARC Digital Operating System" },
+      { name: "author", content: "NEOMARC" },
+      { property: "og:title", content: "NEOMARC NDOS" },
+      { property: "og:description", content: "NEOMARC Digital Operating System" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@NEOMARC" },
     ],
     links: [
       {

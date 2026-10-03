@@ -1,19 +1,7 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { streamText, type ModelMessage } from "ai";
 
-const RUN_ID = "X-Lovable-AIG-Run-ID";
-const MODEL = "openai/gpt-6-astra";
-
-function runIdFetch() {
-  let runId: string | undefined;
-  return async (input: RequestInfo | URL, init?: RequestInit) => {
-    const headers = new Headers(init?.headers);
-    if (runId && !headers.has(RUN_ID)) headers.set(RUN_ID, runId);
-    const res = await fetch(input, { ...init, headers });
-    runId ??= res.headers.get(RUN_ID)?.trim() || undefined;
-    return res;
-  };
-}
+const MODEL = "gpt-4o";
 
 export type Extraction = {
   vendor: string | null;
@@ -33,10 +21,7 @@ export async function extractExpense(opts: {
   accounts: { code: string; name: string; description: string | null }[];
 }): Promise<Extraction> {
   const provider = createOpenAI({
-    baseURL: "https://ai.gateway.lovable.dev/v1",
     apiKey: opts.apiKey,
-    headers: { "Lovable-API-Key": opts.apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
-    fetch: runIdFetch(),
   });
 
   const chart = opts.accounts.map((a) => `${a.code} — ${a.name}${a.description ? ` (${a.description})` : ""}`).join("\n");
@@ -62,19 +47,11 @@ Use null for anything not present. Never invent amounts or dates.`;
   }
 
   const result = streamText({
-    model: provider.responses(MODEL),
+    model: provider(MODEL),
     system: instructions,
     messages: [{ role: "user", content } as ModelMessage],
-    providerOptions: {
-      openai: {
-        forceReasoning: true,
-        reasoningEffort: "low",
-        reasoningSummary: "auto",
-        store: false,
-        include: ["reasoning.encrypted_content"],
-      },
-    },
   });
+  
   const text = await result.text;
   const match = text.match(/\{[\s\S]*\}/);
   if (!match) throw new Error("The AI could not read this receipt. Try a clearer photo or add notes.");
