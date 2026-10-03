@@ -42,7 +42,7 @@ The application must be production-oriented, scalable and modular.
 
 Build the application using:
 
-Lovable frontend
+React + TanStack Start frontend (deployed on Cloudflare Workers)
 
 Supabase backend
 
@@ -2002,25 +2002,21 @@ and beyond.
 
 Build the foundation now.
 
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://neomarc-nexus.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/21f2fb49-a5cf-4ee3-8a3c-b2ef690f0ac3).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+This project is deployed on **Cloudflare Workers** with **Supabase** as the backend.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+You need Node.js >= 22 — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
+cp .env.example .env  # then fill in your keys
 npm i
 npm run dev
 ```
+
+## Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for full Cloudflare Workers + Supabase deployment instructions.
+
