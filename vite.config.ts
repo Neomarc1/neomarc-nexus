@@ -9,7 +9,9 @@ export default defineConfig({
   plugins: [
     cloudflare(),
     tanstackStart({
-      server: { entry: 'server' },
+      server: { 
+        preset: 'cloudflare-module'
+      },
     }),
     viteReact(),
     tailwindcss(),
