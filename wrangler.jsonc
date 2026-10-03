@@ -3,9 +3,9 @@
   "name": "neomarc-nexus",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "dist/server/server.js",
+  "main": ".output/server/index.mjs",
   "assets": {
-    "directory": "dist/client",
+    "directory": ".output/public",
     "binding": "ASSETS"
   },
   "observability": {
