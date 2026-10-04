@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
+import { supabase } from "../integrations/supabase/client";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "../components/ui/sonner";
@@ -105,27 +106,48 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NEOMARC NDOS" },
-      { name: "description", content: "NEOMARC Digital Operating System" },
-      { name: "author", content: "NEOMARC" },
-      { property: "og:title", content: "NEOMARC NDOS" },
-      { property: "og:description", content: "NEOMARC Digital Operating System" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@NEOMARC" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-    ],
-  }),
+  loader: async () => {
+    const { data } = await supabase
+      .from("company_profile")
+      .select("site_name, site_abbreviation, site_description, logo_url, favicon_url")
+      .eq("id", 1)
+      .maybeSingle();
+      
+    return {
+      branding: {
+        siteName: data?.site_name || "NEOMARC REALTY",
+        siteAbbreviation: data?.site_abbreviation || "N",
+        siteDescription: data?.site_description || "NEOMARC Digital Operating System",
+        logoUrl: data?.logo_url || null,
+        faviconUrl: data?.favicon_url || "/favicon.ico",
+      }
+    };
+  },
+  head: ({ loaderData }) => {
+    const branding = loaderData?.branding || {
+      siteName: "NEOMARC REALTY",
+      siteDescription: "NEOMARC Digital Operating System",
+      faviconUrl: "/favicon.ico",
+    };
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: branding.siteName },
+        { name: "description", content: branding.siteDescription },
+        { name: "author", content: branding.siteName },
+        { property: "og:title", content: branding.siteName },
+        { property: "og:description", content: branding.siteDescription },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:site", content: `@${branding.siteName.replace(/\s+/g, '')}` },
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", href: branding.faviconUrl, type: "image/x-icon" },
+      ],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

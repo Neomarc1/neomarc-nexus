@@ -8,21 +8,41 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({
-    meta: [
-      { title: "Sign In — NEOMARC Digital Operating System" },
-      {
-        name: "description",
-        content:
-          "Secure sign-in to the NEOMARC Realty digital operating system for sales, inventory, payments and operations.",
-      },
-      { property: "og:title", content: "Sign In — NEOMARC Digital Operating System" },
-      {
-        property: "og:description",
-        content: "Secure access to the NEOMARC Realty command centre.",
-      },
-    ],
-  }),
+  loader: async () => {
+    const { data } = await supabase
+      .from("company_profile")
+      .select("site_name, site_abbreviation, site_description, logo_url")
+      .eq("id", 1)
+      .maybeSingle();
+    return {
+      branding: {
+        siteName: data?.site_name || "NEOMARC REALTY",
+        siteAbbreviation: data?.site_abbreviation || "N",
+        siteDescription: data?.site_description || "Digital Operating System",
+        logoUrl: data?.logo_url || null,
+      }
+    };
+  },
+  head: ({ loaderData }) => {
+    const branding = loaderData?.branding || {
+      siteName: "NEOMARC REALTY",
+      siteDescription: "Digital Operating System"
+    };
+    return {
+      meta: [
+        { title: `Sign In — ${branding.siteName}` },
+        {
+          name: "description",
+          content: `Secure sign-in to the ${branding.siteName} ${branding.siteDescription.toLowerCase()} for sales, inventory, payments and operations.`,
+        },
+        { property: "og:title", content: `Sign In — ${branding.siteName}` },
+        {
+          property: "og:description",
+          content: `Secure access to the ${branding.siteName} command centre.`,
+        },
+      ],
+    };
+  },
   component: AuthPage,
 });
 
@@ -82,16 +102,22 @@ function AuthPage() {
     }
   }
 
+  const { branding } = Route.useLoaderData();
+
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="brand-gradient relative hidden flex-col justify-between p-12 text-primary-foreground lg:flex">
         <div className="flex items-center gap-3">
-          <div className="gold-gradient flex h-11 w-11 items-center justify-center rounded-xl font-display text-xl font-bold text-gold-foreground">
-            N
-          </div>
+          {branding.logoUrl ? (
+            <img src={branding.logoUrl} alt="Logo" className="h-11 w-11 rounded-xl object-cover bg-white/10 p-1" />
+          ) : (
+            <div className="gold-gradient flex h-11 w-11 items-center justify-center rounded-xl font-display text-xl font-bold text-gold-foreground">
+              {branding.siteAbbreviation}
+            </div>
+          )}
           <div>
-            <p className="font-display text-lg font-bold tracking-wide">NEOMARC REALTY</p>
-            <p className="text-xs uppercase tracking-[0.2em] opacity-70">Digital Operating System</p>
+            <p className="font-display text-lg font-bold tracking-wide">{branding.siteName}</p>
+            <p className="text-xs uppercase tracking-[0.2em] opacity-70">{branding.siteDescription}</p>
           </div>
         </div>
         <div>
@@ -105,18 +131,18 @@ function AuthPage() {
             Creating Value, and Sustainable Wealth.
           </p>
         </div>
-        <p className="text-xs opacity-60">© {new Date().getFullYear()} NEOMARC Realty</p>
+        <p className="text-xs opacity-60">© {new Date().getFullYear()} {branding.siteName}</p>
       </div>
 
       <div className="flex items-center justify-center px-5 py-12">
         <div className="w-full max-w-sm">
           <div className="mb-8 lg:hidden">
-            <p className="font-display text-xl font-bold">NEOMARC NDOS</p>
+            <p className="font-display text-xl font-bold">{branding.siteName}</p>
             <p className="text-sm text-muted-foreground">Creating Value, and Sustainable Wealth.</p>
           </div>
           <h1 className="font-display text-2xl font-bold">Welcome back</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Sign in to the NEOMARC command centre.
+            Sign in to the {branding.siteAbbreviation} command centre.
           </p>
 
           <Tabs defaultValue="signin" className="mt-6">

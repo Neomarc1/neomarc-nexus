@@ -1,4 +1,5 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   LayoutDashboard,
   Users,
@@ -134,21 +135,39 @@ const NAV: { group: string; items: NavItem[] }[] = [
   },
 ];
 
+
+
 function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { data: me } = useCurrentUser();
+  const { data: profile } = useQuery({
+    queryKey: ["company_profile"],
+    queryFn: async () => {
+      const { data } = await supabase.from("company_profile").select("*").eq("id", 1).maybeSingle();
+      return data;
+    },
+  });
+
+  const siteAbbreviation = profile?.site_abbreviation || "N";
+  const siteName = profile?.site_name || "NEOMARC REALTY";
+  const siteDescription = profile?.site_description || "Digital OS";
+  const logoUrl = profile?.logo_url;
 
   return (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className="border-b border-sidebar-border px-5 py-5">
         <div className="flex items-center gap-3">
-          <div className="gold-gradient flex h-10 w-10 items-center justify-center rounded-lg font-display text-lg font-bold text-gold-foreground">
-            N
-          </div>
+          {logoUrl ? (
+            <img src={logoUrl} alt="Logo" className="h-10 w-10 rounded-lg object-cover" />
+          ) : (
+            <div className="gold-gradient flex h-10 w-10 items-center justify-center rounded-lg font-display text-lg font-bold text-gold-foreground">
+              {siteAbbreviation}
+            </div>
+          )}
           <div className="leading-tight">
-            <p className="font-display text-sm font-bold tracking-wide">NEOMARC</p>
+            <p className="font-display text-sm font-bold tracking-wide">{siteName}</p>
             <p className="text-[10px] uppercase tracking-[0.18em] text-sidebar-foreground/60">
-              Digital OS
+              {siteDescription}
             </p>
           </div>
         </div>

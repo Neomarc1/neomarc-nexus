@@ -656,11 +656,16 @@ export type Database = {
           address: string | null
           currency: string
           email: string | null
+          favicon_url: string | null
           fiscal_year_start_month: number
           id: number
           legal_name: string
+          logo_url: string | null
           phone: string | null
           rc_number: string | null
+          site_abbreviation: string | null
+          site_description: string | null
+          site_name: string | null
           timezone: string
           tin: string | null
           trading_name: string | null
@@ -675,11 +680,16 @@ export type Database = {
           address?: string | null
           currency?: string
           email?: string | null
+          favicon_url?: string | null
           fiscal_year_start_month?: number
           id?: number
           legal_name?: string
+          logo_url?: string | null
           phone?: string | null
           rc_number?: string | null
+          site_abbreviation?: string | null
+          site_description?: string | null
+          site_name?: string | null
           timezone?: string
           tin?: string | null
           trading_name?: string | null
@@ -694,11 +704,16 @@ export type Database = {
           address?: string | null
           currency?: string
           email?: string | null
+          favicon_url?: string | null
           fiscal_year_start_month?: number
           id?: number
           legal_name?: string
+          logo_url?: string | null
           phone?: string | null
           rc_number?: string | null
+          site_abbreviation?: string | null
+          site_description?: string | null
+          site_name?: string | null
           timezone?: string
           tin?: string | null
           trading_name?: string | null

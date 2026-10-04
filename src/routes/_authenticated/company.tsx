@@ -36,12 +36,17 @@ const MONTHS = ["January","February","March","April","May","June","July","August
 const PROFILE_FIELDS: { name: string; label: string; type?: string }[] = [
   { name: "legal_name", label: "Legal name" },
   { name: "trading_name", label: "Trading name" },
+  { name: "site_name", label: "Site Name (Brand)" },
+  { name: "site_abbreviation", label: "Site Abbreviation" },
+  { name: "site_description", label: "Site Description" },
+  { name: "logo_url", label: "Logo Image URL", type: "url" },
+  { name: "favicon_url", label: "Favicon Image URL", type: "url" },
   { name: "rc_number", label: "RC number (CAC)" },
   { name: "tin", label: "Tax ID (TIN)" },
   { name: "vat_number", label: "VAT number" },
   { name: "phone", label: "Phone" },
   { name: "email", label: "Email", type: "email" },
-  { name: "website", label: "Website" },
+  { name: "website", label: "Website", type: "url" },
   { name: "address", label: "Registered address" },
 ];
 
