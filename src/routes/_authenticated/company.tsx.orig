@@ -39,8 +39,8 @@ const PROFILE_FIELDS: { name: string; label: string; type?: string }[] = [
   { name: "site_name", label: "Site Name (Brand)" },
   { name: "site_abbreviation", label: "Site Abbreviation" },
   { name: "site_description", label: "Site Description" },
-  { name: "logo_url", label: "Logo Image", type: "image" },
-  { name: "favicon_url", label: "Favicon Image", type: "image" },
+  { name: "logo_url", label: "Logo Image URL", type: "url" },
+  { name: "favicon_url", label: "Favicon Image URL", type: "url" },
   { name: "rc_number", label: "RC number (CAC)" },
   { name: "tin", label: "Tax ID (TIN)" },
   { name: "vat_number", label: "VAT number" },
@@ -65,21 +65,6 @@ function CompanyPage() {
     },
   });
   useEffect(() => { if (profile) setForm(profile); }, [profile]);
-
-  const uploadImage = async (file: File, fieldName: string) => {
-    const ext = file.name.split('.').pop();
-    const fileName = `${fieldName}-${Date.now()}.${ext}`;
-    const { data, error } = await db.storage.from("brand_assets").upload(fileName, file, { upsert: true });
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    const { data: publicUrlData } = db.storage.from("brand_assets").getPublicUrl(fileName);
-    if (publicUrlData) {
-      setForm((f: Row) => ({ ...f, [fieldName]: publicUrlData.publicUrl }));
-      toast.success(`${fieldName.replace('_url', '')} uploaded! Don't forget to save settings.`);
-    }
-  };
 
   const save = useMutation({
     mutationFn: async () => {
@@ -110,21 +95,7 @@ function CompanyPage() {
           {PROFILE_FIELDS.map((f) => (
             <div key={f.name} className={f.name === "address" ? "space-y-1 sm:col-span-2" : "space-y-1"}>
               <Label>{f.label}</Label>
-              {f.type === "image" ? (
-                <div className="flex items-center gap-3">
-                  {form[f.name] && <img src={form[f.name]} alt={f.label} className="h-10 w-10 object-contain rounded bg-white/10" />}
-                  <Input 
-                    type="file" 
-                    accept="image/*" 
-                    disabled={!canEdit} 
-                    onChange={(e) => {
-                      if (e.target.files?.[0]) uploadImage(e.target.files[0], f.name);
-                    }} 
-                  />
-                </div>
-              ) : (
-                <Input type={f.type ?? "text"} disabled={!canEdit} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)} />
-              )}
+              <Input type={f.type ?? "text"} disabled={!canEdit} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)} />
             </div>
           ))}
         </div>

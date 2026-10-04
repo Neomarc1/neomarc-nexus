@@ -37,3 +37,10 @@ CREATE POLICY "Enable insert for admins" ON public.company_profile FOR INSERT WI
 );
 
 NOTIFY pgrst, 'reload schema';
+
+-- Add brand_assets storage bucket
+INSERT INTO storage.buckets (id, name, public) VALUES ('brand_assets', 'brand_assets', true) ON CONFLICT DO NOTHING;
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'brand_assets');
+CREATE POLICY "Auth Upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'brand_assets' AND auth.role() = 'authenticated');
+CREATE POLICY "Auth Update" ON storage.objects FOR UPDATE USING (bucket_id = 'brand_assets' AND auth.role() = 'authenticated');
+CREATE POLICY "Auth Delete" ON storage.objects FOR DELETE USING (bucket_id = 'brand_assets' AND auth.role() = 'authenticated');
