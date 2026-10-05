@@ -24,13 +24,13 @@ export function StatCard({
   }[tone];
 
   return (
-    <div className="surface-card flex items-start gap-3 p-4">
+    <div className="surface-card flex items-start gap-4 p-4 sm:p-5 transition-all duration-300 hover:shadow-lift">
       {Icon ? (
         <span className={cn("flex h-10 w-10 items-center justify-center rounded-lg", toneClass)}>
-          <Icon className="h-5 w-5" />
+          <Icon className="h-5 w-5 opacity-90" strokeWidth={1.75} />
         </span>
       ) : null}
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <p className="truncate text-xs font-medium uppercase tracking-wide text-muted-foreground">
           {label}
         </p>

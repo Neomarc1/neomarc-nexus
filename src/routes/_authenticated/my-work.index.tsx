@@ -116,7 +116,7 @@ function MyWorkPage() {
         description={`Field workspace · ${me?.profile?.full_name ?? me?.user?.email ?? ""}`}
       />
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Button className="h-16 flex-col gap-1 text-xs" onClick={() => navigate({ to: "/my-work/leads", search: { filter: "all" as const } })}>
           <Plus className="h-5 w-5" /> New lead
         </Button>
@@ -143,7 +143,7 @@ function MyWorkPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Link to="/my-work/leads" search={{ filter: "all" as const }}>
           <StatCard label="My new leads" value={newLeads.length} icon={Users} />
         </Link>

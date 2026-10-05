@@ -110,7 +110,7 @@ function PropertyFinderPage() {
             onChange={(e) => setTerm(e.target.value)}
           />
         </div>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Label className="mb-1.5 block text-xs font-medium">Estate</Label>
             <Select value={estate} onValueChange={setEstate}>

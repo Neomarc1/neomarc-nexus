@@ -106,7 +106,7 @@ function Panel({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="surface-card p-5">
+    <div className="surface-card p-4 sm:p-5 lg:p-6 overflow-hidden">
       <div className="mb-4 flex items-center justify-between gap-2">
         <h2 className="font-display text-sm font-bold uppercase tracking-wide">{title}</h2>
         {action}
@@ -291,7 +291,7 @@ function Dashboard() {
         }
       />
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
           <StatCard key={s.label} {...s} />
         ))}
@@ -337,7 +337,7 @@ function Dashboard() {
         </Panel>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Panel title="Lead Sources">
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={sourceData}>
@@ -364,7 +364,7 @@ function Dashboard() {
       </div>
 
       <Panel title="NEOMARC Today">
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
           <TodayCard
             title="Leads requiring follow-up"
             count={followupsDue.length}
@@ -445,7 +445,7 @@ function TodayCard({
   to: string;
 }) {
   return (
-    <Link to={to} className="rounded-xl border border-border bg-muted/30 p-4 transition-colors hover:bg-muted">
+    <Link to={to} className="rounded-xl border border-border/60 bg-muted/20 p-4 transition-all hover:bg-muted/60 hover:shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-sm font-semibold">{title}</p>
         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-bold text-primary">{count}</span>
