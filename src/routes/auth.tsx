@@ -59,6 +59,8 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("customer");
   const search = Route.useSearch();
   const [refCode, setRefCode] = useState(search.ref ?? "");
 
@@ -88,7 +90,7 @@ function AuthPage() {
       password,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { full_name: fullName, referral_code: refCode },
+        data: { full_name: fullName, referral_code: refCode, phone, role },
       },
     });
     setLoading(false);
@@ -198,6 +200,28 @@ function AuthPage() {
                     onChange={(e) => setRefCode(e.target.value)}
                     placeholder="e.g. RLT-261004-A8BF3"
                   />
+                </div>
+                <div>
+                  <Label htmlFor="phone">Phone / WhatsApp</Label>
+                  <Input
+                    id="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+234..."
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="role">Sign up as</Label>
+                  <select
+                    id="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                  >
+                    <option value="customer" className="bg-background">Client / Customer</option>
+                    <option value="realtor" className="bg-background">Realtor / Partner</option>
+                  </select>
                 </div>
                 <div>
                   <Label htmlFor="name">Full name</Label>
