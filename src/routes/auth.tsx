@@ -7,7 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>): { ref?: string } => {
+    return {
+      ref: search.ref as string | undefined,
+    };
+  },
+
   loader: async () => {
     const { data } = await supabase
       .from("company_profile")
@@ -52,6 +59,8 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const search = Route.useSearch();
+  const [refCode, setRefCode] = useState(search.ref ?? "");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -79,7 +88,7 @@ function AuthPage() {
       password,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { full_name: fullName },
+        data: { full_name: fullName, referral_code: refCode },
       },
     });
     setLoading(false);
@@ -181,6 +190,15 @@ function AuthPage() {
 
             <TabsContent value="signup">
               <form className="space-y-4 pt-4" onSubmit={signUp}>
+                <div>
+                  <Label htmlFor="refCode">Referral Code (Optional)</Label>
+                  <Input
+                    id="refCode"
+                    value={refCode}
+                    onChange={(e) => setRefCode(e.target.value)}
+                    placeholder="e.g. RLT-261004-A8BF3"
+                  />
+                </div>
                 <div>
                   <Label htmlFor="name">Full name</Label>
                   <Input
