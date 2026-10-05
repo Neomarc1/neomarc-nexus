@@ -154,7 +154,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const logoUrl = profile?.logo_url;
 
   return (
-    <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
+    <div className="flex h-[100dvh] lg:h-full flex-col bg-sidebar text-sidebar-foreground">
       <div className="border-b border-sidebar-border px-5 py-5">
         <div className="flex items-center gap-3">
           {logoUrl ? (
@@ -232,7 +232,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-[100dvh] bg-background">
       <aside className="hidden w-64 shrink-0 lg:block">
         <div className="fixed inset-y-0 w-64">
           <SidebarContent />
