@@ -11,6 +11,8 @@ import {
   PhoneCall,
   Plus,
   Map,
+  Copy,
+  Network,
 } from "lucide-react";
 import { db, type Row } from "@/lib/db";
 import { useCurrentUser } from "@/hooks/useAuth";
@@ -18,6 +20,7 @@ import { PageHeader } from "@/components/layout/AppShell";
 import { StatCard } from "@/components/StatCard";
 import { Button } from "@/components/ui/button";
 import { formatNaira, todayLagos } from "@/lib/format";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/my-work/")({
   head: () => ({
@@ -85,6 +88,27 @@ function MyWorkPage() {
     },
   });
 
+  
+  const { data: meRealtor } = useQuery({
+    queryKey: ["my-work", "me-realtor", realtorId],
+    enabled: !!realtorId,
+    queryFn: async () => {
+      const { data, error } = await db.from("realtors").select("*").eq("id", realtorId).single();
+      if (error) throw error;
+      return data as Row;
+    },
+  });
+
+  const { data: downlines = [] } = useQuery({
+    queryKey: ["my-work", "downlines", realtorId],
+    enabled: !!realtorId,
+    queryFn: async () => {
+      const { data, error } = await db.from("realtors").select("*").eq("manager_id", realtorId);
+      if (error) throw error;
+      return data as Row[];
+    },
+  });
+
   const { data: commissions = [] } = useQuery({
     queryKey: ["my-work", "commissions", realtorId],
     enabled: !!me,
@@ -108,6 +132,14 @@ function MyWorkPage() {
   const commissionDue = commissions
     .filter((c) => !["reversed", "cancelled"].includes(c.status))
     .reduce((s, c) => s + Number(c.amount ?? 0) - Number(c.amount_paid ?? 0), 0);
+
+  
+  const copyReferral = () => {
+    if (meRealtor?.ref) {
+      navigator.clipboard.writeText(meRealtor.ref);
+      toast.success("Referral ID copied to clipboard!");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -174,6 +206,56 @@ function MyWorkPage() {
           <StatCard label="My tasks" value="Open" icon={Users} />
         </Link>
       </div>
+
+      {realtorId && meRealtor && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mt-8">
+          <div className="surface-card p-5 sm:p-6 flex flex-col justify-center">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Network className="h-5 w-5" />
+              </span>
+              <div>
+                <h3 className="font-display font-bold text-lg">My Referral Identity</h3>
+                <p className="text-sm text-muted-foreground">Share this ID to earn indirect commissions from your downlines.</p>
+              </div>
+            </div>
+            
+            <div className="mt-4 rounded-xl border border-border/60 bg-muted/20 p-4">
+              <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-1">Your Unique Referral ID</div>
+              <div className="flex items-center justify-between gap-4">
+                <code className="text-2xl font-mono font-bold text-foreground">{meRealtor.ref}</code>
+                <Button variant="secondary" onClick={copyReferral}>
+                  <Copy className="h-4 w-4 mr-2" /> Copy ID
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="surface-card p-5 sm:p-6">
+            <h3 className="font-display font-bold text-lg mb-4">My Referral Network</h3>
+            {downlines.length === 0 ? (
+              <div className="text-sm text-muted-foreground text-center py-8 border border-dashed border-border rounded-xl">
+                You have no downline realtors yet. Share your Referral ID with new realtors to build your network!
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {downlines.map((dl: any) => (
+                  <div key={dl.id} className="flex items-center justify-between border-b border-border/50 pb-3 last:border-0 last:pb-0">
+                    <div>
+                      <div className="font-medium text-sm">{dl.full_name}</div>
+                      <div className="text-xs text-muted-foreground font-mono">{dl.ref}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Status</div>
+                      <div className="text-sm">{dl.is_active ? "Active" : "Inactive"}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
