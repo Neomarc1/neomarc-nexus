@@ -242,7 +242,7 @@ export function DataTable({
   empty?: string | undefined;
 }) {
   return (
-    <div className="surface-card overflow-x-auto">
+    <div className="surface-card w-full min-w-0">
       <Table>
         <TableHeader>
           <TableRow>

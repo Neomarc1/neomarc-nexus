@@ -247,11 +247,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       </Sheet>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border/50 bg-background/80 px-4 backdrop-blur-xl lg:px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-2 sm:gap-4 border-b border-border/50 bg-background/80 px-3 sm:px-4 backdrop-blur-xl lg:px-8">
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden shrink-0"
             onClick={() => setMobileOpen(true)}
             aria-label="Open navigation"
           >
@@ -260,14 +260,20 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <button
             onClick={() => setSearchOpen(true)}
-            className="flex flex-1 items-center gap-3 rounded-full border border-border/60 bg-muted/30 px-4 py-2.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/20 sm:max-w-md"
+            className="flex flex-1 items-center gap-2 sm:gap-3 rounded-full border border-border/60 bg-muted/30 px-3 py-2 sm:px-4 sm:py-2.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/20 sm:max-w-md"
           >
             <Search className="h-4 w-4" />
-            <span className="truncate">Search leads, customers, plots, receipts…</span>
+            <span className="truncate sm:hidden">Search...</span>
+            <span className="hidden truncate sm:inline">Search leads, customers, plots, receipts…</span>
+            <div className="ml-auto hidden items-center gap-1 sm:flex">
+              <kbd className="inline-flex h-5 items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <span className="text-xs">⌘</span>K
+              </kbd>
+            </div>
           </button>
 
-          <div className="ml-auto flex items-center gap-2">
-            <FeedbackDialog />
+          <div className="ml-auto flex items-center gap-0.5 sm:gap-2">
+            <div className="hidden sm:block"><FeedbackDialog /></div>
             <Link to="/notifications" aria-label="Notifications">
               <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-all">
                 <Bell className="h-5 w-5" />
