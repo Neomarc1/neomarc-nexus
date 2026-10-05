@@ -196,13 +196,13 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
                       to={item.to}
                       onClick={onNavigate}
                       className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
                         active
-                          ? "bg-sidebar-accent font-semibold text-sidebar-accent-foreground"
-                          : "text-sidebar-foreground/75 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
+                          ? "bg-sidebar-accent/90 text-sidebar-accent-foreground shadow-sm ring-1 ring-black/5"
+                          : "text-sidebar-foreground/70 hover:bg-sidebar-accent/40 hover:text-sidebar-foreground",
                       )}
                     >
-                      <item.icon className="h-4 w-4 shrink-0" />
+                      <item.icon className="h-[18px] w-[18px] shrink-0 opacity-80" strokeWidth={1.75} />
                       <span className="truncate">{item.label}</span>
                     </Link>
                   );
@@ -247,7 +247,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </Sheet>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border bg-card/85 px-4 backdrop-blur lg:px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border/50 bg-background/80 px-4 backdrop-blur-xl lg:px-8">
           <Button
             variant="ghost"
             size="icon"
@@ -260,7 +260,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <button
             onClick={() => setSearchOpen(true)}
-            className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-muted/50 px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted sm:max-w-md"
+            className="flex flex-1 items-center gap-3 rounded-full border border-border/60 bg-muted/30 px-4 py-2.5 text-sm text-muted-foreground shadow-sm transition-all hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/20 sm:max-w-md"
           >
             <Search className="h-4 w-4" />
             <span className="truncate">Search leads, customers, plots, receipts…</span>
@@ -269,7 +269,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="ml-auto flex items-center gap-2">
             <FeedbackDialog />
             <Link to="/notifications" aria-label="Notifications">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-all">
                 <Bell className="h-5 w-5" />
               </Button>
             </Link>
@@ -281,13 +281,13 @@ export function AppShell({ children }: { children: ReactNode }) {
                 {ROLE_LABELS[me?.primaryRole ?? "customer"]}
               </p>
             </div>
-            <Button variant="ghost" size="icon" onClick={signOut} aria-label="Sign out">
+            <Button variant="ghost" size="icon" onClick={signOut} aria-label="Sign out" className="text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-all">
               <LogOut className="h-5 w-5" />
             </Button>
           </div>
         </header>
 
-        <main className="flex-1 px-4 py-6 lg:px-8">
+        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8 w-full max-w-7xl mx-auto">
           <OnboardingGuide />
           {children}
         </main>
