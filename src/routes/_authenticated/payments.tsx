@@ -8,9 +8,9 @@ export const Route = createFileRoute("/_authenticated/payments")({
   head: () => ({
     meta: [
       { title: "Payments — NEOMARC NDOS" },
-      { name: "description", content: "Record, verify and receipt NEOMARC Realty customer payments." },
+      { name: "description", content: "Record, verify and receipt NEOMARC Real Estate customer payments." },
       { property: "og:title", content: "Payments — NEOMARC NDOS" },
-      { property: "og:description", content: "Record, verify and receipt NEOMARC Realty customer payments." },
+      { property: "og:description", content: "Record, verify and receipt NEOMARC Real Estate customer payments." },
     ],
   }),
   component: PaymentsPage,

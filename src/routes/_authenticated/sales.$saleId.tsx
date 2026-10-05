@@ -21,9 +21,9 @@ export const Route = createFileRoute("/_authenticated/sales/$saleId")({
   head: () => ({
     meta: [
       { title: "Sale Detail — NEOMARC NDOS" },
-      { name: "description", content: "Full NEOMARC Realty sale record: stage, payments, commission, checklist and allocation." },
+      { name: "description", content: "Full NEOMARC Real Estate sale record: stage, payments, commission, checklist and allocation." },
       { property: "og:title", content: "Sale Detail — NEOMARC NDOS" },
-      { property: "og:description", content: "Full NEOMARC Realty sale record: stage, payments, commission, checklist and allocation." },
+      { property: "og:description", content: "Full NEOMARC Real Estate sale record: stage, payments, commission, checklist and allocation." },
     ],
   }),
   component: SaleDetailPage,

@@ -115,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       
     return {
       branding: {
-        siteName: data?.site_name || "NEOMARC REALTY",
+        siteName: data?.site_name || "NEOMARC REAL ESTATE",
         siteAbbreviation: data?.site_abbreviation || "N",
         siteDescription: data?.site_description || "NEOMARC Digital Operating System",
         logoUrl: data?.logo_url || null,
@@ -125,7 +125,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   },
   head: ({ loaderData }) => {
     const branding = loaderData?.branding || {
-      siteName: "NEOMARC REALTY",
+      siteName: "NEOMARC REAL ESTATE",
       siteDescription: "NEOMARC Digital Operating System",
       faviconUrl: "/favicon.ico",
     };

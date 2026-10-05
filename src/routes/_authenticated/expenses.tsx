@@ -9,9 +9,9 @@ export const Route = createFileRoute("/_authenticated/expenses")({
   head: () => ({
     meta: [
       { title: "Expenses — NEOMARC NDOS" },
-      { name: "description", content: "Project and estate expenditure tracking for NEOMARC Realty." },
+      { name: "description", content: "Project and estate expenditure tracking for NEOMARC Real Estate." },
       { property: "og:title", content: "Expenses — NEOMARC NDOS" },
-      { property: "og:description", content: "Project and estate expenditure tracking for NEOMARC Realty." },
+      { property: "og:description", content: "Project and estate expenditure tracking for NEOMARC Real Estate." },
     ],
   }),
   component: ExpensesPage,

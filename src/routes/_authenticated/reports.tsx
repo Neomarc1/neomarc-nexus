@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/reports")({
   head: () => ({
     meta: [
       { title: "Reports & Analytics — NEOMARC NDOS" },
-      { name: "description", content: "Sales, collections, realtor and estate performance reports for NEOMARC Realty." },
+      { name: "description", content: "Sales, collections, realtor and estate performance reports for NEOMARC Real Estate." },
       { property: "og:title", content: "Reports & Analytics — NEOMARC NDOS" },
       { property: "og:description", content: "Sales, collections and performance reporting." },
     ],

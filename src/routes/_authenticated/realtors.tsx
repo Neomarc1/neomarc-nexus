@@ -9,9 +9,9 @@ export const Route = createFileRoute("/_authenticated/realtors")({
   head: () => ({
     meta: [
       { title: "Realtors — NEOMARC NDOS" },
-      { name: "description", content: "NEOMARC Realty realtor network, commission rates and performance." },
+      { name: "description", content: "NEOMARC Real Estate realtor network, commission rates and performance." },
       { property: "og:title", content: "Realtors — NEOMARC NDOS" },
-      { property: "og:description", content: "NEOMARC Realty realtor network, commission rates and performance." },
+      { property: "og:description", content: "NEOMARC Real Estate realtor network, commission rates and performance." },
     ],
   }),
   component: RealtorsPage,

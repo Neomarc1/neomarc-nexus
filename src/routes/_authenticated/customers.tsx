@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_authenticated/customers")({
   head: () => ({
     meta: [
       { title: "Customers — NEOMARC NDOS" },
-      { name: "description", content: "NEOMARC Realty customer records, KYC details and assigned realtors." },
+      { name: "description", content: "NEOMARC Real Estate customer records, KYC details and assigned realtors." },
       { property: "og:title", content: "Customers — NEOMARC NDOS" },
       { property: "og:description", content: "Customer records, KYC details and assigned realtors." },
     ],

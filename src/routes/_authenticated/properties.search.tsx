@@ -83,7 +83,7 @@ function PropertyFinderPage() {
   const types = Array.from(new Set(properties.map((p) => p.property_type).filter(Boolean)));
 
   async function share(p: Row) {
-    const text = `${p.estates?.name ?? "NEOMARC Estate"} — Plot ${p.plot_number}${p.block ? ` (Block ${p.block})` : ""}\n${p.plot_size ?? ""} · ${formatNaira(p.promo_price ?? p.price)}\n${p.estates?.location ?? ""}\nNEOMARC Realty — Creating Value, and Sustainable Wealth.`;
+    const text = `${p.estates?.name ?? "NEOMARC Estate"} — Plot ${p.plot_number}${p.block ? ` (Block ${p.block})` : ""}\n${p.plot_size ?? ""} · ${formatNaira(p.promo_price ?? p.price)}\n${p.estates?.location ?? ""}\nNEOMARC Real Estate — Creating Value, and Sustainable Wealth.`;
     if (navigator.share) {
       try {
         await navigator.share({ title: "NEOMARC property", text });

@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/company")({
   head: () => ({
     meta: [
       { title: "Company & Finance Setup — NEOMARC NDOS" },
-      { name: "description", content: "Company profile, fiscal settings and chart of accounts for NEOMARC Realty." },
+      { name: "description", content: "Company profile, fiscal settings and chart of accounts for NEOMARC Real Estate." },
       { property: "og:title", content: "Company & Finance Setup — NEOMARC NDOS" },
       { property: "og:description", content: "Company profile, fiscal settings and chart of accounts." },
       { property: "og:type", content: "website" },

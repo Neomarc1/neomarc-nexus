@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/receivables")({
   head: () => ({
     meta: [
       { title: "Receivables & Payment Schedules — NEOMARC NDOS" },
-      { name: "description", content: "Track NEOMARC Realty instalment schedules, due dates and overdue balances." },
+      { name: "description", content: "Track NEOMARC Real Estate instalment schedules, due dates and overdue balances." },
       { property: "og:title", content: "Receivables & Payment Schedules — NEOMARC NDOS" },
       { property: "og:description", content: "Instalment schedules, due dates and overdue balances." },
     ],

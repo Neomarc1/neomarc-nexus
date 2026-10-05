@@ -45,12 +45,12 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
       {
         name: "description",
         content:
-          "Live NEOMARC Realty command centre: leads, sales, collections, receivables, inventory and realtor performance.",
+          "Live NEOMARC Real Estate command centre: leads, sales, collections, receivables, inventory and realtor performance.",
       },
       { property: "og:title", content: "Executive Command Centre — NEOMARC NDOS" },
       {
         property: "og:description",
-        content: "Live NEOMARC Realty sales, collections and inventory intelligence.",
+        content: "Live NEOMARC Real Estate sales, collections and inventory intelligence.",
       },
     ],
   }),
@@ -283,7 +283,7 @@ function Dashboard() {
     <div className="space-y-6">
       <PageHeader
         title={`Executive Command Centre`}
-        description={`Welcome ${me?.profile?.full_name ?? ""}. NEOMARC Realty · ${formatDate(new Date())} (Africa/Lagos)`}
+        description={`Welcome ${me?.profile?.full_name ?? ""}. NEOMARC Real Estate · ${formatDate(new Date())} (Africa/Lagos)`}
         action={
           <Link to="/ai">
             <Button>Generate AI Briefing</Button>

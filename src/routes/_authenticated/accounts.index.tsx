@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/accounts/")({
   head: () => ({
     meta: [
       { title: "Accounts Workspace — NEOMARC NDOS" },
-      { name: "description", content: "Verify payments, track money-in and chase overdue installments for NEOMARC Realty." },
+      { name: "description", content: "Verify payments, track money-in and chase overdue installments for NEOMARC Real Estate." },
       { property: "og:title", content: "Accounts Workspace — NEOMARC NDOS" },
       { property: "og:description", content: "Verify payments, track money-in and chase overdue installments." },
       { property: "og:type", content: "website" },

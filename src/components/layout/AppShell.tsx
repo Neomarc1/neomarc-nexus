@@ -149,7 +149,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   });
 
   const siteAbbreviation = profile?.site_abbreviation || "N";
-  const siteName = profile?.site_name || "NEOMARC REALTY";
+  const siteName = profile?.site_name || "NEOMARC REAL ESTATE";
   const siteDescription = profile?.site_description || "Digital OS";
   const logoUrl = profile?.logo_url;
 

@@ -8,9 +8,9 @@ export const Route = createFileRoute("/_authenticated/sales/")({
   head: () => ({
     meta: [
       { title: "Sales — NEOMARC NDOS" },
-      { name: "description", content: "Executed NEOMARC Realty sales, documentation and allocation status." },
+      { name: "description", content: "Executed NEOMARC Real Estate sales, documentation and allocation status." },
       { property: "og:title", content: "Sales — NEOMARC NDOS" },
-      { property: "og:description", content: "Executed NEOMARC Realty sales, documentation and allocation status." },
+      { property: "og:description", content: "Executed NEOMARC Real Estate sales, documentation and allocation status." },
     ],
   }),
   component: SalesPage,

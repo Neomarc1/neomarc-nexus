@@ -18,10 +18,10 @@ export const Route = createFileRoute("/_authenticated/leads")({
       { title: "Leads & CRM Pipeline — NEOMARC NDOS" },
       {
         name: "description",
-        content: "Capture, qualify and progress NEOMARC Realty leads through the full sales pipeline.",
+        content: "Capture, qualify and progress NEOMARC Real Estate leads through the full sales pipeline.",
       },
       { property: "og:title", content: "Leads & CRM Pipeline — NEOMARC NDOS" },
-      { property: "og:description", content: "Capture, qualify and progress NEOMARC Realty leads." },
+      { property: "og:description", content: "Capture, qualify and progress NEOMARC Real Estate leads." },
     ],
   }),
   component: LeadsPage,
